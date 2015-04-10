@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 SosActivity.launch(MainActivity.this, view);
                 break;
             case R.id.llFeedback:
-                //FeedbackActivity.launch(MainActivity.this, view);
+                FeedbackActivity.launch(MainActivity.this, view);
                 break;
             case R.id.llPayment:
                 //PaymentActivity.launch(MainActivity.this, view);

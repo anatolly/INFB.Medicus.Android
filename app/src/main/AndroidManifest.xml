@@ -34,6 +34,9 @@
         <activity
             android:name=".SosActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
