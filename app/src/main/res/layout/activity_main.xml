@@ -2,21 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_margin="16dp"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:foreground="?android:windowContentOverlay"
-        android:layout_height="match_parent" >
-        <com.github.pavlospt.CircleView
+        android:layout_height="match_parent">
 
+        <com.github.pavlospt.CircleView
+            android:id="@+id/centerLogo"
             android:layout_width="150dp"
             android:layout_height="150dp"
             app:titleText="Medicus"
             app:subtitleText=""
             android:gravity="center"
             android:layout_gravity="center"
+            android:layout_centerInParent="true"
             app:titleSize="30dp"
             app:subtitleSize="9dp"
             app:titleColor="@android:color/holo_green_dark"
@@ -24,8 +27,120 @@
             app:strokeColorValue="@android:color/darker_gray"
             app:backgroundColorValue="@android:color/darker_gray"
             app:fillColor="@color/colorLightWindowBackground"
-            app:fillRadius="0.99"/>
-    </FrameLayout>
+            app:fillRadius="0.99" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@+id/centerLogo"
+            android:layout_above="@+id/centerLogo"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Storage"
+                android:id="@+id/tvStorage" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/ivStorage"
+                android:src="@mipmap/ic_storage" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/centerLogo"
+            android:layout_above="@+id/centerLogo"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="SOS"
+                android:id="@+id/tvSos" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/ivSos"
+                android:src="@mipmap/ic_sos" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/centerLogo"
+            android:layout_below="@+id/centerLogo"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Feedback"
+                android:id="@+id/tvFeedback" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/ivFeedback"
+                android:src="@mipmap/ic_feedback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@+id/centerLogo"
+            android:layout_below="@+id/centerLogo"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Payment"
+                android:id="@+id/tvPayment" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/ivPayment"
+                android:src="@mipmap/ic_payment" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/centerLogo"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Calendar"
+                android:id="@+id/tvCalendar" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/ivCalendar"
+                android:src="@mipmap/ic_calendar" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
