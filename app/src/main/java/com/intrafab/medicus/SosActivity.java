@@ -10,10 +10,10 @@ import android.view.View;
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
  */
-public class CalendarActivity extends BaseActivity {
+public class SosActivity extends BaseActivity {
 
-    public static final String TAG = CalendarActivity.class.getName();
-    public static final String EXTRA_OPEN_CALENDAR = "openCalendar";
+    public static final String TAG = SosActivity.class.getName();
+    public static final String EXTRA_OPEN_SOS = "openSos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,24 +21,24 @@ public class CalendarActivity extends BaseActivity {
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle("Calendar");
+        getSupportActionBar().setTitle("SOS");
         showActionBar();
 
-        ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_CALENDAR);
+        ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_SOS);
     }
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.activity_calendar;
+        return R.layout.activity_sos;
     }
 
     public static void launch(BaseActivity activity, View transitionView) {
-        Intent intent = new Intent(activity, CalendarActivity.class);
+        Intent intent = new Intent(activity, SosActivity.class);
 
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
                         transitionView,
-                        EXTRA_OPEN_CALENDAR
+                        EXTRA_OPEN_SOS
                 );
         ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
