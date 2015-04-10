@@ -37,6 +37,9 @@
         <activity
             android:name=".FeedbackActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".PaymentActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
