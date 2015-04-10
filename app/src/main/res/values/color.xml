@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorLightPrimary">@color/material_blue_grey_800</color>
+    <color name="colorLightPrimaryDark">@color/material_blue_grey_900</color>
+    <color name="colorLightStatusBarColor">@color/material_blue_grey_900</color>
+    <color name="colorLightTextColorPrimary">@android:color/white</color>
+    <color name="colorLightTextColor">#999999</color>
+    <color name="colorLightTextColorHint">#42000000</color>
+    <color name="colorLightWindowBackground">#f4f4f4</color>
+    <color name="colorLightColorAccent">#999999</color>
+
+    <color name="colorDarkPrimary">@color/material_blue_grey_800</color>
+    <color name="colorDarkPrimaryDark">@color/material_blue_grey_900</color>
+    <color name="colorDarkSecondary">@color/material_deep_teal_200</color>
+    <color name="colorDarkSecondaryDark">@color/material_deep_teal_500</color>
+
+</resources>

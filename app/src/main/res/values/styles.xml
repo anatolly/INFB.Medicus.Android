@@ -5,4 +5,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="LightToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/colorLightPrimaryDark</item>
+        <item name="background">@color/colorLightPrimaryDark</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
 </resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppDarkTheme" parent="AppDarkTheme.Base"/>
+    <style name="AppDarkTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorDarkPrimary</item>
+        <item name="colorPrimaryDark">@color/colorDarkPrimaryDark</item>
+        <item name="colorAccent">@color/colorDarkSecondary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppLightTheme" parent="AppLightTheme.Base"/>
+    <style name="AppLightTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorLightPrimary</item>
+        <item name="colorPrimaryDark">@color/colorLightPrimary</item>
+        <item name="android:windowBackground">@color/colorLightWindowBackground</item>
+        <item name="colorAccent">@color/colorLightColorAccent</item>
+        <item name="android:textColorPrimary">@color/colorLightTextColorPrimary</item>
+        <item name="android:textColor">@color/colorLightTextColor</item>
+        <item name="android:textColorHint">@color/colorLightTextColorHint</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorControlNormal">@color/colorLightTextColorHint</item>
+        <item name="actionBarStyle">@style/LightToolbarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:textColorSecondary">#000</item>
+        <item name="actionMenuTextColor">#000</item>
+    </style>
+
+</resources>
