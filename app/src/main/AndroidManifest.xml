@@ -28,6 +28,9 @@
         <activity
             android:name=".StorageActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CalendarActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
