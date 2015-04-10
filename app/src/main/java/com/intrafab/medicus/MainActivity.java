@@ -3,14 +3,24 @@ package com.intrafab.medicus;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
+import android.view.View;
+import android.widget.LinearLayout;
 
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = MainActivity.class.getName();
+
+    private LinearLayout mButtonStorage;
+    private LinearLayout mButtonSos;
+    private LinearLayout mButtonFeedback;
+    private LinearLayout mButtonPayment;
+    private LinearLayout mButtonCalendar;
 
     @Override
     protected int getLayoutResource() {
@@ -25,6 +35,18 @@ public class MainActivity extends BaseActivity {
 
         getSupportActionBar().setTitle("");
         showTransparentActionBar();
+
+        mButtonStorage = (LinearLayout) findViewById(R.id.llStorage);
+        mButtonSos = (LinearLayout) findViewById(R.id.llSos);
+        mButtonFeedback = (LinearLayout) findViewById(R.id.llFeedback);
+        mButtonPayment = (LinearLayout) findViewById(R.id.llPayment);
+        mButtonCalendar = (LinearLayout) findViewById(R.id.llCalendar);
+
+        mButtonStorage.setOnClickListener(this);
+        mButtonSos.setOnClickListener(this);
+        mButtonFeedback.setOnClickListener(this);
+        mButtonPayment.setOnClickListener(this);
+        mButtonCalendar.setOnClickListener(this);
     }
 
     @Override
@@ -86,4 +108,24 @@ public class MainActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.llStorage:
+                StorageActivity.launch(MainActivity.this, view);
+                break;
+            case R.id.llSos:
+                //SosActivity.launch(MainActivity.this, view);
+                break;
+            case R.id.llFeedback:
+                //FeedbackActivity.launch(MainActivity.this, view);
+                break;
+            case R.id.llPayment:
+                //PaymentActivity.launch(MainActivity.this, view);
+                break;
+            case R.id.llCalendar:
+                //CalendarActivity.launch(MainActivity.this, view);
+                break;
+        }
+    }
 }

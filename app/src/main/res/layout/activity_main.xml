@@ -30,10 +30,12 @@
             app:fillRadius="0.99" />
 
         <LinearLayout
+            android:id="@+id/llStorage"
             android:layout_width="wrap_content"
             android:layout_toLeftOf="@+id/centerLogo"
             android:layout_above="@+id/centerLogo"
             android:orientation="vertical"
+            android:transitionName="openStorage"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content">
 
@@ -52,6 +54,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llSos"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/centerLogo"
             android:layout_above="@+id/centerLogo"
@@ -74,6 +77,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llFeedback"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/centerLogo"
             android:layout_below="@+id/centerLogo"
@@ -96,6 +100,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llPayment"
             android:layout_width="wrap_content"
             android:layout_toLeftOf="@+id/centerLogo"
             android:layout_below="@+id/centerLogo"
@@ -118,6 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llCalendar"
             android:layout_width="wrap_content"
             android:layout_below="@+id/centerLogo"
             android:orientation="vertical"

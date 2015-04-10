@@ -25,6 +25,9 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".StorageActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
