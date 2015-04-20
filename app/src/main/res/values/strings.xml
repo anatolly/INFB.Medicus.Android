@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Medicus</string>
+
+    <!-- Storage screen -->
+    <string name="strorage_screen_header">Personal Storage</string>
+    <string name="tab_storage_all">All</string>
+    <string name="tab_storage_trip">Trip</string>
+    <string name="document_name_unknown">Unknown name</string>
+    <string name="empty_storage_list">Empty list.\nTap + to add items</string>
+
+    <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
+    <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
 </resources>

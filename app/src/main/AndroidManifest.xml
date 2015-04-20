@@ -40,6 +40,11 @@
         <activity
             android:name=".PaymentActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".StorageDocumentActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <service android:name="com.telly.groundy.GroundyService" />
 
     </application>
 
