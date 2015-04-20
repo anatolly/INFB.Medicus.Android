@@ -9,9 +9,15 @@
     <color name="colorLightWindowBackground">#f4f4f4</color>
     <color name="colorLightColorAccent">#999999</color>
 
+    <color name="colorLightTextMain">#273849</color>
+    <color name="colorLightTextExtra">#999999</color>
+
     <color name="colorDarkPrimary">@color/material_blue_grey_800</color>
     <color name="colorDarkPrimaryDark">@color/material_blue_grey_900</color>
     <color name="colorDarkSecondary">@color/material_deep_teal_200</color>
     <color name="colorDarkSecondaryDark">@color/material_deep_teal_500</color>
+
+    <color name="colorLightError">#d13030</color>
+    <color name="colorLightEditTextHint">@android:color/white</color>
 
 </resources>

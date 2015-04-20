@@ -15,7 +15,7 @@ public class AppApplication extends MultiDexApplication {
     public void onCreate() {
         initCalligraphy();
 
-        Logger.setApplicationTag("NomerotekaGold");
+        Logger.setApplicationTag("Medicus");
         Logger.setRelease(Constants.RELEASE_MODE);
     }
 

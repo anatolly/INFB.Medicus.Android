@@ -7,4 +7,9 @@ public class Constants {
     public static final String TAG = Constants.class.getName();
 
     public static final boolean RELEASE_MODE = false;
+
+    public static class Prefs {
+        public static final String PREF_PARAM_STORAGE_TRIP = "pref_param_store_trip";
+        public static final String PREF_PARAM_STORAGE = "pref_param_storage";
+    }
 }

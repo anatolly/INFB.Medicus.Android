@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:foreground="?android:windowContentOverlay"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
@@ -8,5 +10,82 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize" />
+
+    <it.neokree.materialtabs.MaterialTabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/toolbar"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:materialTabsPrimaryColor="@color/colorLightPrimary"
+        app:accentColor="@android:color/white" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tabPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layoutFooter"
+        android:layout_below="@+id/tabHost"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorLightPrimary"
+            android:layout_height="1dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorLightPrimary"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="14sp"
+                android:text="Clear (Only test)"
+                android:layout_weight="0.5"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorLightPrimary"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/btnSync"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorLightPrimary"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="14sp"
+                android:text="Sync with cloud"
+                android:layout_weight="0.5"/>
+
+
+        </TableRow>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
