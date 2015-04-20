@@ -1,6 +1,9 @@
 package com.intrafab.medicus.http;
 
+import com.intrafab.medicus.wrappers.RequestStorageInfo;
+
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.POST;
 
 /**
@@ -8,7 +11,9 @@ import retrofit.http.POST;
  */
 public interface HttpRestService {
 
-    @POST("/logout.json")
-    public void logout(
-            @Body String token);
+    @GET("/storage.json")
+    public RequestStorageInfo loadStorage();
+
+    @GET("/storage_trip.json")
+    public RequestStorageInfo loadStorageTrip();
 }
