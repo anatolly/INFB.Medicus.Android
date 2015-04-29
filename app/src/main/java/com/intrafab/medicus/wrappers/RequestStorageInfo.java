@@ -14,16 +14,16 @@ import java.util.List;
  */
 public class RequestStorageInfo {
 
-    public final static String STORAGE_List = "storage_list";
+    public final static String STORAGE_LIST = "storage_list";
 
-    private List<StorageInfo> strageList;
+    private List<StorageInfo> storageList;
 
-    public List<StorageInfo> getStrageList() {
-        return strageList;
+    public List<StorageInfo> getStorageList() {
+        return storageList;
     }
 
-    public void setStrageList(List<StorageInfo> strageList) {
-        this.strageList = strageList;
+    public void setStorageList(List<StorageInfo> storageList) {
+        this.storageList = storageList;
     }
 
 
@@ -36,15 +36,15 @@ public class RequestStorageInfo {
         if (jsonObject == null)
             return;
 
-        strageList = new ArrayList<StorageInfo>();
+        storageList = new ArrayList<StorageInfo>();
 
-        if (jsonObject.has(STORAGE_List)) {
+        if (jsonObject.has(STORAGE_LIST)) {
             try {
-                JSONArray itemJson = jsonObject.getJSONArray(STORAGE_List);
+                JSONArray itemJson = jsonObject.getJSONArray(STORAGE_LIST);
                 for (int i = 0; i < itemJson.length(); i++) {
                     StorageInfo info = parse(itemJson.getJSONObject(i));
                     if (info != null)
-                        strageList.add(info);
+                        storageList.add(info);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -60,18 +60,18 @@ public class RequestStorageInfo {
     }
 
     public void addSticker(StorageInfo info) {
-        if (strageList == null) {
-            strageList = new ArrayList<StorageInfo>();
+        if (storageList == null) {
+            storageList = new ArrayList<StorageInfo>();
         }
 
-        strageList.add(info);
+        storageList.add(info);
     }
 
     public void addSticker(List<StorageInfo> info) {
-        if (strageList == null) {
-            strageList = new ArrayList<StorageInfo>();
+        if (storageList == null) {
+            storageList = new ArrayList<StorageInfo>();
         }
 
-        strageList.addAll(info);
+        storageList.addAll(info);
     }
 }

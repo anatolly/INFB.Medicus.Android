@@ -35,12 +35,12 @@
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent" >
+        android:background="@color/colorLightPrimary" >
 
         <View
             android:layout_width="match_parent"
             android:layout_alignParentTop="true"
-            android:background="@color/colorLightPrimary"
+            android:background="@android:color/white"
             android:layout_height="1dp" />
 
         <TableRow
@@ -54,7 +54,7 @@
                 android:id="@+id/btnClear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorLightPrimary"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:gravity="center"
                 android:textAlignment="gravity"
@@ -65,15 +65,15 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_alignParentTop="true"
-                android:background="@color/colorLightPrimary"
-                android:layout_height="match_parent" />
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/white"
+                android:layout_height="25dp" />
 
             <TextView
                 android:id="@+id/btnSync"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorLightPrimary"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:gravity="center"
                 android:textAlignment="gravity"

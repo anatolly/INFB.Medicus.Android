@@ -48,7 +48,7 @@ public class ActionRequestStorageTripTask extends GroundyTask {
             if (storageInfo == null)
                 return failed();
 
-            List<StorageInfo> storageList = storageInfo.getStrageList();
+            List<StorageInfo> storageList = storageInfo.getStorageList();
             if (storageList.size() > 0)
                 DBManager.getInstance().insertArrayObject(getContext(), StorageTripListLoader.class, Constants.Prefs.PREF_PARAM_STORAGE_TRIP, storageList, StorageInfo.class);
         } catch (Exception e) {

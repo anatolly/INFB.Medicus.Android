@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ActionRequestStorageTask extends GroundyTask {
 
-    public static final String INTERNET_AVAILABLE = "intternet_available";
+    public static final String INTERNET_AVAILABLE = "internet_available";
 
     @Override
     protected TaskResult doInBackground() {
@@ -54,7 +54,7 @@ public class ActionRequestStorageTask extends GroundyTask {
             if (storageInfo == null)
                 return failed();
 
-            List<StorageInfo> storageList = storageInfo.getStrageList();
+            List<StorageInfo> storageList = storageInfo.getStorageList();
             if (storageList.size() > 0)
                 DBManager.getInstance().insertArrayObject(getContext(), StorageListLoader.class, Constants.Prefs.PREF_PARAM_STORAGE, storageList, StorageInfo.class);
         } catch (Exception e) {
