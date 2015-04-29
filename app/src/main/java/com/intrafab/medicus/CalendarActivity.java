@@ -210,7 +210,7 @@ public class CalendarActivity extends BaseActivity
 
     @Override
     public void onClickItem(StateEntry itemStateEntry) {
-
+        EventDetailActivity.launch(this, toolbar, itemStateEntry);
     }
 
     @Override
