@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -322,6 +323,37 @@ public class DBManager {
                 Logger.d(TAG, "Read data from database key: " + key);
                 String json = mSnappyDB.get(key);
                 T[] arr = new Gson().fromJson(json, clazz);
+                return Arrays.asList(arr);
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't read from database key: " + key + "; clazz: " + clazz.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't read json database key: " + key);
+            }
+        }
+
+        return null;
+    }
+
+    public synchronized <T> List<T> readArrayToList(Context context, String key, Class<T[]> clazz, Comparator<T> comparator, boolean isReverse) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                if (!isExistsKey(key))
+                    return null;
+
+                Logger.d(TAG, "Read data from database key: " + key);
+                String json = mSnappyDB.get(key);
+                T[] arr = new Gson().fromJson(json, clazz);
+
+                if (!isReverse)
+                    Arrays.sort(arr, comparator);
+                else
+                    Arrays.sort(arr, Collections.reverseOrder(comparator));
+
                 return Arrays.asList(arr);
             } catch (SnappydbException e) {
                 e.printStackTrace();
