@@ -202,7 +202,7 @@ public class StorageActivity extends BaseActivity
         mBtnClear = (TextView) this.findViewById(R.id.btnClear);
         mBtnSync = (TextView) this.findViewById(R.id.btnSync);
 
-        int rippleColor = getResources().getColor(R.color.colorLightPrimary);
+        int rippleColor = getResources().getColor(R.color.colorLightEditTextHint);
         float rippleAlpha = 0.5f;
 
         mBtnClear.setOnClickListener(this);
