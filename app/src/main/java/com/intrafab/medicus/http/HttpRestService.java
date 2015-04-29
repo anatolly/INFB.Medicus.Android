@@ -1,5 +1,6 @@
 package com.intrafab.medicus.http;
 
+import com.intrafab.medicus.wrappers.RequestStateEntries;
 import com.intrafab.medicus.wrappers.RequestStorageInfo;
 
 import retrofit.http.Body;
@@ -16,4 +17,7 @@ public interface HttpRestService {
 
     @GET("/storage_trip.json")
     public RequestStorageInfo loadStorageTrip();
+
+    @GET("/state_entries.json")
+    public RequestStateEntries loadStateEntries();
 }

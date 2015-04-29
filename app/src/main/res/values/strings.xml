@@ -7,6 +7,7 @@
     <string name="tab_storage_trip">Trip</string>
     <string name="document_name_unknown">Unknown name</string>
     <string name="empty_storage_list">Empty list.\nTap + to add items</string>
+    <string name="empty_state_entry_list">Empty list.</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>

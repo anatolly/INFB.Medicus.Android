@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootFrame"
+    tools:context=".CalendarActivity$PlaceholderStateEntryFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.intrafab.medicus.widgets.EmptyRecyclerView
+        android:id="@+id/listViews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:id="@+id/layoutEmptyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_empty_list_grey"
+            android:layout_marginBottom="32dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/empty_state_entry_list"
+            android:textColor="@color/colorLightTextExtra"
+            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        wheel:matProg_barColor="#5588FF"
+        android:visibility="gone"
+        wheel:matProg_progressIndeterminate="true" />
+
+</RelativeLayout>
