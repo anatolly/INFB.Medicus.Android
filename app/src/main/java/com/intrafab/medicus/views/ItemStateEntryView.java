@@ -34,6 +34,10 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
     private RelativeLayout mItemLayout;
     private View rootView;
 
+    public ImageView getThumbnail() {
+        return mImageThumbnail;
+    }
+
     public ItemStateEntryView(View view, StateEntryAdapter.OnClickListener listener) {
         super(view);
 
@@ -62,7 +66,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
     @Override
     public void onClick(View view) {
         if (mItem != null && mListener != null) {
-            mListener.onClickItem(mItem);
+            mListener.onClickItem(mItem, this);
         }
     }
 

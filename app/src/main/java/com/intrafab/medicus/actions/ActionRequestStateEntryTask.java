@@ -36,16 +36,16 @@ public class ActionRequestStateEntryTask extends GroundyTask {
 
             // only test
             List<StateEntry> list = new ArrayList<StateEntry>();
-            list.add(createEntry(1430132400000L, 0L, "Airplane", "flight", "claim"));
-            list.add(createEntry(1430134200000L, 1430137800000L, "Taxi", "taxi", "accept"));
-            list.add(createEntry(1430197200000L, 1430222400000L, "Checkup start", "checkup", "claim"));
-            list.add(createEntry(1430224200000L, 1430227800000L, "Taxi", "taxi", "accept"));
-            list.add(createEntry(1430233200000L, 1430240400000L, "Opera", "opera", "accept"));
-            list.add(createEntry(1430283600000L, 0L, "Airplane", "flight", "accept"));
-            list.add(createEntry(1430294400000L, 1430298000000L, "Business", "default", "accept"));
-            list.add(createEntry(1430377200000L, 0L, "Taxi", "taxi", "accept"));
-            list.add(createEntry(1430388000000L, 1430398800000L, "Airplane", "flight", "accept"));
-            list.add(createEntry(1430485200000L, 0L, "Airplane", "flight", "accept"));
+            list.add(createEntry(1430132400000L, 0L, "Airplane", "flight", "Perfecting"));
+            list.add(createEntry(1430134200000L, 1430137800000L, "Taxi", "taxi", "Accepted"));
+            list.add(createEntry(1430197200000L, 1430222400000L, "Checkup start", "checkup", "Proposed"));
+            list.add(createEntry(1430224200000L, 1430227800000L, "Taxi", "taxi", "Perfecting"));
+            list.add(createEntry(1430233200000L, 1430240400000L, "Opera", "opera", "Accepted"));
+            list.add(createEntry(1430283600000L, 0L, "Airplane", "flight", "Proposed"));
+            list.add(createEntry(1430294400000L, 1430298000000L, "Business", "default", "Accepted"));
+            list.add(createEntry(1430377200000L, 0L, "Taxi", "taxi", "Accepted"));
+            list.add(createEntry(1430388000000L, 1430398800000L, "Airplane", "flight", "Canceled"));
+            list.add(createEntry(1430485200000L, 0L, "Airplane", "flight", "Canceled"));
 
             RequestStateEntries entriesInfo = new RequestStateEntries();
             entriesInfo.addEntry(list);

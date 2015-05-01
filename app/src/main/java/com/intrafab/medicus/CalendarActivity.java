@@ -17,6 +17,7 @@ import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.fragments.PlaceholderStateEntryFragment;
 import com.intrafab.medicus.loaders.StateEntryListLoader;
 import com.intrafab.medicus.utils.Logger;
+import com.intrafab.medicus.views.ItemStateEntryView;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
 
@@ -209,8 +210,8 @@ public class CalendarActivity extends BaseActivity
     }
 
     @Override
-    public void onClickItem(StateEntry itemStateEntry) {
-        EventDetailActivity.launch(this, toolbar, itemStateEntry);
+    public void onClickItem(StateEntry itemStateEntry, ItemStateEntryView entryView) {
+        EventDetailActivity.launch(this, entryView.getThumbnail(), itemStateEntry);
     }
 
     @Override

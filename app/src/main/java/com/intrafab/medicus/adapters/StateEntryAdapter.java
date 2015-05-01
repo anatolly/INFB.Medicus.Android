@@ -21,7 +21,7 @@ public class StateEntryAdapter extends RecyclerView.Adapter<ItemStateEntryView> 
     private List<StateEntry> mListItems = new ArrayList<StateEntry>();
 
     public interface OnClickListener {
-        public void onClickItem(StateEntry itemStateEntry);
+        public void onClickItem(StateEntry itemStateEntry, ItemStateEntryView entryView);
     }
 
     public StateEntryAdapter(OnClickListener listener) {
