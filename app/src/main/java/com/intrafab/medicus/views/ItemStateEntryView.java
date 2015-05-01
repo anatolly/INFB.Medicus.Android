@@ -32,6 +32,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
     private TextView mTextViewEventName;
     private TextView mTextViewTime;
     private RelativeLayout mItemLayout;
+    private ImageView mImagePerfecting;
     private View rootView;
 
     public ImageView getThumbnail() {
@@ -55,6 +56,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
         mTextViewEventName = (TextView) view.findViewById(R.id.textViewName);
         mTextViewTime = (TextView) view.findViewById(R.id.textViewTime);
         mItemLayout = (RelativeLayout) view.findViewById(R.id.rlItemLayout);
+        mImagePerfecting = (ImageView) view.findViewById(R.id.ivPerfecting);
     }
 
     public void setItem(StateEntry itemStateEntry) {
@@ -122,6 +124,12 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
             mTextViewEventName.setText(item.getStateDescription());
         } else {
             mTextViewEventName.setText(R.string.document_name_unknown);
+        }
+
+        if (item.getStateStatus().equals(StateEntryType.STATUSES.get(0))) { //Perfecting
+            mImagePerfecting.setVisibility(View.VISIBLE);
+        } else {
+            mImagePerfecting.setVisibility(View.INVISIBLE);
         }
 
     }

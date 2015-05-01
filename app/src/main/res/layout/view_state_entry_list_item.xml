@@ -36,9 +36,8 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_toRightOf="@+id/ivThumbnail"
-            android:layout_toLeftOf="@+id/textViewTime"
+            android:layout_toLeftOf="@+id/ivPerfecting"
             android:orientation="vertical"
             android:paddingBottom="16dp"
             android:paddingTop="16dp">
@@ -56,20 +55,41 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/ivPerfecting"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_toLeftOf="@+id/textViewTime"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:contentDescription=""
+            android:src="@mipmap/ic_perfecting" />
+
         <TextView
             android:id="@+id/textViewTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/ivRightArrow"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginLeft="4dp"
             android:text="9.00 - 16.00"
             android:textColor="#273849"
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="16sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <ImageView
+            android:id="@+id/ivRightArrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription=""
+            android:src="@mipmap/ic_arrow_right" />
     </RelativeLayout>
 
 </com.balysv.materialripple.MaterialRippleLayout>
