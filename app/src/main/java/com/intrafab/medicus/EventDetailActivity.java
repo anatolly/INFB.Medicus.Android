@@ -1,8 +1,6 @@
 package com.intrafab.medicus;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -16,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.intrafab.medicus.actions.ActionRequestChangeStatusTask;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
-import com.intrafab.medicus.data.StorageInfo;
+import com.telly.groundy.CallbacksManager;
+import com.telly.groundy.Groundy;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -49,8 +49,10 @@ public class EventDetailActivity extends BaseActivity
     private CardView mViewCardEntry;
 
     private TextView mViewBtnAccept;
-    private TextView mViewBtnDismiss;
-    private TextView mViewBtnClaim;
+    private TextView mViewBtnChange;
+    private TextView mViewBtnCancel;
+
+    private CallbacksManager mCallbacksManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,9 @@ public class EventDetailActivity extends BaseActivity
 
         getSupportActionBar().setTitle(mStateEntry.getStateDescription());
         showActionBar();
+
+        mCallbacksManager = CallbacksManager.init(savedInstanceState);
+        mCallbacksManager.linkCallbacks(this);
 
         StateEntryType entryType = null;
         String itemType = mStateEntry.getStateType();
@@ -88,6 +93,18 @@ public class EventDetailActivity extends BaseActivity
         setupViews(entryType);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mCallbacksManager.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCallbacksManager.onDestroy();
+    }
+
     private void injectViews() {
         mViewThumbnail = (ImageView) this.findViewById(R.id.ivThumbnail);
 
@@ -103,8 +120,8 @@ public class EventDetailActivity extends BaseActivity
         mViewCardEntry = (CardView) this.findViewById(R.id.cardEntry);
 
         mViewBtnAccept = (TextView) this.findViewById(R.id.btnAccept);
-        mViewBtnDismiss = (TextView) this.findViewById(R.id.btnDismiss);
-        mViewBtnClaim = (TextView) this.findViewById(R.id.btnClaim);
+        mViewBtnChange = (TextView) this.findViewById(R.id.btnChange);
+        mViewBtnCancel = (TextView) this.findViewById(R.id.btnCancel);
     }
 
     private void setupViews(StateEntryType entryType) {
@@ -145,28 +162,34 @@ public class EventDetailActivity extends BaseActivity
         int rippleColor = getResources().getColor(R.color.colorLightPrimary);
         float rippleAlpha = 0.5f;
 
-        mViewBtnAccept.setOnClickListener(this);
-        mViewBtnAccept.setTextColor(entryType.getTextColor());
+        if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+            mViewBtnAccept.setVisibility(View.VISIBLE);
 
-        MaterialRippleLayout.on(mViewBtnAccept)
+            mViewBtnAccept.setOnClickListener(this);
+            mViewBtnAccept.setTextColor(entryType.getTextColor());
+
+            MaterialRippleLayout.on(mViewBtnAccept)
+                    .rippleColor(rippleColor)
+                    .rippleAlpha(rippleAlpha)
+                    .rippleHover(true)
+                    .create();
+        } else {
+            mViewBtnAccept.setVisibility(View.INVISIBLE);
+        }
+
+        mViewBtnChange.setOnClickListener(this);
+        mViewBtnChange.setTextColor(entryType.getTextColor());
+
+        MaterialRippleLayout.on(mViewBtnChange)
                 .rippleColor(rippleColor)
                 .rippleAlpha(rippleAlpha)
                 .rippleHover(true)
                 .create();
 
-        mViewBtnDismiss.setOnClickListener(this);
-        mViewBtnDismiss.setTextColor(entryType.getTextColor());
+        mViewBtnCancel.setOnClickListener(this);
+        mViewBtnCancel.setTextColor(entryType.getTextColor());
 
-        MaterialRippleLayout.on(mViewBtnDismiss)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
-
-        mViewBtnClaim.setOnClickListener(this);
-        mViewBtnClaim.setTextColor(entryType.getTextColor());
-
-        MaterialRippleLayout.on(mViewBtnClaim)
+        MaterialRippleLayout.on(mViewBtnCancel)
                 .rippleColor(rippleColor)
                 .rippleAlpha(rippleAlpha)
                 .rippleHover(true)
@@ -198,24 +221,27 @@ public class EventDetailActivity extends BaseActivity
             case R.id.btnAccept:
                 runAccept();
                 break;
-            case R.id.btnDismiss:
-                runDismiss();
+            case R.id.btnChange:
+                runChange();
                 break;
-            case R.id.btnClaim:
-                runClaim();
+            case R.id.btnCancel:
+                runCancel();
                 break;
         }
     }
 
     private void runAccept() {
-        Toast.makeText(this, "run Accept", Toast.LENGTH_SHORT).show();
+        Groundy.create(ActionRequestChangeStatusTask.class)
+                .callback(EventDetailActivity.this)
+                .callbackManager(mCallbacksManager)
+                .queueUsing(EventDetailActivity.this);
     }
 
-    private void runDismiss() {
+    private void runChange() {
         Toast.makeText(this, "run Dismiss", Toast.LENGTH_SHORT).show();
     }
 
-    private void runClaim() {
+    private void runCancel() {
         Toast.makeText(this, "run Claim", Toast.LENGTH_SHORT).show();
     }
 }

@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -149,6 +150,28 @@ public class DBManager {
         }
     }
 
+    public synchronized <T, L> void insertObject(Context context, Class<L> clazzLoader, String key, Object object, Class<T> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                if (isExistsKey(key))
+                    deleteObject(key);
+
+                JsonElement element = new Gson().toJsonTree(object, clazz);
+                String json = new Gson().toJson(element);
+                Logger.e(TAG, "Insert into database key: " + key + "; object: " + json);
+                mSnappyDB.put(key, json);
+
+                onContentChanged(clazzLoader);
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't insert into database key: " + key + "; object: " + object);
+            }
+        }
+    }
+
     public synchronized <T> void insertObject(Context context, String key, Object object, Class<T> clazz) {
         if (!isOpen()) {
             init(context);
@@ -192,6 +215,68 @@ public class DBManager {
             } catch (SnappydbException e) {
                 e.printStackTrace();
                 Logger.e(TAG, "Can't insert array into database key: " + key + "; object: " + listObjects);
+            }
+        }
+    }
+
+    public synchronized <T, L> boolean insertObjectToArray(Context context, String key, T object, Class<T[]> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        boolean result = false;
+        if (mSnappyDB != null) {
+            try {
+                String json = mSnappyDB.get(key);
+                T[] arr = new Gson().fromJson(json, clazz);
+                //List<T> items = Arrays.asList(arr);
+                List<T> items = new LinkedList<T>(Arrays.asList(arr));
+
+                items.add(object);
+
+                String jsonResult = new Gson().toJson(items, new TypeToken<List<T>>() {
+                }.getType());
+                mSnappyDB.put(key, jsonResult);
+                Logger.d(TAG, "insertObjectToArray: " + object.getClass().getName() + " to database key: " + key);
+                result = true;
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
+                result = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
+    public synchronized <T, L> void insertObjectToArray(Context context, Class<L> clazzLoader, String key, T object, Class<T[]> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                String json = mSnappyDB.get(key);
+                T[] arr = new Gson().fromJson(json, clazz);
+                //List<T> items = Arrays.asList(arr);
+                List<T> items = new LinkedList<T>(Arrays.asList(arr));
+
+                items.add(object);
+
+                String jsonResult = new Gson().toJson(items, new TypeToken<List<T>>() {
+                }.getType());
+                mSnappyDB.put(key, jsonResult);
+                Logger.d(TAG, "insertObjectToArray: " + object.getClass().getName() + " to database key: " + key);
+
+                onContentChanged(clazzLoader);
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
             }
         }
     }
@@ -246,7 +331,8 @@ public class DBManager {
         if (mSnappyDB != null) {
             try {
                 List<T> list = new ArrayList<T>(Arrays.asList(listObjects));
-                String json = new Gson().toJson(list, new TypeToken<List<T>>() {}.getType());
+                String json = new Gson().toJson(list, new TypeToken<List<T>>() {
+                }.getType());
                 mSnappyDB.put(key, json);
 
                 if (mLoaders != null) {
@@ -409,5 +495,95 @@ public class DBManager {
                 Logger.e(TAG, "Can't delete from database key: " + key);
             }
         }
+    }
+
+    public synchronized <T, L> void deleteObjectFromArray(Context context, Class<L> clazzLoader, String key, T object, Class<T[]> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                String json = mSnappyDB.get(key);
+                T[] arr = new Gson().fromJson(json, clazz);
+                //ArrayList<T> items = Arrays.asList(arr);
+                List<T> items = new LinkedList<T>(Arrays.asList(arr));
+
+                Iterator<T> it = items.iterator();
+                while (it.hasNext()) {
+                    T item = it.next();
+                    if (item.hashCode() == object.hashCode()) {
+                        it.remove();
+                        break;
+                    }
+                }
+
+                String jsonResult = new Gson().toJson(items, new TypeToken<List<T>>() {
+                }.getType());
+                mSnappyDB.put(key, jsonResult);
+                Logger.d(TAG, "deleteObjectFronArray: " + object.getClass().getName() + " from database key: " + key);
+
+                onContentChanged(clazzLoader);
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't delete from database key: " + key);
+            }
+        }
+    }
+
+    public synchronized <T> T findObject(Context context, String key, Class<T> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                String[] keys = mSnappyDB.findKeys(key);
+                if (keys.length > 0) {
+                    String json = mSnappyDB.get(keys[0]);
+
+                    Logger.e(TAG, "findObject Find database key: " + key + "; object: " + json);
+
+                    JsonElement element = new Gson().fromJson(json, JsonElement.class);
+                    return new Gson().fromJson(element, clazz);
+                }
+
+                return null;
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't find database key: " + key);
+            }
+        }
+
+        return null;
+    }
+
+    public synchronized <T> List<T> findObjectsList(Context context, String key, Class<T> clazz) {
+        if (!isOpen()) {
+            init(context);
+        }
+        if (mSnappyDB != null) {
+            try {
+                String[] keys = mSnappyDB.findKeys(key);
+                ArrayList<T> result = new ArrayList<>();
+                for (String keyDb : keys) {
+                    String json = mSnappyDB.get(keyDb);
+
+                    Logger.e(TAG, "findObjectsList Find database key: " + keyDb + "; object: " + json);
+
+                    JsonElement element = new Gson().fromJson(json, JsonElement.class);
+                    T item = new Gson().fromJson(element, clazz);
+                    result.add(item);
+                }
+
+                return result;
+            } catch (SnappydbException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "Can't find database key: " + key);
+            }
+        }
+
+        return null;
     }
 }

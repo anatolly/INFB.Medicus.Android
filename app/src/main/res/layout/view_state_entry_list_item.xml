@@ -53,32 +53,30 @@
                 android:textSize="16sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.00 - 16.00"
+                android:textColor="#273849"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
         </LinearLayout>
 
         <ImageView
             android:id="@+id/ivPerfecting"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_toLeftOf="@+id/textViewTime"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="16dp"
-            android:contentDescription=""
-            android:src="@mipmap/ic_perfecting" />
-
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/ivRightArrow"
             android:layout_centerVertical="true"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="4dp"
-            android:text="9.00 - 16.00"
-            android:textColor="#273849"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="16sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:contentDescription=""
+            android:src="@mipmap/ic_importance" />
+
+
 
         <ImageView
             android:id="@+id/ivRightArrow"

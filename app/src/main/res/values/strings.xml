@@ -11,4 +11,8 @@
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
+
+    <string name="buttonAccept">Accept</string>
+    <string name="buttonChange">Change</string>
+    <string name="buttonCancel">Cancel</string>
 </resources>

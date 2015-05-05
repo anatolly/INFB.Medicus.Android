@@ -69,6 +69,6 @@ public class StateEntryType {
     }
 
     public static final  List<String> STATUSES = Arrays.asList(
-            "Perfecting", "Proposed", "Accepted", "Canceled"
+            "Accepted", "Canceled", "Changed", "ChangeRequested"
     );
 }

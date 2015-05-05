@@ -1,6 +1,9 @@
 package com.intrafab.medicus.views;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -126,10 +129,20 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
             mTextViewEventName.setText(R.string.document_name_unknown);
         }
 
-        if (item.getStateStatus().equals(StateEntryType.STATUSES.get(0))) { //Perfecting
+        if (item.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
             mImagePerfecting.setVisibility(View.VISIBLE);
+            mImagePerfecting.setImageResource(R.mipmap.ic_importance);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
+        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
+            mImagePerfecting.setVisibility(View.VISIBLE);
+            mImagePerfecting.setImageResource(R.mipmap.ic_available_updates);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
+        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
+            mImagePerfecting.setVisibility(View.INVISIBLE);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             mImagePerfecting.setVisibility(View.INVISIBLE);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
     }

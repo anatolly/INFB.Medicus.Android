@@ -157,11 +157,11 @@
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="Accept"
+                    android:text="@string/buttonAccept"
                     android:layout_weight="0.5"/>
 
                 <TextView
-                    android:id="@+id/btnDismiss"
+                    android:id="@+id/btnChange"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/colorLightTextMain"
@@ -170,11 +170,11 @@
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="Dismiss"
+                    android:text="@string/buttonChange"
                     android:layout_weight="0.5"/>
 
                 <TextView
-                    android:id="@+id/btnClaim"
+                    android:id="@+id/btnCancel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/colorLightTextMain"
@@ -183,7 +183,7 @@
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="Claim"
+                    android:text="@string/buttonCancel"
                     android:layout_weight="0.5"/>
 
             </TableRow>
