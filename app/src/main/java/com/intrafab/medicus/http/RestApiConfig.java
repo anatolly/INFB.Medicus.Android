@@ -7,9 +7,9 @@ import com.intrafab.medicus.Constants;
  */
 public class RestApiConfig {
 
-    public static final String BASE_HOST_NAME = Constants.RELEASE_MODE ? "api.medicus.com" : "test.medicus.com";
+    public static final String BASE_HOST_NAME = Constants.RELEASE_MODE ? "medicus.caramba-shop.ru" : "medicus.caramba-shop.ru";
     public static final String VERSION_API = "v1.0";
-    public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME + "/" + VERSION_API;
+    public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME;// + "/" + VERSION_API;
 
     public static HttpRestService getRestService(String token) {
         return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, token);
