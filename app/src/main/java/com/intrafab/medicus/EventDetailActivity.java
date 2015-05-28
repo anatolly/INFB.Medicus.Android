@@ -126,7 +126,8 @@ public class EventDetailActivity extends BaseActivity
 
     private void setupViews(StateEntryType entryType) {
         mViewThumbnail.setImageResource(entryType.getResIconId());
-        mViewCardEntry.setCardBackgroundColor(entryType.getBackgroundColor());
+        mViewThumbnail.setColorFilter(entryType.getBackgroundColor());
+        //mViewCardEntry.setCardBackgroundColor(entryType.getBackgroundColor());
 
         mViewHeaderStart.setTextColor(entryType.getTextColor());
         mViewValueStart.setTextColor(entryType.getTextColor());
@@ -164,18 +165,26 @@ public class EventDetailActivity extends BaseActivity
 
         if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
             mViewBtnAccept.setVisibility(View.VISIBLE);
-
-            mViewBtnAccept.setOnClickListener(this);
-            mViewBtnAccept.setTextColor(entryType.getTextColor());
-
-            MaterialRippleLayout.on(mViewBtnAccept)
-                    .rippleColor(rippleColor)
-                    .rippleAlpha(rippleAlpha)
-                    .rippleHover(true)
-                    .create();
+            mViewBtnChange.setVisibility(View.VISIBLE);
+            mViewBtnCancel.setVisibility(View.VISIBLE);
+        } else if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
+            mViewBtnAccept.setVisibility(View.GONE);
+            mViewBtnCancel.setVisibility(View.GONE);
+            mViewBtnChange.setVisibility(View.VISIBLE);
         } else {
-            mViewBtnAccept.setVisibility(View.INVISIBLE);
+            mViewBtnAccept.setVisibility(View.GONE);
+            mViewBtnChange.setVisibility(View.VISIBLE);
+            mViewBtnCancel.setVisibility(View.VISIBLE);
         }
+
+        mViewBtnAccept.setOnClickListener(this);
+        mViewBtnAccept.setTextColor(entryType.getTextColor());
+
+        MaterialRippleLayout.on(mViewBtnAccept)
+                .rippleColor(rippleColor)
+                .rippleAlpha(rippleAlpha)
+                .rippleHover(true)
+                .create();
 
         mViewBtnChange.setOnClickListener(this);
         mViewBtnChange.setTextColor(entryType.getTextColor());

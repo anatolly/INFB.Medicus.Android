@@ -7,17 +7,19 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.intrafab.medicus.actions.ActionRequestStateEntryTask;
 import com.intrafab.medicus.adapters.StateEntryAdapter;
 import com.intrafab.medicus.data.StateEntry;
+import com.intrafab.medicus.data.StateEntryType;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.fragments.PlaceholderStateEntryFragment;
 import com.intrafab.medicus.loaders.StateEntryListLoader;
 import com.intrafab.medicus.utils.Logger;
 import com.intrafab.medicus.views.ItemStateEntryView;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
 
@@ -37,8 +39,10 @@ public class CalendarActivity extends BaseActivity
 
     private CallbacksManager mCallbacksManager;
 
-    private TextView mBtnClear;
-    private TextView mBtnAcceptAll;
+    private boolean mIsNeedAcceptAll = false;
+
+    //private TextView mBtnClear;
+    //private TextView mBtnAcceptAll;
 
     private android.app.LoaderManager.LoaderCallbacks<List<StateEntry>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<StateEntry>>() {
         @Override
@@ -96,6 +100,14 @@ public class CalendarActivity extends BaseActivity
             if (fragment != null) {
                 fragment.hideProgress();
                 fragment.setData(data);
+
+                for (StateEntry entry : data) {
+                    if (entry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+                        mIsNeedAcceptAll = true;
+                        showAcceptAll();
+                        break;
+                    }
+                }
             }
         }
     }
@@ -107,6 +119,7 @@ public class CalendarActivity extends BaseActivity
         if (fragment != null) {
             fragment.hideProgress();
             fragment.setData(null);
+            mIsNeedAcceptAll = false;
         }
     }
 
@@ -138,27 +151,27 @@ public class CalendarActivity extends BaseActivity
                     .commit();
         }
 
-        mBtnClear = (TextView) this.findViewById(R.id.btnClear);
-        mBtnAcceptAll = (TextView) this.findViewById(R.id.btnAcceptAll);
-
-        int rippleColor = getResources().getColor(R.color.colorLightEditTextHint);
-        float rippleAlpha = 0.5f;
-
-        mBtnClear.setOnClickListener(this);
-
-        MaterialRippleLayout.on(mBtnClear)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
-
-        mBtnAcceptAll.setOnClickListener(this);
-
-        MaterialRippleLayout.on(mBtnAcceptAll)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
+//        mBtnClear = (TextView) this.findViewById(R.id.btnClear);
+//        mBtnAcceptAll = (TextView) this.findViewById(R.id.btnAcceptAll);
+//
+//        int rippleColor = getResources().getColor(R.color.colorLightEditTextHint);
+//        float rippleAlpha = 0.5f;
+//
+//        mBtnClear.setOnClickListener(this);
+//
+//        MaterialRippleLayout.on(mBtnClear)
+//                .rippleColor(rippleColor)
+//                .rippleAlpha(rippleAlpha)
+//                .rippleHover(true)
+//                .create();
+//
+//        mBtnAcceptAll.setOnClickListener(this);
+//
+//        MaterialRippleLayout.on(mBtnAcceptAll)
+//                .rippleColor(rippleColor)
+//                .rippleAlpha(rippleAlpha)
+//                .rippleHover(true)
+//                .create();
 
         toolbar.post(new Runnable() {
             @Override
@@ -176,7 +189,7 @@ public class CalendarActivity extends BaseActivity
 
         if (fragment.isProgress())
             return;
-        
+
         fragment.showProgress();
         getLoaderManager().initLoader(LOADER_ENTRY_ID, null, mLoaderCallback);
     }
@@ -196,6 +209,14 @@ public class CalendarActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         mCallbacksManager.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mIsNeedAcceptAll)
+            showAcceptAll();
     }
 
     public static void launch(BaseActivity activity, View transitionView) {
@@ -232,5 +253,22 @@ public class CalendarActivity extends BaseActivity
                 DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STTATE_ENTRIES, StateEntryListLoader.class);
                 break;
         }
+    }
+
+    private void showAcceptAll() {
+        SnackbarManager.show(
+                Snackbar.with(getApplicationContext())
+                        .actionLabel(getString(R.string.buttonAcceptAll))
+                        .color(getResources().getColor(R.color.colorLightPrimary))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(true)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                snackbar.dismiss();
+                            }
+                        })
+                , this);
     }
 }

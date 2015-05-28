@@ -1,9 +1,7 @@
 package com.intrafab.medicus.views;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -13,11 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.intrafab.medicus.R;
-import com.intrafab.medicus.adapters.SectionStateEntryAdapter;
 import com.intrafab.medicus.adapters.StateEntryAdapter;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
-import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,6 +28,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
     private StateEntryAdapter.OnClickListener mListener;
 
     private ImageView mImageThumbnail;
+    private ImageView mImageArrow;
     private TextView mTextViewEventName;
     private TextView mTextViewTime;
     private RelativeLayout mItemLayout;
@@ -60,6 +57,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
         mTextViewTime = (TextView) view.findViewById(R.id.textViewTime);
         mItemLayout = (RelativeLayout) view.findViewById(R.id.rlItemLayout);
         mImagePerfecting = (ImageView) view.findViewById(R.id.ivPerfecting);
+        mImageArrow = (ImageView) view.findViewById(R.id.ivRightArrow);
     }
 
     public void setItem(StateEntry itemStateEntry) {
@@ -118,10 +116,12 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
             entryType = StateEntryType.getDefault();
         }
 
-        rootView.setBackgroundColor(entryType.getBackgroundColor());
+        //rootView.setBackgroundColor(entryType.getBackgroundColor());
         mTextViewEventName.setTextColor(entryType.getTextColor());
         mTextViewTime.setTextColor(entryType.getTextColor());
         mImageThumbnail.setImageResource(entryType.getResIconId());
+        mImageThumbnail.setColorFilter(entryType.getBackgroundColor());
+        mImageArrow.setColorFilter(entryType.getBackgroundColor());
 
         if (!TextUtils.isEmpty(item.getStateDescription())) {
             mTextViewEventName.setText(item.getStateDescription());
@@ -132,17 +132,17 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
         if (item.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
             mImagePerfecting.setVisibility(View.VISIBLE);
             mImagePerfecting.setImageResource(R.mipmap.ic_importance);
-            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
             mImagePerfecting.setVisibility(View.VISIBLE);
             mImagePerfecting.setImageResource(R.mipmap.ic_available_updates);
-            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
             mImagePerfecting.setVisibility(View.INVISIBLE);
             mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             mImagePerfecting.setVisibility(View.INVISIBLE);
-            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG);
+            mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
     }

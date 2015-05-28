@@ -15,4 +15,5 @@
     <string name="buttonAccept">Accept</string>
     <string name="buttonChange">Change</string>
     <string name="buttonCancel">Cancel</string>
+    <string name="buttonAcceptAll">Accept All</string>
 </resources>

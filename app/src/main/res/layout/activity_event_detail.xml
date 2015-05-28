@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="#8ad5f0"
-        app:cardBackgroundColor="#8ad5f0"
+        app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="4dp">
 
         <RelativeLayout
@@ -136,57 +135,69 @@
                 android:layout_toRightOf="@+id/ivThumbnail"
                 android:layout_toEndOf="@+id/ivThumbnail" />
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewDelim"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
+                android:layout_margin="4dp"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center_vertical|right"
+                android:orientation="horizontal"
                 android:layout_toRightOf="@+id/ivThumbnail"
                 android:layout_toEndOf="@+id/ivThumbnail">
 
                 <TextView
                     android:id="@+id/btnAccept"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/colorLightTextMain"
-                    android:padding="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center"
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="@string/buttonAccept"
-                    android:layout_weight="0.5"/>
+                    android:text="@string/buttonAccept"/>
 
                 <TextView
                     android:id="@+id/btnChange"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/colorLightTextMain"
-                    android:padding="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center"
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="@string/buttonChange"
-                    android:layout_weight="0.5"/>
+                    android:text="@string/buttonChange"/>
 
                 <TextView
                     android:id="@+id/btnCancel"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/colorLightTextMain"
-                    android:padding="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center"
                     android:textAlignment="gravity"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="14sp"
-                    android:text="@string/buttonCancel"
-                    android:layout_weight="0.5"/>
+                    android:text="@string/buttonCancel"/>
 
-            </TableRow>
+            </LinearLayout>
 
 
         </RelativeLayout>

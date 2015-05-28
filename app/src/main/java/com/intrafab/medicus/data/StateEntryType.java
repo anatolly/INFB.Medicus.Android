@@ -1,13 +1,10 @@
 package com.intrafab.medicus.data;
 
 import android.graphics.Color;
-import android.util.SparseArray;
 
 import com.intrafab.medicus.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,11 +54,11 @@ public class StateEntryType {
     }
 
     public static final HashMap<String, StateEntryType> TYPES = new HashMap<String, StateEntryType>() {{
-        put("default", new StateEntryType(R.mipmap.ic_launcher, Color.parseColor("#273849"), Color.parseColor("#f4f4f4")));
-        put("taxi", new StateEntryType(R.mipmap.ic_car_grey, Color.parseColor("#ffffff"), Color.parseColor("#ffd980")));
-        put("flight", new StateEntryType(R.mipmap.ic_airplane_grey, Color.parseColor("#ffffff"), Color.parseColor("#8ad5f0")));
-        put("opera", new StateEntryType(R.mipmap.ic_blogger_grey, Color.parseColor("#273849"), Color.parseColor("#c5e26d")));
-        put("checkup", new StateEntryType(R.mipmap.ic_hospital_event_grey, Color.parseColor("#ffffff"), Color.parseColor("#ff9494")));
+        put("default", new StateEntryType(R.mipmap.ic_launcher, Color.parseColor("#5b2796"), Color.parseColor("#5b2796")));
+        put("taxi", new StateEntryType(R.mipmap.ic_car_grey2, Color.parseColor("#273849"), Color.parseColor("#ffd980")));
+        put("flight", new StateEntryType(R.mipmap.ic_airplane_grey2, Color.parseColor("#273849"), Color.parseColor("#8ad5f0")));
+        put("opera", new StateEntryType(R.mipmap.ic_blogger_grey2, Color.parseColor("#273849"), Color.parseColor("#c5e26d")));
+        put("checkup", new StateEntryType(R.mipmap.ic_hospital_event_grey2, Color.parseColor("#273849"), Color.parseColor("#ff9494")));
     }};
 
     public static StateEntryType getDefault() {

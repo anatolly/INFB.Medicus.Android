@@ -8,14 +8,13 @@
     app:mrl_rippleColor="@color/colorLightPrimary"
     app:mrl_rippleAlpha="0.5"
     app:mrl_rippleHover="true"
-    android:minHeight="72dp">
+    android:minHeight="56dp">
 
     <RelativeLayout
         android:id="@+id/rlItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical">
 
         <ImageView
@@ -25,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:contentDescription=""
             android:src="@mipmap/ic_airplane_grey" />
 

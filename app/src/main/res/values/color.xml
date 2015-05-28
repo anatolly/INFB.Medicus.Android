@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorLightPrimary">@color/material_blue_grey_800</color>
+    <color name="colorLightPrimary">#5b2796</color>
     <color name="colorLightPrimaryDark">@color/material_blue_grey_900</color>
     <color name="colorLightStatusBarColor">@color/material_blue_grey_900</color>
     <color name="colorLightTextColorPrimary">@android:color/white</color>
