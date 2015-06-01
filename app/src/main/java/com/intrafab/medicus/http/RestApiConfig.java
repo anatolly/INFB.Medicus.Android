@@ -11,6 +11,10 @@ public class RestApiConfig {
     public static final String VERSION_API = "v1.0";
     public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME;// + "/" + VERSION_API;
 
+    public static final String URL_CSU = "/serviceuse/csu";
+    public static final String URL_ISU = "/serviceuse/isu";
+    public static final String URL_NODE = "/serviceuse/node";
+
     public static HttpRestService getRestService(String token) {
         return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, token);
     }

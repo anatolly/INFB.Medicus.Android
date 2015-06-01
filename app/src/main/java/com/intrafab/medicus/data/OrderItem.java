@@ -2,14 +2,13 @@ package com.intrafab.medicus.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Date;
 
 /**
  * Created by Artemiy Terekhov on 28.05.2015.
@@ -29,11 +28,104 @@ public class OrderItem implements Parcelable {
     };
 
     private String id;
-    private ArrayList<String> contractItem;
-    private ArrayList<String> service;
-    private ArrayList<String> activitiesSet;
-    private ArrayList<String> priceContractItem;
+    private ArrayList<ServiceSet> contractItem;
+    private ArrayList<ServiceSet> activitiesSet;
+    private ArrayList<ServiceSet> priceContractItem;
+    private String activitiesType;
+    private String remoteDoc;
+    private String medicusProcessStatus;
+    private String parentCompositeServiceUseId;
+    private String integerProcessStatus;
+    private Date created;
+    private Date changed;
 
+    public ArrayList<ServiceSet> getActivitiesSet() {
+        return activitiesSet;
+    }
+
+    public void setActivitiesSet(ArrayList<ServiceSet> activitiesSet) {
+        this.activitiesSet = activitiesSet;
+    }
+
+    public String getActivitiesType() {
+        return activitiesType;
+    }
+
+    public void setActivitiesType(String activitiesType) {
+        this.activitiesType = activitiesType;
+    }
+
+    public Date getChanged() {
+        return changed;
+    }
+
+    public void setChanged(Date changed) {
+        this.changed = changed;
+    }
+
+    public ArrayList<ServiceSet> getContractItem() {
+        return contractItem;
+    }
+
+    public void setContractItem(ArrayList<ServiceSet> contractItem) {
+        this.contractItem = contractItem;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIntegerProcessStatus() {
+        return integerProcessStatus;
+    }
+
+    public void setIntegerProcessStatus(String integerProcessStatus) {
+        this.integerProcessStatus = integerProcessStatus;
+    }
+
+    public String getMedicusProcessStatus() {
+        return medicusProcessStatus;
+    }
+
+    public void setMedicusProcessStatus(String medicusProcessStatus) {
+        this.medicusProcessStatus = medicusProcessStatus;
+    }
+
+    public String getParentCompositeServiceUseId() {
+        return parentCompositeServiceUseId;
+    }
+
+    public void setParentCompositeServiceUseId(String parentCompositeServiceUseId) {
+        this.parentCompositeServiceUseId = parentCompositeServiceUseId;
+    }
+
+    public ArrayList<ServiceSet> getPriceContractItem() {
+        return priceContractItem;
+    }
+
+    public void setPriceContractItem(ArrayList<ServiceSet> priceContractItem) {
+        this.priceContractItem = priceContractItem;
+    }
+
+    public String getRemoteDoc() {
+        return remoteDoc;
+    }
+
+    public void setRemoteDoc(String remoteDoc) {
+        this.remoteDoc = remoteDoc;
+    }
 
     public OrderItem() {
     }
@@ -41,17 +133,23 @@ public class OrderItem implements Parcelable {
     public OrderItem(Parcel source) {
         id = source.readString();
         if (contractItem == null)
-            contractItem = new ArrayList<String>();
-        source.readList(contractItem, String.class.getClassLoader());
-        if (service == null)
-            service = new ArrayList<String>();
-        source.readList(service, String.class.getClassLoader());
+            contractItem = new ArrayList<ServiceSet>();
+        source.readList(contractItem, ServiceSet.class.getClassLoader());
         if (activitiesSet == null)
-            activitiesSet = new ArrayList<String>();
-        source.readList(activitiesSet, String.class.getClassLoader());
+            activitiesSet = new ArrayList<ServiceSet>();
+        source.readList(activitiesSet, ServiceSet.class.getClassLoader());
         if (priceContractItem == null)
-            priceContractItem = new ArrayList<String>();
-        source.readList(priceContractItem, String.class.getClassLoader());
+            priceContractItem = new ArrayList<ServiceSet>();
+        source.readList(priceContractItem, ServiceSet.class.getClassLoader());
+        activitiesType = source.readString();
+        remoteDoc = source.readString();
+        medicusProcessStatus = source.readString();
+        parentCompositeServiceUseId = source.readString();
+        integerProcessStatus = source.readString();
+        long _created = source.readLong();
+        created = _created == -1 ? null : new Date(_created);
+        long _changed = source.readLong();
+        changed = _changed == -1 ? null : new Date(_changed);
     }
 
     public OrderItem(JSONObject object) {
@@ -62,100 +160,91 @@ public class OrderItem implements Parcelable {
             this.id = object.optString("id");
         }
 
-        String code = Locale.getDefault().getISO3Language();
-        if (TextUtils.isEmpty(code)) {
-            code = "und";
-        }
-
-        contractItem = new ArrayList<String>();
-        if (object.has("field_contractitem")) {
-            JSONObject serviceSet = object.optJSONObject("field_contractitem");
+        if (object.has("contractitem")) {
+            JSONArray serviceSet = object.optJSONArray("contractitem");
             if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("target_id")) {
-                                    String target = item.optString("target_id");
-                                    if (!TextUtils.isEmpty(target))
-                                        contractItem.add(target);
-                                }
-                            }
-                        }
+                int count = serviceSet.length();
+                for (int i = 0; i < count; ++i) {
+                    JSONObject item = serviceSet.optJSONObject(i);
+                    if (item != null) {
+                        ServiceSet set = new ServiceSet(item);
+                        if (contractItem == null)
+                            contractItem = new ArrayList<ServiceSet>();
+                        contractItem.add(set);
                     }
                 }
             }
         }
 
-        service = new ArrayList<String>();
-        if (object.has("field_service")) {
-            JSONObject serviceSet = object.optJSONObject("field_service");
+        if (object.has("activities_set")) {
+            JSONArray serviceSet = object.optJSONArray("activities_set");
             if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("target_id")) {
-                                    String target = item.optString("target_id");
-                                    if (!TextUtils.isEmpty(target))
-                                        service.add(target);
-                                }
-                            }
-                        }
+                int count = serviceSet.length();
+                for (int i = 0; i < count; ++i) {
+                    JSONObject item = serviceSet.optJSONObject(i);
+                    if (item != null) {
+                        ServiceSet set = new ServiceSet(item);
+                        if (activitiesSet == null)
+                            activitiesSet = new ArrayList<ServiceSet>();
+                        activitiesSet.add(set);
                     }
                 }
             }
         }
 
-        activitiesSet = new ArrayList<String>();
-        if (object.has("field_activities_set")) {
-            JSONObject serviceSet = object.optJSONObject("field_activities_set");
+        if (object.has("pricecontractitem")) {
+            JSONArray serviceSet = object.optJSONArray("pricecontractitem");
             if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("target_id")) {
-                                    String target = item.optString("target_id");
-                                    if (!TextUtils.isEmpty(target))
-                                        activitiesSet.add(target);
-                                }
-                            }
-                        }
+                int count = serviceSet.length();
+                for (int i = 0; i < count; ++i) {
+                    JSONObject item = serviceSet.optJSONObject(i);
+                    if (item != null) {
+                        ServiceSet set = new ServiceSet(item);
+                        if (priceContractItem == null)
+                            priceContractItem = new ArrayList<ServiceSet>();
+                        priceContractItem.add(set);
                     }
                 }
             }
         }
 
-        priceContractItem = new ArrayList<String>();
-        if (object.has("field_pricecontractitem")) {
-            JSONObject serviceSet = object.optJSONObject("field_pricecontractitem");
-            if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("target_id")) {
-                                    String target = item.optString("target_id");
-                                    if (!TextUtils.isEmpty(target))
-                                        priceContractItem.add(target);
-                                }
-                            }
-                        }
-                    }
-                }
+        if (object.has("activities_type")) {
+            this.activitiesType = object.optString("activities_type");
+        }
+
+        if (object.has("remote_doc")) {
+            this.remoteDoc = object.optString("remote_doc");
+        }
+
+        if (object.has("medicusprocessstatus")) {
+            this.medicusProcessStatus = object.optString("medicusprocessstatus");
+        }
+
+        if (object.has("parent_composite_serviceuse_id")) {
+            this.parentCompositeServiceUseId = object.optString("parent_composite_serviceuse_id");
+        }
+
+        if (object.has("integer_process_status")) {
+            this.integerProcessStatus = object.optString("integer_process_status");
+        }
+
+        if (object.has("created")) {
+            try {
+                String _createdDate = object.optString("created");
+                long _value = Long.valueOf(_createdDate, -1);
+                created = _value == -1 ? null : new Date(_value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (object.has("changed")) {
+            try {
+                String _changedDate = object.optString("changed");
+                long _value = Long.valueOf(_changedDate, -1);
+                changed = _value == -1 ? null : new Date(_value);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -164,49 +253,32 @@ public class OrderItem implements Parcelable {
         JSONObject root = new JSONObject();
         root.put("id", id);
 
-        JSONObject contractitem = new JSONObject();
-        JSONArray lang = new JSONArray();
-        for (String item : contractItem) {
-            JSONObject target = new JSONObject();
-            target.put("target_id", item);
-            lang.put(target);
+        JSONArray contractItemJson = new JSONArray();
+        for (ServiceSet item : contractItem) {
+            contractItemJson.put(item.toJson());
         }
-        contractitem.put("und", lang);
+        root.put("contractitem", contractItemJson);
 
-        root.put("field_contractitem", contractitem);
-
-        JSONObject serviceField = new JSONObject();
-        JSONArray lang2 = new JSONArray();
-        for (String item : service) {
-            JSONObject target = new JSONObject();
-            target.put("target_id", item);
-            lang2.put(target);
+        JSONArray activitiesSetJson = new JSONArray();
+        for (ServiceSet item : activitiesSet) {
+            activitiesSetJson.put(item.toJson());
         }
-        serviceField.put("und", lang2);
+        root.put("activities_set", activitiesSetJson);
 
-        root.put("field_service", serviceField);
-
-        JSONObject activities_set = new JSONObject();
-        JSONArray lang3 = new JSONArray();
-        for (String item : activitiesSet) {
-            JSONObject target = new JSONObject();
-            target.put("target_id", item);
-            lang3.put(target);
+        JSONArray priceContractItemJson = new JSONArray();
+        for (ServiceSet item : priceContractItem) {
+            priceContractItemJson.put(item.toJson());
         }
-        activities_set.put("und", lang3);
+        root.put("pricecontractitem", priceContractItemJson);
 
-        root.put("field_activities_set", activities_set);
+        root.put("activities_type", activitiesType);
+        root.put("remote_doc", remoteDoc);
+        root.put("medicusprocessstatus", medicusProcessStatus);
+        root.put("parent_composite_serviceuse_id", parentCompositeServiceUseId);
+        root.put("integer_process_status", integerProcessStatus);
 
-        JSONObject pricecontractitem = new JSONObject();
-        JSONArray lang4 = new JSONArray();
-        for (String item : priceContractItem) {
-            JSONObject target = new JSONObject();
-            target.put("target_id", item);
-            lang4.put(target);
-        }
-        pricecontractitem.put("und", lang4);
-
-        root.put("field_pricecontractitem", pricecontractitem);
+        root.put("created", created == null ? "0" : String.valueOf(created.getTime()));
+        root.put("changed", changed == null ? "0" : String.valueOf(changed.getTime()));
 
         return root.toString();
     }
@@ -220,8 +292,14 @@ public class OrderItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeList(contractItem);
-        dest.writeList(service);
         dest.writeList(activitiesSet);
         dest.writeList(priceContractItem);
+        dest.writeString(activitiesType);
+        dest.writeString(remoteDoc);
+        dest.writeString(medicusProcessStatus);
+        dest.writeString(parentCompositeServiceUseId);
+        dest.writeString(integerProcessStatus);
+        dest.writeLong(created != null ? created.getTime() : -1);
+        dest.writeLong(changed != null ? changed.getTime() : -1);
     }
 }

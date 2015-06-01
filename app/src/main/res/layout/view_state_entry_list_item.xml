@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:mrl_rippleOverlay="true"
-    app:mrl_rippleColor="@color/colorLightPrimary"
+    android:minHeight="56dp"
     app:mrl_rippleAlpha="0.5"
+    app:mrl_rippleColor="@color/colorLightPrimary"
     app:mrl_rippleHover="true"
-    android:minHeight="56dp">
+    app:mrl_rippleOverlay="true">
 
     <RelativeLayout
         android:id="@+id/rlItemLayout"
@@ -35,8 +35,8 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/ivThumbnail"
             android:layout_toLeftOf="@+id/ivPerfecting"
+            android:layout_toRightOf="@+id/ivThumbnail"
             android:orientation="vertical"
             android:paddingBottom="16dp"
             android:paddingTop="16dp">
@@ -45,23 +45,23 @@
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event Name"
-                android:textColor="#273849"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textSize="16sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:text="Event Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#273849"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9.00 - 16.00"
-                android:textColor="#273849"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textSize="14sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="9.00 - 16.00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#273849"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -69,12 +69,11 @@
             android:id="@+id/ivPerfecting"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_toLeftOf="@+id/ivRightArrow"
             android:layout_centerVertical="true"
             android:layout_marginTop="16dp"
+            android:layout_toLeftOf="@+id/ivRightArrow"
             android:contentDescription=""
             android:src="@mipmap/ic_importance" />
-
 
 
         <ImageView
@@ -87,6 +86,14 @@
             android:layout_marginTop="16dp"
             android:contentDescription=""
             android:src="@mipmap/ic_arrow_right" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textview_container"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/ivThumbnail"
+            android:background="@color/colorLightPrimary" />
     </RelativeLayout>
 
 </com.balysv.materialripple.MaterialRippleLayout>

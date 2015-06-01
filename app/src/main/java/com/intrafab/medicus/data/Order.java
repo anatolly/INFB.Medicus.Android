@@ -2,14 +2,13 @@ package com.intrafab.medicus.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Date;
 
 /**
  * Created by Artemiy Terekhov on 28.05.2015.
@@ -29,27 +28,114 @@ public class Order implements Parcelable {
     };
 
     private String id;
-    private String orderId;
-    private String codeLang;
-    private ArrayList<String> hotLinePhone;
-    private ArrayList<String> callbackPhoneNumber;
+    private ArrayList<ServiceSet> serviceSets;
+    private String hotLinePhone;
+    private String callbackPhoneNumber;
     private boolean callbackIsRequested;
+    private String medicusProcessStatus;
+    private String integerProcessStatus;
+    private Date created;
+    private Date changed;
+    private String title;
 
+    public boolean isCallbackIsRequested() {
+        return callbackIsRequested;
+    }
+
+    public void setCallbackIsRequested(boolean callbackIsRequested) {
+        this.callbackIsRequested = callbackIsRequested;
+    }
+
+    public String getCallbackPhoneNumber() {
+        return callbackPhoneNumber;
+    }
+
+    public void setCallbackPhoneNumber(String callbackPhoneNumber) {
+        this.callbackPhoneNumber = callbackPhoneNumber;
+    }
+
+    public Date getChanged() {
+        return changed;
+    }
+
+    public void setChanged(Date changed) {
+        this.changed = changed;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getHotLinePhone() {
+        return hotLinePhone;
+    }
+
+    public void setHotLinePhone(String hotLinePhone) {
+        this.hotLinePhone = hotLinePhone;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIntegerProcessStatus() {
+        return integerProcessStatus;
+    }
+
+    public void setIntegerProcessStatus(String integerProcessStatus) {
+        this.integerProcessStatus = integerProcessStatus;
+    }
+
+    public String getMedicusProcessStatus() {
+        return medicusProcessStatus;
+    }
+
+    public void setMedicusProcessStatus(String medicusProcessStatus) {
+        this.medicusProcessStatus = medicusProcessStatus;
+    }
+
+    public ArrayList<ServiceSet> getServiceSets() {
+        return serviceSets;
+    }
+
+    public void setServiceSets(ArrayList<ServiceSet> serviceSets) {
+        this.serviceSets = serviceSets;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Order() {
     }
 
     public Order(Parcel source) {
         id = source.readString();
-        orderId = source.readString();
-        codeLang = source.readString();
-        if (hotLinePhone == null)
-            hotLinePhone = new ArrayList<String>();
-        source.readList(hotLinePhone, String.class.getClassLoader());
-        if (callbackPhoneNumber == null)
-            callbackPhoneNumber = new ArrayList<String>();
-        source.readList(callbackPhoneNumber, String.class.getClassLoader());
+        if (serviceSets == null)
+            serviceSets = new ArrayList<ServiceSet>();
+        source.readList(serviceSets, ServiceSet.class.getClassLoader());
+        hotLinePhone = source.readString();
+        callbackPhoneNumber = source.readString();
         callbackIsRequested = source.readInt() == 1 ? true : false;
+        medicusProcessStatus = source.readString();
+        integerProcessStatus = source.readString();
+        long _created = source.readLong();
+        created = _created == -1 ? null : new Date(_created);
+        long _changed = source.readLong();
+        changed = _changed == -1 ? null : new Date(_changed);
+        title = source.readString();
     }
 
     public Order(JSONObject object) {
@@ -60,99 +146,64 @@ public class Order implements Parcelable {
             this.id = object.optString("id");
         }
 
-        String code = Locale.getDefault().getISO3Language();
-        if (TextUtils.isEmpty(code)) {
-            code = "und";
-        }
-
-        if (object.has("field_services_set")) {
-            JSONObject serviceSet = object.optJSONObject("field_services_set");
+        if (object.has("services_set")) {
+            JSONArray serviceSet = object.optJSONArray("services_set");
             if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("target_id")) {
-                                    orderId = item.optString("target_id");
-                                    break;
-                                }
-                            }
-                        }
+                int count = serviceSet.length();
+                for (int i = 0; i < count; ++i) {
+                    JSONObject item = serviceSet.optJSONObject(i);
+                    if (item != null) {
+                        ServiceSet set = new ServiceSet(item);
+                        if (serviceSets == null)
+                            serviceSets = new ArrayList<ServiceSet>();
+                        serviceSets.add(set);
                     }
                 }
             }
         }
 
-        hotLinePhone = new ArrayList<String>();
-        if (object.has("field_communicationhotlinephone")) {
-            JSONObject serviceSet = object.optJSONObject("field_communicationhotlinephone");
-            if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("value")) {
-                                    String number = item.optString("value");
-                                    if (!TextUtils.isEmpty(number))
-                                        hotLinePhone.add(number);
-                                }
-                            }
-                        }
-                    }
-                }
+        if (object.has("communicationhotlinephone")) {
+            this.hotLinePhone = object.optString("communicationhotlinephone");
+        }
+
+        if (object.has("callbackphonenumber")) {
+            this.callbackPhoneNumber = object.optString("callbackphonenumber");
+        }
+
+        if (object.has("callbackisrequested")) {
+            this.callbackIsRequested = object.optBoolean("callbackisrequested");
+        }
+
+        if (object.has("medicusprocessstatus")) {
+            this.medicusProcessStatus = object.optString("medicusprocessstatus");
+        }
+
+        if (object.has("integer_process_status")) {
+            this.integerProcessStatus = object.optString("integer_process_status");
+        }
+
+        if (object.has("created")) {
+            try {
+                String _createdDate = object.optString("created");
+                long _value = Long.valueOf(_createdDate, -1);
+                created = _value == -1 ? null : new Date(_value);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        callbackPhoneNumber = new ArrayList<String>();
-        if (object.has("field_callbackphonenumber")) {
-            JSONObject serviceSet = object.optJSONObject("field_callbackphonenumber");
-            if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("value")) {
-                                    String number = item.optString("value");
-                                    if (!TextUtils.isEmpty(number))
-                                        callbackPhoneNumber.add(number);
-                                }
-                            }
-                        }
-                    }
-                }
+        if (object.has("changed")) {
+            try {
+                String _changedDate = object.optString("changed");
+                long _value = Long.valueOf(_changedDate, -1);
+                changed = _value == -1 ? null : new Date(_value);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        if (object.has("field_callbackisrequested")) {
-            JSONObject serviceSet = object.optJSONObject("field_callbackisrequested");
-            if (serviceSet != null) {
-                if (serviceSet.has("und")) {
-                    JSONArray und = serviceSet.optJSONArray("und");
-                    if (und != null) {
-                        int count = und.length();
-                        for (int i = 0; i < count; ++i) {
-                            JSONObject item = und.optJSONObject(i);
-                            if (item != null) {
-                                if (item.has("value")) {
-                                    String value = item.optString("value");
-                                    if (!TextUtils.isEmpty(value)) {
-                                        callbackIsRequested = value.equals("1");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if (object.has("title")) {
+            this.title = object.optString("title");
         }
     }
 
@@ -160,45 +211,23 @@ public class Order implements Parcelable {
         JSONObject root = new JSONObject();
         root.put("id", id);
 
-        JSONObject serviceSet = new JSONObject();
-        JSONArray lang = new JSONArray();
-        JSONObject target = new JSONObject();
-        target.put("target_id", orderId);
-        lang.put(target);
-        serviceSet.put("und", lang);
-
-        root.put("field_services_set", serviceSet);
-
-        JSONObject communicationhotlinephone = new JSONObject();
-        JSONArray lang2 = new JSONArray();
-        for (String item : hotLinePhone) {
-            JSONObject value = new JSONObject();
-            value.put("value", item);
-            lang2.put(value);
+        JSONArray serviceSet = new JSONArray();
+        for (ServiceSet item : serviceSets) {
+            serviceSet.put(item.toJson());
         }
-        communicationhotlinephone.put("und", lang2);
+        root.put("services_set", serviceSet);
 
-        root.put("field_communicationhotlinephone", communicationhotlinephone);
+        root.put("communicationhotlinephone", hotLinePhone);
+        root.put("callbackphonenumber", callbackPhoneNumber);
+        root.put("callbackisrequested", callbackIsRequested ? "1" : "0");
 
-        JSONObject callbackphonenumber = new JSONObject();
-        JSONArray lang3 = new JSONArray();
-        for (String item : callbackPhoneNumber) {
-            JSONObject value = new JSONObject();
-            value.put("value", item);
-            lang3.put(value);
-        }
-        callbackphonenumber.put("und", lang3);
+        root.put("medicusprocessstatus", medicusProcessStatus);
+        root.put("integer_process_status", integerProcessStatus);
 
-        root.put("field_callbackphonenumber", callbackphonenumber);
+        root.put("created", created == null ? "0" : String.valueOf(created.getTime()));
+        root.put("changed", changed == null ? "0" : String.valueOf(changed.getTime()));
 
-        JSONObject callbackisrequested = new JSONObject();
-        JSONArray lang4 = new JSONArray();
-        JSONObject value = new JSONObject();
-        value.put("value", callbackIsRequested ? "1" : "0");
-        lang4.put(value);
-        serviceSet.put("und", lang4);
-
-        root.put("field_callbackisrequested", callbackisrequested);
+        root.put("title", title);
 
         return root.toString();
     }
@@ -211,10 +240,14 @@ public class Order implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(orderId);
-        dest.writeString(codeLang);
-        dest.writeList(hotLinePhone);
-        dest.writeList(callbackPhoneNumber);
+        dest.writeList(serviceSets);
+        dest.writeString(hotLinePhone);
+        dest.writeString(callbackPhoneNumber);
         dest.writeInt(callbackIsRequested ? 1 : 0);
+        dest.writeString(medicusProcessStatus);
+        dest.writeString(integerProcessStatus);
+        dest.writeLong(created != null ? created.getTime() : -1);
+        dest.writeLong(changed != null ? changed.getTime() : -1);
+        dest.writeString(title);
     }
 }
