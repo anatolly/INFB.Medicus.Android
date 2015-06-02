@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.intrafab.medicus.data.StorageInfo;
 
@@ -18,6 +20,10 @@ public class StorageDocumentActivity extends BaseActivity {
     public static final String EXTRA_OPEN_STORAGE_DOCUMENT = "openStorageDocument";
     public static final String ITEM_STORAGE_INFO = "item_storage_info";
 
+    private ImageView mIconSync;
+    private ImageView mIconView;
+    private ImageView mIconRemove;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +34,17 @@ public class StorageDocumentActivity extends BaseActivity {
 
         getSupportActionBar().setTitle(item.getDescription());
         showActionBar();
+        setActionBarIcon(R.mipmap.ic_action_back);
 
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_STORAGE_DOCUMENT);
+
+        mIconSync = (ImageView) findViewById(R.id.ivSync);
+        mIconView = (ImageView) findViewById(R.id.ivView);
+        mIconRemove = (ImageView) findViewById(R.id.ivRemove);
+
+        mIconSync.setColorFilter(getResources().getColor(R.color.colorLightSuccess));
+        mIconView.setColorFilter(getResources().getColor(R.color.colorLightPrimary));
+        mIconRemove.setColorFilter(getResources().getColor(R.color.colorLightError));
     }
 
     @Override
@@ -47,5 +62,17 @@ public class StorageDocumentActivity extends BaseActivity {
                         EXTRA_OPEN_STORAGE_DOCUMENT
                 );
         ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

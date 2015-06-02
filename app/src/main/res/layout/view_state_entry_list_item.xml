@@ -87,6 +87,7 @@
             android:contentDescription=""
             android:src="@mipmap/ic_arrow_right" />
 
+        <!--
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -94,6 +95,7 @@
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/ivThumbnail"
             android:background="@color/colorLightPrimary" />
+            -->
     </RelativeLayout>
 
 </com.balysv.materialripple.MaterialRippleLayout>

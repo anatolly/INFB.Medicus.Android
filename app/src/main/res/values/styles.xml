@@ -9,7 +9,9 @@
         <item name="android:background">@color/colorLightPrimaryDark</item>
         <item name="background">@color/colorLightPrimaryDark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:textColorSecondary">#fff</item>
+        <item name="colorControlNormal">#fff</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
 </resources>

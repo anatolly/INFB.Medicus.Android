@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -11,42 +11,175 @@
         android:minHeight="?attr/actionBarSize" />
 
     <RelativeLayout
+        android:id="@+id/layoutInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp">
+
         <TextView
             android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Document name"
             android:layout_toLeftOf="@+id/textViewDate"
-            android:textColor="#273849"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="18sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:text="Document name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#273849"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:ellipsize="end"
             android:layout_marginLeft="8dp"
+            android:ellipsize="end"
             android:singleLine="true"
             android:text="Jan 19, 2015"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#273849"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/ivThumbnail"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layoutActions"
+        android:layout_below="@+id/layoutInfo"
         android:layout_margin="16dp"
         android:contentDescription=""
-        android:src="@mipmap/ic_airplane_grey" />
-</LinearLayout>
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_file" />
+
+    <RelativeLayout
+        android:id="@+id/layoutActions"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/btnRippleSync"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:minWidth="90dp"
+            app:mrl_rippleAlpha="0.5"
+            app:mrl_rippleColor="@color/colorLightPrimary"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
+
+            <LinearLayout
+                android:id="@+id/btnSync"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:minWidth="90dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/ivSync"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/layoutActions"
+                    android:layout_below="@+id/layoutInfo"
+                    android:contentDescription=""
+                    android:src="@mipmap/ic_soundcloud" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Sync"
+                    android:textColor="@color/colorLightTextMain" />
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/btnRippleView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/btnRippleSync"
+            android:gravity="center_horizontal"
+            android:minWidth="90dp"
+            app:mrl_rippleAlpha="0.5"
+            app:mrl_rippleColor="@color/colorLightPrimary"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
+
+            <LinearLayout
+                android:id="@+id/btnView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:gravity="center_horizontal"
+                android:minWidth="90dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/ivView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/layoutActions"
+                    android:layout_below="@+id/layoutInfo"
+                    android:contentDescription=""
+                    android:src="@mipmap/ic_visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="View"
+                    android:textColor="@color/colorLightTextMain" />
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/btnRippleRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/btnRippleView"
+            android:gravity="center_horizontal"
+            android:minWidth="90dp"
+            app:mrl_rippleAlpha="0.5"
+            app:mrl_rippleColor="@color/colorLightPrimary"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true">
+
+            <LinearLayout
+                android:id="@+id/btnRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:minWidth="90dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/ivRemove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/layoutActions"
+                    android:layout_below="@+id/layoutInfo"
+                    android:contentDescription=""
+                    android:padding="4dp"
+                    android:src="@mipmap/ic_trash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Remove"
+                    android:textColor="@color/colorLightTextMain" />
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
