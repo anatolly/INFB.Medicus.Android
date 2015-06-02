@@ -64,4 +64,5 @@ dependencies {
     compile 'com.balysv:material-ripple:1.0.1'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.pnikosis:materialish-progress:1.5'
+    compile project(':libraries:DiscreteSeekBar')
 }
