@@ -9,6 +9,11 @@
     <string name="empty_storage_list">Empty list.\nTap + to add items</string>
     <string name="empty_state_entry_list">Empty list.</string>
 
+    <string name="dialog_upload_header">Upload file to server</string>
+    <string name="dialog_upload_content">You confirm uploading of the %s file?</string>
+    <string name="dialog_upload_button_success">Upload</string>
+    <string name="dialog_upload_button_cancel">Cancel</string>
+
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
 

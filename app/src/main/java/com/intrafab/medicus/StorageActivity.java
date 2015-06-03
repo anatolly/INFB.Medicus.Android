@@ -1,22 +1,21 @@
 package com.intrafab.medicus;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.transition.Explode;
-import android.transition.Transition;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.intrafab.medicus.actions.ActionRequestStorageTask;
 import com.intrafab.medicus.actions.ActionRequestStorageTripTask;
@@ -37,6 +36,7 @@ import com.telly.groundy.annotations.OnFailure;
 import com.telly.groundy.annotations.OnSuccess;
 import com.telly.groundy.annotations.Param;
 
+import java.io.File;
 import java.util.List;
 
 import it.neokree.materialtabs.MaterialTab;
@@ -56,6 +56,8 @@ public class StorageActivity extends BaseActivity
 
     private static final int LOADER_STORAGE_ID = 10;
     private static final int LOADER_STORAGE_TRIP_ID = 11;
+
+    private static final int REQUEST_CODE_PICK_FILE = 500;
 
     private MaterialTabHost mTabHost;
     private ViewPager mPager;
@@ -183,6 +185,59 @@ public class StorageActivity extends BaseActivity
     };
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_FILE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    Uri uri = data.getData();
+                    Logger.e(TAG, "REQUEST_CODE_PICK_FILE Selected file: " + uri.getPath());
+                    showSetupDialog(uri.getPath());
+                }
+            }
+        }
+    }
+
+    private void showSetupDialog(final String filePath) {
+        if (TextUtils.isEmpty(filePath))
+            return;
+
+        int lastSlash = filePath.lastIndexOf(File.separator);
+        String contentText = String.format(
+                getResources().getString(R.string.dialog_upload_content),
+                filePath.substring(lastSlash < 0 ? 0 : lastSlash + 1));
+
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .titleColor(getResources().getColor(R.color.colorLightTextMain))
+                .title(getResources().getString(R.string.dialog_upload_header))
+                .contentColor(getResources().getColor(R.color.colorLightTextMain))
+                .content(contentText)
+                .positiveText(getResources().getString(R.string.dialog_upload_button_success))
+                .negativeText(getResources().getString(R.string.dialog_upload_button_cancel))
+                .autoDismiss(false)
+                .cancelable(false)
+                .contentGravity(GravityEnum.CENTER)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        startFileUpload(filePath);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        dialog.show();
+    }
+
+    private void startFileUpload(final String filePath) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -190,6 +245,7 @@ public class StorageActivity extends BaseActivity
 
         getSupportActionBar().setTitle(getString(R.string.strorage_screen_header));
         showActionBar();
+        setActionBarIcon(R.mipmap.ic_action_back);
 
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_STORAGE);
 
@@ -309,7 +365,13 @@ public class StorageActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.action_add_document) {
-            Toast.makeText(this, "Add Document. Coming soon.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Add Document. Coming soon.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("file/*");
+            startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
             return true;
         }
 
