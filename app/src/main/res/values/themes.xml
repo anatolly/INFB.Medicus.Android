@@ -16,6 +16,7 @@
         <item name="android:windowBackground">@color/colorLightWindowBackground</item>
         <item name="colorAccent">@color/colorLightColorAccent</item>
         <item name="android:textColorPrimary">@color/colorLightTextColorPrimary</item>
+        <item name="android:textColorPrimaryInverse">@color/colorLightWindowBackground</item>
         <item name="android:textColor">@color/colorLightTextColor</item>
         <item name="android:textColorHint">@color/colorLightTextColorHint</item>
         <item name="android:windowNoTitle">true</item>

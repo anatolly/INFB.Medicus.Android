@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,38 +11,288 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize" />
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="@android:color/transparent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMedServiceHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="Med Service"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp" />
+
+            <View
+                android:id="@+id/delimMedService"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightTextExtra" />
+
+            <TextView
+                android:id="@+id/tvMedServiceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:text="Пожалуйста, оцените качество\nмедицинских услуг"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextExtra"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/ivSad"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_sad" />
+
+                <ImageView
+                    android:id="@+id/ivSpeechless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_speechless" />
+
+                <ImageView
+                    android:id="@+id/ivHappy"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_happy" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/sbRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivSad"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    app:dsb_indicatorColor="@color/colorLightPrimary"
+                    app:dsb_max="5"
+                    app:dsb_min="1"
+                    app:dsb_progressColor="@color/colorLightPrimary"
+                    app:dsb_rippleColor="#FF7788FF"
+                    app:dsb_value="5" />
+            </RelativeLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etMedService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:gravity="bottom|left"
+                android:hint="Опишите Ваши впечатления"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:singleLine="false"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="16sp"
+                app:met_baseColor="@color/colorLightTextMain"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_maxCharacters="4000"
+                app:met_primaryColor="@color/colorLightPrimary"
+                app:met_singleLineEllipsis="false" />
+
+            <!-- Hospital -->
+            <TextView
+                android:id="@+id/tvHospitalHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="Hospital"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp" />
+
+            <View
+                android:id="@+id/delimHospital"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightTextExtra" />
+
+            <TextView
+                android:id="@+id/tvHospitalDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:text="Пожалуйста, оцените госпиталь"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextExtra"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/ivSad2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_sad" />
+
+                <ImageView
+                    android:id="@+id/ivSpeechless2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_speechless" />
+
+                <ImageView
+                    android:id="@+id/ivHappy2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_happy" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/sbRatingHospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivSad2"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    app:dsb_indicatorColor="@color/colorLightPrimary"
+                    app:dsb_max="5"
+                    app:dsb_min="1"
+                    app:dsb_progressColor="@color/colorLightPrimary"
+                    app:dsb_rippleColor="#FF7788FF"
+                    app:dsb_value="5" />
+            </RelativeLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etHospital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:gravity="bottom|left"
+                android:hint="Опишите Ваши впечатления"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:singleLine="false"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="16sp"
+                app:met_baseColor="@color/colorLightTextMain"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_maxCharacters="4000"
+                app:met_primaryColor="@color/colorLightPrimary"
+                app:met_singleLineEllipsis="false" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/ivSad"
-            android:layout_width="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_height="40dp"
-            android:layout_margin="16dp"
-            android:src="@mipmap/ic_sad" />
+        android:visibility="gone"
+        app:fab_colorNormal="@color/colorLightPrimary"
+        app:fab_colorPressed="@color/colorLightPrimaryDark"
+        app:fab_icon="@mipmap/ic_paper_plane" />
+
+    <LinearLayout
+        android:id="@+id/layoutSuccess"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/transparent">
 
         <ImageView
-            android:id="@+id/ivHappy"
-            android:layout_width="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_height="40dp"
+            android:id="@+id/ivSuccess"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_happy" />
+            android:src="@mipmap/ic_approval" />
 
-        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+        <TextView
+            android:id="@+id/tvSuccess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivSad"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:dsb_min="1"
-            app:dsb_max="5"
-            app:dsb_value="5"
-            />
-    </RelativeLayout>
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="Спасибо\nВаш отзыв\nуспешно отправлен"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorLightTextMain"
+            android:textSize="20sp" />
 
-</LinearLayout>
+    </LinearLayout>
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:matProg_barColor="@color/colorLightPrimary"
+        android:visibility="gone"
+        app:matProg_progressIndeterminate="true" />
+
+</RelativeLayout>

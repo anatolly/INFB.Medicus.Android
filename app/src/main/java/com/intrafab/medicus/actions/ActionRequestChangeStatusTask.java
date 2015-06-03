@@ -71,7 +71,7 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
             if (entry == null)
                 return failed().add(INTERNET_AVAILABLE, true);
 
-            DBManager.getInstance().insertObjectToArray(getContext(), Constants.Prefs.PREF_PARAM_STTATE_ENTRIES, entry, StateEntry[].class);
+            DBManager.getInstance().insertObjectToArray(getContext(), Constants.Prefs.PREF_PARAM_STATE_ENTRIES, entry, StateEntry[].class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed().add(INTERNET_AVAILABLE, true);

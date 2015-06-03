@@ -90,7 +90,7 @@ public class StateEntryListLoader extends AsyncTaskLoader<List<StateEntry>> {
     @Override
     public List<StateEntry> loadInBackground() {
         return DBManager.getInstance().readArrayToList(getContext(),
-                Constants.Prefs.PREF_PARAM_STTATE_ENTRIES,
+                Constants.Prefs.PREF_PARAM_STATE_ENTRIES,
                 StateEntry[].class,
                 new Comparator<StateEntry>() {
                     @Override

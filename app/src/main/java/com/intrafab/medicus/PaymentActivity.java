@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.view.MenuItem;
 import android.view.View;
 
 /**
@@ -23,6 +24,7 @@ public class PaymentActivity extends BaseActivity {
 
         getSupportActionBar().setTitle("Payment");
         showActionBar();
+        setActionBarIcon(R.mipmap.ic_action_back);
 
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_PAYMENT);
     }
@@ -41,5 +43,17 @@ public class PaymentActivity extends BaseActivity {
                         EXTRA_OPEN_PAYMENT
                 );
         ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

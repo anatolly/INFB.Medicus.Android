@@ -56,7 +56,7 @@ public class ActionRequestStateEntryTask extends GroundyTask {
 
             List<StateEntry> entriesList = entriesInfo.getEntriesList();
             if (entriesList.size() > 0)
-                DBManager.getInstance().insertArrayObject(getContext(), StateEntryListLoader.class, Constants.Prefs.PREF_PARAM_STTATE_ENTRIES, entriesList, StateEntry.class);
+                DBManager.getInstance().insertArrayObject(getContext(), StateEntryListLoader.class, Constants.Prefs.PREF_PARAM_STATE_ENTRIES, entriesList, StateEntry.class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed();

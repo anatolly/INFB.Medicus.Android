@@ -6,6 +6,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.intrafab.medicus.actions.ActionRequestStateEntryTask;
@@ -139,6 +140,7 @@ public class CalendarActivity extends BaseActivity
 
         getSupportActionBar().setTitle("Calendar");
         showActionBar();
+        setActionBarIcon(R.mipmap.ic_action_back);
 
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_CALENDAR);
 
@@ -231,6 +233,18 @@ public class CalendarActivity extends BaseActivity
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onClickItem(StateEntry itemStateEntry, ItemStateEntryView entryView) {
         EventDetailActivity.launch(this, entryView.getThumbnail(), itemStateEntry);
     }
@@ -250,7 +264,7 @@ public class CalendarActivity extends BaseActivity
                     fragment.hideProgress();
                     fragment.setData(null);
                 }
-                DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STTATE_ENTRIES, StateEntryListLoader.class);
+                DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STATE_ENTRIES, StateEntryListLoader.class);
                 break;
         }
     }
