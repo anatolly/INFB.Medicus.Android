@@ -5,7 +5,12 @@ import com.intrafab.medicus.wrappers.RequestStorageInfo;
 
 import retrofit.client.Response;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
+import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
@@ -26,4 +31,12 @@ public interface HttpRestService {
 
     @GET("/serviceuse/csu/{id}.json")
     public Response getOrder(@Path("id") String id);
+
+    // Порядок важен. Файл должен быть последним параметром
+    @Multipart
+    @POST("/serviceuse/storeFile")
+    public void uploadFileToStorage(
+            @Part("fileFormat") TypedString fileFormat,
+            @Part("destination") TypedString destination,
+            @Part("_data") TypedFile file);
 }

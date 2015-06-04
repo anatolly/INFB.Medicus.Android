@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.intrafab.medicus.actions.ActionRequestStorageTask;
 import com.intrafab.medicus.actions.ActionRequestStorageTripTask;
+import com.intrafab.medicus.actions.ActionRequestUploadFileTask;
 import com.intrafab.medicus.adapters.StorageAdapter;
 import com.intrafab.medicus.adapters.StoragePagerAdapter;
 import com.intrafab.medicus.adapters.StorageTripAdapter;
@@ -26,12 +27,14 @@ import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.loaders.StorageListLoader;
 import com.intrafab.medicus.loaders.StorageTripListLoader;
+import com.intrafab.medicus.utils.FileUtils;
 import com.intrafab.medicus.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
+import com.telly.groundy.TaskHandler;
 import com.telly.groundy.annotations.OnFailure;
 import com.telly.groundy.annotations.OnSuccess;
 import com.telly.groundy.annotations.Param;
@@ -67,6 +70,8 @@ public class StorageActivity extends BaseActivity
     private TextView mBtnSync;
 
     private CallbacksManager mCallbacksManager;
+    private TaskHandler mUploadTaskHandler;
+    private MaterialDialog mUploadProgressDialog;
 
     private android.app.LoaderManager.LoaderCallbacks<List<StorageInfo>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<StorageInfo>>() {
         @Override
@@ -192,13 +197,20 @@ public class StorageActivity extends BaseActivity
                 if (data != null) {
                     Uri uri = data.getData();
                     Logger.e(TAG, "REQUEST_CODE_PICK_FILE Selected file: " + uri.getPath());
-                    showSetupDialog(uri.getPath());
+
+//                    String filePath = uri.getPath();
+//                    if (SupportVersion.Kitkat()) {
+//                        filePath = FileUtils.getRealPathFromURI_API19(this, uri);
+//                    } else {
+//                        filePath = FileUtils.getRealPathFromURI_API11to18(this, uri);
+//                    }
+                    showSetupDialog(FileUtils.getPath(this, uri), mPager.getCurrentItem() == 0 ? false : true);
                 }
             }
         }
     }
 
-    private void showSetupDialog(final String filePath) {
+    private void showSetupDialog(final String filePath, final boolean isTrip) {
         if (TextUtils.isEmpty(filePath))
             return;
 
@@ -220,7 +232,7 @@ public class StorageActivity extends BaseActivity
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        startFileUpload(filePath);
+                        startFileUpload(filePath, isTrip);
                         dialog.dismiss();
                     }
 
@@ -233,8 +245,43 @@ public class StorageActivity extends BaseActivity
         dialog.show();
     }
 
-    private void startFileUpload(final String filePath) {
+    private void startFileUpload(final String filePath, boolean isTrip) {
+        mUploadProgressDialog = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_progress_upload_file)
+                .titleColor(getResources().getColor(R.color.colorLightTextMain))
+                .content(R.string.please_wait)
+                .contentColor(getResources().getColor(R.color.colorLightTextMain))
+                .progress(true, 0)
+                .autoDismiss(false)
+                .cancelable(false)
+//                .negativeText(getResources().getString(R.string.dialog_upload_button_cancel))
+//                .callback(new MaterialDialog.ButtonCallback() {
+//                    @Override
+//                    public void onNegative(final MaterialDialog dialog) {
+//                        super.onNegative(dialog);
+//
+//                        if (mUploadTaskHandler != null) {
+//                            mUploadTaskHandler.cancel(StorageActivity.this, 0, new GroundyManager.SingleCancelListener() {
+//                                @Override
+//                                public void onCancelResult(long id, int result) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//                        } else {
+//                            dialog.dismiss();
+//                        }
+//                    }
+//                })
+                .build();
 
+        mUploadProgressDialog.show();
+
+        mUploadTaskHandler = Groundy.create(ActionRequestUploadFileTask.class)
+                .callback(StorageActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestUploadFileTask.ARG_FILE_DESTINATION, isTrip ? ActionRequestUploadFileTask.DEST_TRIP : ActionRequestUploadFileTask.DEST_STORAGE)
+                .arg(ActionRequestUploadFileTask.ARG_FILE_PATH, filePath)
+                .queueUsing(StorageActivity.this);
     }
 
     @Override
@@ -418,6 +465,18 @@ public class StorageActivity extends BaseActivity
                 , StorageActivity.this); // activity where it is displayed
     }
 
+    private void showSnackBarSuccess(String text) {
+        SnackbarManager.show(
+                Snackbar.with(StorageActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(text)
+                        .color(getResources().getColor(R.color.colorLightSuccess))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(false)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                , StorageActivity.this); // activity where it is displayed
+    }
+
     @OnSuccess(ActionRequestStorageTask.class)
     public void onSuccessRequestStorage() {
         mAdapter.hideProgress(mPager.getCurrentItem());
@@ -445,6 +504,50 @@ public class StorageActivity extends BaseActivity
 
         if (!isAvailable) {
             showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    @OnSuccess(ActionRequestUploadFileTask.class)
+    public void onSuccessRequestUploadFile() {
+        Logger.e(TAG, "ActionRequestUploadFileTask onSuccessRequestUploadFile");
+        if (mUploadProgressDialog != null) {
+            Logger.e(TAG, "ActionRequestUploadFileTask dismiss");
+            mUploadProgressDialog.dismiss();
+            mUploadProgressDialog = null;
+        }
+
+        showSnackBarSuccess(getResources().getString(R.string.success_file_uploding));
+
+        mAdapter.setData(null, mPager.getCurrentItem());
+
+        if (mPager.getCurrentItem() == 0) {
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STORAGE, StorageListLoader.class);
+        } else {
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STORAGE_TRIP, StorageTripListLoader.class);
+        }
+    }
+
+    @OnFailure(ActionRequestUploadFileTask.class)
+    public void onFailureRequestUploadFile(
+            @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable,
+            @Param(Constants.Extras.PARAM_SUPPORTED_FORMAT) boolean isSupportedFormat,
+            @Param(Constants.Extras.PARAM_FILE_NOT_FOUND) boolean isFileNotFound) {
+
+        Logger.e(TAG, "ActionRequestUploadFileTask onFailureRequestUploadFile");
+        if (mUploadProgressDialog != null) {
+            Logger.e(TAG, "ActionRequestUploadFileTask dismiss");
+            mUploadProgressDialog.dismiss();
+            mUploadProgressDialog = null;
+        }
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else if (isFileNotFound) {
+            showSnackBarError(getResources().getString(R.string.error_file_not_found));
+        } else if (!isSupportedFormat) {
+            showSnackBarError(getResources().getString(R.string.error_supported_file_format));
         } else {
             showSnackBarError(getResources().getString(R.string.error_occurred));
         }

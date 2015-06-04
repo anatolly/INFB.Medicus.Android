@@ -13,12 +13,20 @@
     <string name="dialog_upload_content">You confirm uploading of the %s file?</string>
     <string name="dialog_upload_button_success">Upload</string>
     <string name="dialog_upload_button_cancel">Cancel</string>
+    <string name="dialog_progress_upload_file">File uploading</string>
+    <string name="please_wait">Please, wait&#8230;</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
+    <string name="error_file_not_found">Ошибка. Не удалось найти выбранный файл</string>
+    <string name="error_supported_file_format">Ошибка. Выбран не поддерживаемый формат файла</string>
+
+    <string name="success_file_uploding">Файл был успешно загружен</string>
 
     <string name="buttonAccept">Accept</string>
     <string name="buttonChange">Change</string>
     <string name="buttonCancel">Cancel</string>
     <string name="buttonAcceptAll">Accept All</string>
+
+    <string name="internal_storage">Internal storage</string>
 </resources>
