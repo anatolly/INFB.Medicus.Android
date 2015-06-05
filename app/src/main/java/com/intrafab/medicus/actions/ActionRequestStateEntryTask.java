@@ -40,11 +40,11 @@ public class ActionRequestStateEntryTask extends GroundyTask {
             list.add(createEntry(1430134200000L, 1430137800000L, "Taxi", "taxi", "Accepted"));
             list.add(createEntry(1430197200000L, 1430222400000L, "Checkup start", "checkup", "ChangeRequested"));
             list.add(createEntry(1430224200000L, 1430227800000L, "Taxi", "taxi", "Changed"));
-            list.add(createEntry(1430233200000L, 1430240400000L, "Opera", "opera", "Accepted"));
+            list.add(createEntry(1430233200000L, 1430240400000L, "Opera", "entertainment", "Accepted"));
             list.add(createEntry(1430283600000L, 0L, "Airplane", "flight", "ChangeRequested"));
             list.add(createEntry(1430294400000L, 1430298000000L, "Business", "default", "Accepted"));
-            list.add(createEntry(1430377200000L, 0L, "Taxi", "taxi", "Accepted"));
-            list.add(createEntry(1430388000000L, 1430398800000L, "Airplane", "flight", "Canceled"));
+            list.add(createEntry(1430377200000L, 0L, "Hotel", "hotel", "Accepted"));
+            list.add(createEntry(1430388000000L, 1430398800000L, "Food", "food", "Canceled"));
             list.add(createEntry(1430485200000L, 0L, "Airplane", "flight", "Canceled"));
 
             RequestStateEntries entriesInfo = new RequestStateEntries();

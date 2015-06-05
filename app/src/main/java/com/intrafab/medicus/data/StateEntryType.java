@@ -55,10 +55,12 @@ public class StateEntryType {
 
     public static final HashMap<String, StateEntryType> TYPES = new HashMap<String, StateEntryType>() {{
         put("default", new StateEntryType(R.drawable.ic_logo, Color.parseColor("#5b2796"), Color.parseColor("#5b2796")));
-        put("taxi", new StateEntryType(R.mipmap.ic_car_grey2, Color.parseColor("#273849"), Color.parseColor("#ffd980")));
-        put("flight", new StateEntryType(R.mipmap.ic_airplane_grey2, Color.parseColor("#273849"), Color.parseColor("#8ad5f0")));
-        put("opera", new StateEntryType(R.mipmap.ic_blogger_grey2, Color.parseColor("#273849"), Color.parseColor("#c5e26d")));
-        put("checkup", new StateEntryType(R.mipmap.ic_hospital_event_grey2, Color.parseColor("#273849"), Color.parseColor("#ff9494")));
+        put("taxi", new StateEntryType(R.mipmap.ic_taxi, Color.parseColor("#273849"), Color.parseColor("#ffd980")));
+        put("flight", new StateEntryType(R.mipmap.ic_airplane, Color.parseColor("#273849"), Color.parseColor("#8ad5f0")));
+        put("entertainment", new StateEntryType(R.mipmap.ic_entertainment, Color.parseColor("#273849"), Color.parseColor("#5b2796")));
+        put("checkup", new StateEntryType(R.mipmap.ic_doctor, Color.parseColor("#273849"), Color.parseColor("#4CAF50")));
+        put("hotel", new StateEntryType(R.mipmap.ic_hotel, Color.parseColor("#273849"), Color.parseColor("#db6c35")));
+        put("food", new StateEntryType(R.mipmap.ic_food, Color.parseColor("#273849"), Color.parseColor("#55cfbc")));
     }};
 
     public static StateEntryType getDefault() {

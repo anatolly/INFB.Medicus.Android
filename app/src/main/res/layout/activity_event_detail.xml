@@ -32,7 +32,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="16dp"
                 android:contentDescription=""
-                android:src="@mipmap/ic_airplane_grey" />
+                android:src="@mipmap/ic_airplane" />
 
             <LinearLayout
                 android:id="@+id/llStartLayout"
