@@ -121,7 +121,7 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
         mTextViewTime.setTextColor(entryType.getTextColor());
         mImageThumbnail.setImageResource(entryType.getResIconId());
         mImageThumbnail.setColorFilter(entryType.getBackgroundColor());
-        mImageArrow.setColorFilter(entryType.getBackgroundColor());
+        //mImageArrow.setColorFilter(entryType.getBackgroundColor());
 
         if (!TextUtils.isEmpty(item.getStateDescription())) {
             mTextViewEventName.setText(item.getStateDescription());

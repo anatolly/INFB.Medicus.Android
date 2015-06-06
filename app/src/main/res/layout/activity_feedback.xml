@@ -62,7 +62,7 @@
                 android:singleLine="false"
                 android:text="Пожалуйста, оцените качество\nмедицинских услуг"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorLightTextExtra"
+                android:textColor="@color/colorLightTextMain"
                 android:textSize="18sp" />
 
             <RelativeLayout
@@ -168,7 +168,7 @@
                 android:singleLine="false"
                 android:text="Пожалуйста, оцените госпиталь"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorLightTextExtra"
+                android:textColor="@color/colorLightTextMain"
                 android:textSize="18sp" />
 
             <RelativeLayout

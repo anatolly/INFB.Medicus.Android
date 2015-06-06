@@ -22,7 +22,7 @@ public class PaymentActivity extends BaseActivity {
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle("Payment");
+        getSupportActionBar().setTitle("Account");
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

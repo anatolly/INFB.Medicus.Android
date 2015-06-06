@@ -1,5 +1,6 @@
 package com.intrafab.medicus;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -127,5 +128,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 CalendarActivity.launch(MainActivity.this, view);
                 break;
         }
+    }
+
+    public static void launch(Activity activity) {
+        Intent intent = new Intent(activity, MainActivity.class);
+
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity);
+
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 }

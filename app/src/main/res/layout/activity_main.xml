@@ -116,14 +116,15 @@
 
                 <ImageView
                     android:id="@+id/ivSos"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:src="@mipmap/ic_sos2" />
 
                 <TextView
                     android:id="@+id/tvSos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:text="SOS"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
@@ -196,14 +197,15 @@
 
                 <ImageView
                     android:id="@+id/ivPayment"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:src="@mipmap/ic_account4" />
 
                 <TextView
                     android:id="@+id/tvPayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:text="Account"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
@@ -234,14 +236,15 @@
 
                 <ImageView
                     android:id="@+id/ivCalendar"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:src="@mipmap/ic_calendar" />
 
                 <TextView
                     android:id="@+id/tvCalendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:text="Calendar"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />

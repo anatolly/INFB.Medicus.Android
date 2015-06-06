@@ -1,6 +1,7 @@
 package com.intrafab.medicus;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
 
 import com.intrafab.medicus.utils.Logger;
@@ -35,5 +36,17 @@ public class AppApplication extends MultiDexApplication {
                 .setDefaultFontPath("fonts/Roboto-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+    }
+
+    public static boolean isLoggedIn(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        return prefs.getBoolean("isLogin", false);
+    }
+
+    public static void setLogin(Context context, boolean isLoggedIn) {
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("isLogin", isLoggedIn);
+        edit.commit();
     }
 }
