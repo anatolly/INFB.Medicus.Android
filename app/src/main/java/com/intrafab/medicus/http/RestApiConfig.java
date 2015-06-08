@@ -1,5 +1,6 @@
 package com.intrafab.medicus.http;
 
+import com.intrafab.medicus.AppApplication;
 import com.intrafab.medicus.Constants;
 
 /**
@@ -15,7 +16,7 @@ public class RestApiConfig {
     public static final String URL_ISU = "/serviceuse/isu";
     public static final String URL_NODE = "/serviceuse/node";
 
-    public static HttpRestService getRestService(String token) {
-        return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, token);
+    public static HttpRestService getRestService() {
+        return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, AppApplication.getToken());
     }
 }

@@ -76,7 +76,7 @@ public class ActionRequestUploadFileTask extends GroundyTask {
         Logger.e(TAG, "ActionRequestUploadFileTask mimeType: " + mimeType);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
 
             TypedFile typedFile = new TypedFile(mimeType, new File(filePath));
             //service.uploadFileToStorage(new TypedString(extension), new TypedString(destination), typedFile);

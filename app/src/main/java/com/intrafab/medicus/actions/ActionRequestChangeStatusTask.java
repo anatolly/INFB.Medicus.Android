@@ -38,7 +38,7 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
         StateEntry entry = null;
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             //StateEntry entry = service.changeStateEntry();
 
             // only test

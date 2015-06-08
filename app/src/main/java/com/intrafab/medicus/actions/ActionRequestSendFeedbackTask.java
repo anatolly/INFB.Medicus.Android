@@ -34,7 +34,7 @@ public class ActionRequestSendFeedbackTask extends GroundyTask {
         String feedbackHospital = inputBundle.getString(ARG_FEEDBACK_HOSPITAL_TEXT);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             //StateEntry entry = service.changeStateEntry();
 
             // only test

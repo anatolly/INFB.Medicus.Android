@@ -29,7 +29,7 @@ public class ActionRequestStateEntryTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             //RequestStateEntries entriesInfo = service.loadStateEntries();
 
             Thread.sleep(5000);

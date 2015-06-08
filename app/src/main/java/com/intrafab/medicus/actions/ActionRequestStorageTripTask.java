@@ -29,7 +29,7 @@ public class ActionRequestStorageTripTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             //RequestStorageInfo storageInfo = service.loadStorageTrip();
 
             Thread.sleep(5000);

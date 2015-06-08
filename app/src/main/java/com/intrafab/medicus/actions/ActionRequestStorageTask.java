@@ -29,7 +29,7 @@ public class ActionRequestStorageTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             //RequestStorageInfo storageInfo = service.loadStorage();
 
             Thread.sleep(5000);

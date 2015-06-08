@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="bottom|left"
-            android:hint="Email"
+            android:hint="Username or Email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColor="#f4f4f4"
@@ -84,6 +84,7 @@
             app:met_floatingLabelAlwaysShown="true"
             app:met_floatingLabelText="Password"
             app:met_minCharacters="6"
+            app:met_maxCharacters="20"
             app:met_primaryColor="#fff"
             app:met_singleLineEllipsis="true" />
     </LinearLayout>

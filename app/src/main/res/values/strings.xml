@@ -15,11 +15,16 @@
     <string name="dialog_upload_button_cancel">Cancel</string>
     <string name="dialog_progress_upload_file">File uploading</string>
     <string name="please_wait">Please, wait&#8230;</string>
+    <string name="dialog_progress_login">Check Account</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
     <string name="error_file_not_found">Ошибка. Не удалось найти выбранный файл</string>
     <string name="error_supported_file_format">Ошибка. Выбран не поддерживаемый формат файла</string>
+    <string name="error_email_format">Введенный email имеет неправильный формат</string>
+    <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
+    <string name="error_login">Ошибка. Не удалось авторизоваться. Проверьте правильность введенных данных.</string>
+    <string name="error_empty_login">Необходимо ввести Имя пользователя или Email</string>
 
     <string name="success_file_uploding">Файл был успешно загружен</string>
 
