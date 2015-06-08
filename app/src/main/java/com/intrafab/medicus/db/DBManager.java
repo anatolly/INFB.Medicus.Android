@@ -3,27 +3,18 @@ package com.intrafab.medicus.db;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Environment;
-import android.text.TextUtils;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.Serializer;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.intrafab.medicus.utils.Logger;
 import com.snappydb.DB;
-import com.snappydb.DBFactory;
 import com.snappydb.SnappyDB;
 import com.snappydb.SnappydbException;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -294,6 +285,19 @@ public class DBManager {
                         loader.onContentChanged();
                         break;
                     }
+                }
+            }
+        }
+    }
+
+    public void onContentChanged() {
+        if (mLoaders != null) {
+            synchronized (mLoaders) {
+                Iterator i = mLoaders.iterator();
+                while (i.hasNext()) {
+                    Loader loader =  (Loader) i.next();
+                    Logger.e(TAG, "onContentChanged found: " + loader.getClass().getName());
+                    loader.onContentChanged();
                 }
             }
         }

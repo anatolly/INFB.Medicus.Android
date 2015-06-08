@@ -35,6 +35,15 @@ public interface HttpRestService {
     @GET("/serviceuse/csu/{id}.json")
     public Response getOrder(@Path("id") String id);
 
+    @GET("/serviceuse/isu/{id}.json")
+    public Response getOrderItem(@Path("id") String id);
+
+    @GET("/serviceuse/activity/{id}.json")
+    public Response getActivityItem(@Path("id") String id);
+
+    @GET("/serviceuse/node/{id}.json")
+    public Response getNodeItem(@Path("id") String id);
+
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
     @POST("/serviceuse/storeFile")

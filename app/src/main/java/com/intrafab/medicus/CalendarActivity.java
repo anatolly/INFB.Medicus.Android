@@ -6,23 +6,30 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.intrafab.medicus.actions.ActionRequestAcceptAllTask;
 import com.intrafab.medicus.actions.ActionRequestStateEntryTask;
 import com.intrafab.medicus.adapters.StateEntryAdapter;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
-import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.fragments.PlaceholderStateEntryFragment;
 import com.intrafab.medicus.loaders.StateEntryListLoader;
+import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.intrafab.medicus.views.ItemStateEntryView;
+import com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu;
+import com.intrafab.medicus.widgets.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
+import com.telly.groundy.annotations.OnFailure;
+import com.telly.groundy.annotations.OnSuccess;
+import com.telly.groundy.annotations.Param;
 
 import java.util.List;
 
@@ -41,6 +48,10 @@ public class CalendarActivity extends BaseActivity
     private CallbacksManager mCallbacksManager;
 
     private boolean mIsNeedAcceptAll = false;
+
+    private ChangingIconFloatingActionsMenu mActionsMenu;
+    private FloatingActionButton mFabAcceptAll;
+    private FloatingActionButton mFabSyncCloud;
 
     //private TextView mBtnClear;
     //private TextView mBtnAcceptAll;
@@ -87,27 +98,39 @@ public class CalendarActivity extends BaseActivity
     }
 
     private void finishedStateEntryLoader(List<StateEntry> data) {
+
         PlaceholderStateEntryFragment fragment = getFragment();
         if (data == null) {
             Logger.d(TAG, "finishedStateEntryLoader start ActionRequestStorageTask");
             if (fragment != null)
                 fragment.showProgress();
+            String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
             Groundy.create(ActionRequestStateEntryTask.class)
                     .callback(CalendarActivity.this)
                     .callbackManager(mCallbacksManager)
+                    .arg(ActionRequestStateEntryTask.ARG_USER_OWNER_ID, userUid)
                     .queueUsing(CalendarActivity.this);
         } else {
+            if (mFabAcceptAll != null)
+                mFabAcceptAll.setEnabled(true);
+            if (mFabSyncCloud != null)
+                mFabSyncCloud.setEnabled(true);
             Logger.d(TAG, "finishedStateEntryLoader setData size = " + data.size());
             if (fragment != null) {
                 fragment.hideProgress();
                 fragment.setData(data);
 
                 for (StateEntry entry : data) {
-                    if (entry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+                    String status = entry.getStateStatus();
+                    if (!TextUtils.isEmpty(status) && status.equals(StateEntryType.STATUSES.get(2))) { //Changed
                         mIsNeedAcceptAll = true;
                         showAcceptAll();
                         break;
                     }
+                }
+
+                if (!mIsNeedAcceptAll) {
+                    hideAcceptAll();
                 }
             }
         }
@@ -153,27 +176,12 @@ public class CalendarActivity extends BaseActivity
                     .commit();
         }
 
-//        mBtnClear = (TextView) this.findViewById(R.id.btnClear);
-//        mBtnAcceptAll = (TextView) this.findViewById(R.id.btnAcceptAll);
-//
-//        int rippleColor = getResources().getColor(R.color.colorLightEditTextHint);
-//        float rippleAlpha = 0.5f;
-//
-//        mBtnClear.setOnClickListener(this);
-//
-//        MaterialRippleLayout.on(mBtnClear)
-//                .rippleColor(rippleColor)
-//                .rippleAlpha(rippleAlpha)
-//                .rippleHover(true)
-//                .create();
-//
-//        mBtnAcceptAll.setOnClickListener(this);
-//
-//        MaterialRippleLayout.on(mBtnAcceptAll)
-//                .rippleColor(rippleColor)
-//                .rippleAlpha(rippleAlpha)
-//                .rippleHover(true)
-//                .create();
+        mActionsMenu = (ChangingIconFloatingActionsMenu) this.findViewById(R.id.famCalendar);
+        mFabAcceptAll = (FloatingActionButton) this.findViewById(R.id.fabAcceptAll);
+        mFabSyncCloud = (FloatingActionButton) this.findViewById(R.id.fabSyncCloud);
+
+        mFabAcceptAll.setOnClickListener(this);
+        mFabSyncCloud.setOnClickListener(this);
 
         toolbar.post(new Runnable() {
             @Override
@@ -219,6 +227,8 @@ public class CalendarActivity extends BaseActivity
 
         if (mIsNeedAcceptAll)
             showAcceptAll();
+        else
+            hideAcceptAll();
     }
 
     public static void launch(BaseActivity activity, View transitionView) {
@@ -253,36 +263,106 @@ public class CalendarActivity extends BaseActivity
     public void onClick(View v) {
         PlaceholderStateEntryFragment fragment = getFragment();
         switch (v.getId()) {
-            case R.id.btnClear:
+            case R.id.fabSyncCloud:
+                mActionsMenu.collapse(true);
+                mFabAcceptAll.setEnabled(false);
+                mFabSyncCloud.setEnabled(false);
+                if (!Connectivity.isConnected(this)) {
+                    showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+                    mFabAcceptAll.setEnabled(true);
+                    mFabSyncCloud.setEnabled(true);
+                    return;
+                }
+
                 if (fragment != null) {
                     fragment.hideProgress();
                     fragment.setData(null);
                 }
+
+                if (fragment != null)
+                    fragment.showProgress();
+                String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
+                Groundy.create(ActionRequestStateEntryTask.class)
+                        .callback(CalendarActivity.this)
+                        .callbackManager(mCallbacksManager)
+                        .arg(ActionRequestStateEntryTask.ARG_USER_OWNER_ID, userUid)
+                        .queueUsing(CalendarActivity.this);
                 break;
-            case R.id.btnAcceptAll:
-                if (fragment != null) {
-                    fragment.hideProgress();
-                    fragment.setData(null);
-                }
-                DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_STATE_ENTRIES, StateEntryListLoader.class);
+            case R.id.fabAcceptAll:
+                mActionsMenu.collapse(true);
+                mFabAcceptAll.setEnabled(false);
+                mFabSyncCloud.setEnabled(false);
+                if (fragment != null)
+                    fragment.showProgress();
+
+                Groundy.create(ActionRequestAcceptAllTask.class)
+                        .callback(CalendarActivity.this)
+                        .callbackManager(mCallbacksManager)
+                        .queueUsing(CalendarActivity.this);
                 break;
         }
     }
 
     private void showAcceptAll() {
+        if (mFabAcceptAll != null) {
+            mFabAcceptAll.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideAcceptAll() {
+        if (mFabAcceptAll != null) {
+            mFabAcceptAll.setVisibility(View.GONE);
+        }
+    }
+
+    private void showSnackBarError(String error) {
         SnackbarManager.show(
-                Snackbar.with(getApplicationContext())
-                        .actionLabel(getString(R.string.buttonAcceptAll))
-                        .color(getResources().getColor(R.color.colorLightPrimary))
+                Snackbar.with(CalendarActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(error)
+                        .color(getResources().getColor(R.color.colorLightError))
                         .textColor(getResources().getColor(R.color.colorLightEditTextHint))
                         .swipeToDismiss(true)
-                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                        .actionListener(new ActionClickListener() {
-                            @Override
-                            public void onActionClicked(Snackbar snackbar) {
-                                snackbar.dismiss();
-                            }
-                        })
-                , this);
+                        .duration(Snackbar.SnackbarDuration.LENGTH_LONG)
+                , CalendarActivity.this); // activity where it is displayed
+    }
+
+    @OnSuccess(ActionRequestAcceptAllTask.class)
+    public void onSuccessRequestAcceptAll() {
+        mFabAcceptAll.setEnabled(true);
+        mFabSyncCloud.setEnabled(true);
+        PlaceholderStateEntryFragment fragment = getFragment();
+        if (fragment != null) {
+            fragment.hideProgress();
+        }
+
+        mIsNeedAcceptAll = false;
+        hideAcceptAll();
+    }
+
+    @OnFailure(ActionRequestAcceptAllTask.class)
+    public void onFailureRequestAcceptAll(
+            @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        mFabAcceptAll.setEnabled(true);
+        mFabSyncCloud.setEnabled(true);
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    @OnSuccess(ActionRequestStateEntryTask.class)
+    public void onSuccessRequestStateEntry() {
+    }
+
+    @OnFailure(ActionRequestStateEntryTask.class)
+    public void onFailureRequestStateEntry(
+            @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
     }
 }

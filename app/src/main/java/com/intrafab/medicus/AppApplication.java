@@ -27,10 +27,12 @@ public class AppApplication extends MultiDexApplication {
 
     public void setUserAccount(Account userAccount) {
         this.userAccount = userAccount;
+        //this.userAccount.setUid("25"); //33
     }
 
     public void setUserAccount(Context context, CallbacksManager callbacksManager, Account userAccount) {
         this.userAccount = userAccount;
+        //this.userAccount.setUid("25");
 
         if (userAccount != null) {
             Groundy.create(ActionSaveMeTask.class)

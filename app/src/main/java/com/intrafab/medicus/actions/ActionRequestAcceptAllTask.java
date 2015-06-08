@@ -10,6 +10,14 @@ public class ActionRequestAcceptAllTask extends GroundyTask {
 
     @Override
     protected TaskResult doInBackground() {
-        return null;
+
+        // only test
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return succeeded();
     }
 }

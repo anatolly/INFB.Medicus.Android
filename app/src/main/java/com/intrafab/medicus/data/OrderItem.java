@@ -38,6 +38,15 @@ public class OrderItem implements Parcelable {
     private String integerProcessStatus;
     private Date created;
     private Date changed;
+    private ServiceSet service;
+
+    public ServiceSet getService() {
+        return service;
+    }
+
+    public void setService(ServiceSet service) {
+        this.service = service;
+    }
 
     public ArrayList<ServiceSet> getActivitiesSet() {
         return activitiesSet;
@@ -150,6 +159,7 @@ public class OrderItem implements Parcelable {
         created = _created == -1 ? null : new Date(_created);
         long _changed = source.readLong();
         changed = _changed == -1 ? null : new Date(_changed);
+        service = source.readParcelable(ServiceSet.class.getClassLoader());
     }
 
     public OrderItem(JSONObject object) {
@@ -176,8 +186,8 @@ public class OrderItem implements Parcelable {
             }
         }
 
-        if (object.has("activities_set")) {
-            JSONArray serviceSet = object.optJSONArray("activities_set");
+        if (object.has("medicus_activities_set")) {
+            JSONArray serviceSet = object.optJSONArray("medicus_activities_set");
             if (serviceSet != null) {
                 int count = serviceSet.length();
                 for (int i = 0; i < count; ++i) {
@@ -231,7 +241,7 @@ public class OrderItem implements Parcelable {
         if (object.has("created")) {
             try {
                 String _createdDate = object.optString("created");
-                long _value = Long.valueOf(_createdDate, -1);
+                long _value = Long.parseLong(_createdDate) * 1000L;
                 created = _value == -1 ? null : new Date(_value);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -241,10 +251,17 @@ public class OrderItem implements Parcelable {
         if (object.has("changed")) {
             try {
                 String _changedDate = object.optString("changed");
-                long _value = Long.valueOf(_changedDate, -1);
+                long _value = Long.parseLong(_changedDate) * 1000L;
                 changed = _value == -1 ? null : new Date(_value);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+
+        if (object.has("service")) {
+            JSONObject item = object.optJSONObject("service");
+            if (item != null) {
+                this.service = new ServiceSet(item);
             }
         }
     }
@@ -280,6 +297,10 @@ public class OrderItem implements Parcelable {
         root.put("created", created == null ? "0" : String.valueOf(created.getTime()));
         root.put("changed", changed == null ? "0" : String.valueOf(changed.getTime()));
 
+        if (service != null) {
+            root.put("service", service.toJson());
+        }
+
         return root.toString();
     }
 
@@ -301,5 +322,6 @@ public class OrderItem implements Parcelable {
         dest.writeString(integerProcessStatus);
         dest.writeLong(created != null ? created.getTime() : -1);
         dest.writeLong(changed != null ? changed.getTime() : -1);
+        dest.writeParcelable(service, flags);
     }
 }

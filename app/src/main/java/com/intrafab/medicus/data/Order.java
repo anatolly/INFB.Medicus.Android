@@ -28,6 +28,7 @@ public class Order implements Parcelable {
     };
 
     private String id;
+    private String ownerid;
     private ArrayList<ServiceSet> serviceSets;
     private String hotLinePhone;
     private String callbackPhoneNumber;
@@ -86,6 +87,14 @@ public class Order implements Parcelable {
         this.id = id;
     }
 
+    public String getOwnerid() {
+        return ownerid;
+    }
+
+    public void setOwnerid(String ownerid) {
+        this.ownerid = ownerid;
+    }
+
     public String getIntegerProcessStatus() {
         return integerProcessStatus;
     }
@@ -123,6 +132,7 @@ public class Order implements Parcelable {
 
     public Order(Parcel source) {
         id = source.readString();
+        ownerid = source.readString();
         if (serviceSets == null)
             serviceSets = new ArrayList<ServiceSet>();
         source.readList(serviceSets, ServiceSet.class.getClassLoader());
@@ -144,6 +154,10 @@ public class Order implements Parcelable {
 
         if (object.has("id")) {
             this.id = object.optString("id");
+        }
+
+        if (object.has("ownerid")) {
+            this.ownerid = object.optString("ownerid");
         }
 
         if (object.has("services_set")) {
@@ -210,6 +224,7 @@ public class Order implements Parcelable {
     public String toJson() throws JSONException {
         JSONObject root = new JSONObject();
         root.put("id", id);
+        root.put("ownerid", ownerid);
 
         JSONArray serviceSet = new JSONArray();
         for (ServiceSet item : serviceSets) {
@@ -240,6 +255,7 @@ public class Order implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(ownerid);
         dest.writeList(serviceSets);
         dest.writeString(hotLinePhone);
         dest.writeString(callbackPhoneNumber);

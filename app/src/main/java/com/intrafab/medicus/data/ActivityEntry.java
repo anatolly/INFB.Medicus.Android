@@ -8,10 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by Artemiy Terekhov on 01.05.2015.
@@ -39,6 +36,78 @@ public class ActivityEntry implements Parcelable {
     private String stateStatus;
     private String lang;
     private String timezone;
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public String getStateDescription() {
+        return stateDescription;
+    }
+
+    public void setStateDescription(String stateDescription) {
+        this.stateDescription = stateDescription;
+    }
+
+    public Date getStateEnd() {
+        return stateEnd;
+    }
+
+    public void setStateEnd(Date stateEnd) {
+        this.stateEnd = stateEnd;
+    }
+
+    public Date getStateStart() {
+        return stateStart;
+    }
+
+    public void setStateStart(Date stateStart) {
+        this.stateStart = stateStart;
+    }
+
+    public String getStateStatus() {
+        return stateStatus;
+    }
+
+    public void setStateStatus(String stateStatus) {
+        this.stateStatus = stateStatus;
+    }
+
+    public String getStateTitle() {
+        return stateTitle;
+    }
+
+    public void setStateTitle(String stateTitle) {
+        this.stateTitle = stateTitle;
+    }
+
+    public String getStateType() {
+        return stateType;
+    }
+
+    public void setStateType(String stateType) {
+        this.stateType = stateType;
+    }
 
     public ActivityEntry() {
     }
@@ -69,8 +138,19 @@ public class ActivityEntry implements Parcelable {
             this.stateTitle = object.optString("title");
         }
 
-        if (object.has("status")) {
-            this.stateStatus = object.optString("status");
+        if (object.has("integer_activity_status")) {
+            String status = object.optString("integer_activity_status");
+            if (status.equals("0")) {
+                this.stateStatus = "Сhanged";
+            } else if (status.equals("1")) {
+                this.stateStatus = "ChangeRequested";
+            } else if (status.equals("2")) {
+                this.stateStatus = "Accepted";
+            } else if (status.equals("3")) {
+                this.stateStatus = "Cancelled";
+            } else {
+                this.stateStatus = "Сhanged";
+            }
         }
 
         if (object.has("language")) {
@@ -92,40 +172,28 @@ public class ActivityEntry implements Parcelable {
             }
         }
 
-        if (object.has("field_activity_date")) {
-            JSONObject body = object.optJSONObject("field_activity_date");
-            if (body != null && body.has(this.lang)) {
-                JSONArray langs = body.optJSONArray(this.lang);
-                if (langs != null && langs.length() > 0) {
-                    JSONObject currentLang = langs.optJSONObject(0);
-                    if (currentLang != null) {
-                        this.timezone = "Europe/Moscow";// TODO USA?
-                        if (currentLang.has("timezone")) {
-                            this.timezone = object.optString("timezone");
-                        }
+        if (object.has("activity_period")) {
+            JSONObject body = object.optJSONObject("activity_period");
+            if (body != null) {
+                if (body.has("value")) {
+                    String _startDate = body.optString("value");
+                    try {
+                        long _start = Long.parseLong(_startDate) * 1000L;
+                        this.stateStart = new Date(_start);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        this.stateStart = null;
+                    }
+                }
 
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                        format.setTimeZone(TimeZone.getTimeZone(timezone));
-
-                        if (currentLang.has("value")) {
-                            String _startDate = object.optString("value");
-                            try {
-                                this.stateStart = format.parse(_startDate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                this.stateStart = null;
-                            }
-                        }
-
-                        if (currentLang.has("value2")) {
-                            String _endDate = object.optString("value2");
-                            try {
-                                this.stateEnd = format.parse(_endDate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                this.stateEnd = null;
-                            }
-                        }
+                if (body.has("value2")) {
+                    String _endDate = body.optString("value2");
+                    try {
+                        long _end = Long.parseLong(_endDate) * 1000L;
+                        this.stateEnd = new Date(_end);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        this.stateEnd = null;
                     }
                 }
             }
