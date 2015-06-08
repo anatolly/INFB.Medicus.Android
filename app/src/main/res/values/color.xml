@@ -22,4 +22,12 @@
     <color name="colorLightSuccess">#4CAF50</color>
     <color name="colorLightEditTextHint">@android:color/white</color>
 
+    <color name="colorLightButtonGreen">#4CAF50</color>
+    <color name="colorLightButtonGreenHover">#4C8E23</color>
+    <color name="colorLightButtonGreenPressed">#4C8E23</color>
+
+    <color name="colorLightButtonYellow">#F0D838</color>
+    <color name="colorLightButtonYellowHover">#F0B70B</color>
+    <color name="colorLightButtonYellowPressed">#F0B70B</color>
+
 </resources>

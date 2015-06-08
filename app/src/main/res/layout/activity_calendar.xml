@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,6 +20,43 @@
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/layoutFooter"
         tools:ignore="MergeRootFrame" />
+
+    <com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu
+        android:id="@+id/famPhotoDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        fab:fab_addButtonColorNormal="@color/colorLightPrimary"
+        fab:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
+        fab:fab_expandDirection="up"
+        fab:fab_collapsedIcon="@mipmap/ic_more_vert_white"
+        fab:fab_expandedIcon="@mipmap/ic_delete"
+        fab:fab_labelStyle="@style/menu_labels_style">
+
+        <com.intrafab.medicus.widgets.FloatingActionButton
+            android:id="@+id/fabGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorLightButtonYellow"
+            fab:fab_colorPressed="@color/colorLightButtonYellowPressed"
+            fab:fab_icon="@mipmap/ic_done_all_white"
+            fab:fab_size="mini"
+            fab:fab_title="Accept All" />
+
+        <com.intrafab.medicus.widgets.FloatingActionButton
+            android:id="@+id/fabOwnGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorLightButtonGreen"
+            fab:fab_colorPressed="@color/colorLightButtonGreenPressed"
+            fab:fab_icon="@mipmap/ic_cloud_sync"
+            fab:fab_size="mini"
+            fab:fab_title="Sync with cloud" />
+
+    </com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu>
 
     <RelativeLayout
         android:id="@+id/layoutFooter"
