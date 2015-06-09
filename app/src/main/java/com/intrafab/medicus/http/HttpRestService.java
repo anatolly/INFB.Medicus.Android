@@ -10,6 +10,7 @@ import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.mime.TypedFile;
@@ -31,6 +32,10 @@ public interface HttpRestService {
 
     @GET("/serviceuse/csu.json")
     public Response getAllOrders();
+
+    @PUT("/serviceuse/activity/{id}.json ")
+    @Headers({"Content-Type: application/json"})
+    public Response changeStateActivity(@Path("id") String id, @Body String statusJson);
 
     @GET("/serviceuse/csu/{id}.json")
     public Response getOrder(@Path("id") String id);

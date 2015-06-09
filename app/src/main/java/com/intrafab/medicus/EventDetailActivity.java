@@ -243,6 +243,8 @@ public class EventDetailActivity extends BaseActivity
         Groundy.create(ActionRequestChangeStatusTask.class)
                 .callback(EventDetailActivity.this)
                 .callbackManager(mCallbacksManager)
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Accepted")
+                .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
                 .queueUsing(EventDetailActivity.this);
     }
 

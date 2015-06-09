@@ -354,15 +354,31 @@ public class CalendarActivity extends BaseActivity
 
     @OnSuccess(ActionRequestStateEntryTask.class)
     public void onSuccessRequestStateEntry() {
+        PlaceholderStateEntryFragment fragment = getFragment();
+        if (fragment != null) {
+            fragment.hideProgress();
+            fragment.setData(null);
+        }
+
+        mFabAcceptAll.setEnabled(true);
+        mFabSyncCloud.setEnabled(true);
     }
 
     @OnFailure(ActionRequestStateEntryTask.class)
     public void onFailureRequestStateEntry(
             @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        PlaceholderStateEntryFragment fragment = getFragment();
+        if (fragment != null) {
+            fragment.hideProgress();
+            fragment.setData(null);
+        }
         if (!isAvailable) {
             showSnackBarError(getResources().getString(R.string.error_internet_not_available));
         } else {
             showSnackBarError(getResources().getString(R.string.error_occurred));
         }
+
+        mFabAcceptAll.setEnabled(true);
+        mFabSyncCloud.setEnabled(true);
     }
 }

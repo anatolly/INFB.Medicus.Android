@@ -27,11 +27,20 @@ public class StateEntry implements Parcelable {
         }
     };
 
+    private String id;
     private long stateStart;
     private long stateEnd;
     private String stateDescription;
     private String stateType;
     private String stateStatus;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getStateStatus() {
         return stateStatus;
@@ -77,6 +86,7 @@ public class StateEntry implements Parcelable {
     }
 
     public StateEntry(Parcel source) {
+        id = source.readString();
         stateStart = source.readLong();
         stateEnd = source.readLong();
         stateDescription = source.readString();
@@ -116,6 +126,7 @@ public class StateEntry implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeLong(stateStart);
         dest.writeLong(stateEnd);
         dest.writeString(stateDescription);

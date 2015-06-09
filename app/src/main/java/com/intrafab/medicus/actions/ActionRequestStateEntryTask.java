@@ -199,12 +199,13 @@ public class ActionRequestStateEntryTask extends GroundyTask {
         if (nodeItem != null) {
             Logger.e(TAG, "ActionRequestStateEntryTask activityEntryList count: " + activityEntryList.size());
             for (ActivityEntry entry : activityEntryList) {
+                String id = entry.getId();
                 long stateStart = entry.getStateStart() != null ? entry.getStateStart().getTime() : 0L;
                 long stateEnd = entry.getStateEnd() != null ? entry.getStateEnd().getTime() : 0L;
                 String stateTitle = entry.getStateTitle();
                 String stateType = nodeItem.getType();
                 String stateStatus = entry.getStateStatus();
-                resultActivityList.add(createEntry(stateStart, stateEnd, stateTitle, stateType, stateStatus));
+                resultActivityList.add(createEntry(id, stateStart, stateEnd, stateTitle, stateType, stateStatus));
             }
         }
 
@@ -255,10 +256,11 @@ public class ActionRequestStateEntryTask extends GroundyTask {
         return null;
     }
 
-    private StateEntry createEntry(long stateStart, long stateEnd, String stateDescription, String stateType, String stateStatus) {
+    private StateEntry createEntry(String id, long stateStart, long stateEnd, String stateDescription, String stateType, String stateStatus) {
         Logger.e(TAG, "ActionRequestStateEntryTask createEntry stateDescription: " + stateDescription);
         StateEntry item = new StateEntry();
 
+        item.setId(id);
         item.setStateStart(stateStart);
         item.setStateEnd(stateEnd);
         item.setStateDescription(stateDescription);

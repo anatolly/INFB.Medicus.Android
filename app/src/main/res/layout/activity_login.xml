@@ -55,15 +55,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="bottom|left"
-            android:hint="Username or Email"
-            android:inputType="textEmailAddress"
+            android:hint="Username"
+            android:inputType="text"
             android:singleLine="true"
             android:textColor="#f4f4f4"
             android:textSize="18sp"
             app:met_baseColor="#f4f4f4"
             app:met_floatingLabel="highlight"
             app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Login/Register account"
+            app:met_floatingLabelText="Login"
             app:met_primaryColor="#fff"
 
             app:met_singleLineEllipsis="true" />
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Login/Register"
+            android:text="Login"
             android:textColor="#fff" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -116,7 +116,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="Если Вы еще не имеете аккаунта он будет\nавтоматически создан"
+        android:text="Если Вы еще не имеете аккаунта,то Вы можете\nсоздать его на сайте проекта"
         android:textColor="#fff"
         android:textSize="11sp" />
 

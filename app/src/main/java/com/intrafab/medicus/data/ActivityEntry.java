@@ -2,7 +2,6 @@ package com.intrafab.medicus.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,8 +129,8 @@ public class ActivityEntry implements Parcelable {
         if (object == null)
             return;
 
-        if (object.has("vid")) {
-            this.id = object.optString("vid");
+        if (object.has("id")) {
+            this.id = object.optString("id");
         }
 
         if (object.has("title")) {
@@ -203,31 +202,40 @@ public class ActivityEntry implements Parcelable {
     public String toJson() throws JSONException {
         JSONObject root = new JSONObject();
 
-        root.put("vid", id);
-        root.put("title", stateTitle);
-        root.put("status", stateStatus);
+//        root.put("vid", id);
+//        root.put("title", stateTitle);
+        String status = "0";
+        if (stateStatus.equals("Сhanged"))
+            status = "0";
+        else if (stateStatus.equals("ChangeRequested"))
+            status = "1";
+        else if (stateStatus.equals("Accepted"))
+            status = "2";
+        else if (stateStatus.equals("Cancelled"))
+            status = "3";
+        root.put("integer_activity_status", status);
 
-        String currentLang = TextUtils.isEmpty(lang) ? "und" : lang;
-        root.put("language", currentLang);
-
-        JSONObject body = new JSONObject();
-        JSONArray langs = new JSONArray();
-        JSONObject currentLangObject = new JSONObject();
-        currentLangObject.put("value", stateDescription);
-        langs.put(currentLangObject);
-        body.put(currentLang, langs);
-        root.put("body", body);
-
-
-        JSONObject field_activity_date = new JSONObject();
-        JSONArray langsDate = new JSONArray();
-        JSONObject currentLangObjectDate = new JSONObject();
-        currentLangObjectDate.put("value", stateStart);
-        currentLangObjectDate.put("value2", stateEnd);
-        currentLangObjectDate.put("timezone", timezone);
-        langsDate.put(currentLangObject);
-        body.put(currentLang, langsDate);
-        root.put("field_activity_date", field_activity_date);
+//        String currentLang = TextUtils.isEmpty(lang) ? "und" : lang;
+//        root.put("language", currentLang);
+//
+//        JSONObject body = new JSONObject();
+//        JSONArray langs = new JSONArray();
+//        JSONObject currentLangObject = new JSONObject();
+//        currentLangObject.put("value", stateDescription);
+//        langs.put(currentLangObject);
+//        body.put(currentLang, langs);
+//        root.put("body", body);
+//
+//
+//        JSONObject field_activity_date = new JSONObject();
+//        JSONArray langsDate = new JSONArray();
+//        JSONObject currentLangObjectDate = new JSONObject();
+//        currentLangObjectDate.put("value", stateStart);
+//        currentLangObjectDate.put("value2", stateEnd);
+//        currentLangObjectDate.put("timezone", timezone);
+//        langsDate.put(currentLangObject);
+//        body.put(currentLang, langsDate);
+//        root.put("field_activity_date", field_activity_date);
 
         return root.toString();
     }
