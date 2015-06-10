@@ -3,10 +3,12 @@ package com.intrafab.medicus;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = MainActivity.class.getName();
 
     private static final int LOADER_ME_ID = 15;
+
+    private static final int REQUST_CODE_SETTINGS = 1005;
 
     private LinearLayout mButtonStorage;
     private LinearLayout mButtonSos;
@@ -113,6 +117,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (!showUserName())
             startLoadMe();
+
+        Logger.e(TAG, "onCreate");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        // refresh your views here
+        Logger.e(TAG, "onConfigurationChanged");
+        super.onConfigurationChanged(newConfig);
     }
 
     private boolean showUserName() {
@@ -160,6 +174,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUST_CODE_SETTINGS) {
+            Logger.e(TAG, "onActivityResult REQUST_CODE_SETTINGS");
+            restartActivity(this);
+        }
     }
 
     @Override
@@ -184,6 +203,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            SettingsActivity.launch(this, REQUST_CODE_SETTINGS);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

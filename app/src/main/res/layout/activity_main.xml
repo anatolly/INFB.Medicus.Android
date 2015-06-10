@@ -82,7 +82,7 @@
                     android:id="@+id/tvStorage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Storage"
+                    android:text="@string/menu_storage"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="SOS"
+                    android:text="@string/menu_sos"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
 
@@ -166,7 +166,7 @@
                     android:id="@+id/tvFeedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback"
+                    android:text="@string/menu_feedback"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
 
@@ -206,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Account"
+                    android:text="@string/menu_account"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
 
@@ -245,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Calendar"
+                    android:text="@string/menu_calendar"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightEditTextHint" />
 
@@ -261,5 +261,5 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/AppLightTheme" />
+        android:theme="@style/AppLightTheme" />
 </RelativeLayout>

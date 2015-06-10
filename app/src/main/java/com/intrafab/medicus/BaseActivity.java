@@ -1,27 +1,40 @@
 package com.intrafab.medicus;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.intrafab.medicus.utils.Connectivity;
+import com.intrafab.medicus.utils.Logger;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Stack;
 
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
  */
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     protected Toolbar toolbar;
     protected android.support.v7.app.ActionBar bar;
+
+    public static final String PREFS_CURRENT_LANGUAGE = "prefs_current_language";
 
     private BroadcastReceiver mNetworkReceiver = new BroadcastReceiver() {
 
@@ -42,10 +55,13 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     public Stack<StateData> mBackStack;
 
+    protected static int mCurrentLanguageIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        setLanguage(this, getCurrentLanguage(this));
         setContentView(getLayoutResource());
 
         mBackStack = new Stack<StateData>();
@@ -56,6 +72,23 @@ public abstract class BaseActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             bar = getSupportActionBar();
+        }
+
+        SharedPreferences prefs = getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (!TextUtils.isEmpty(key) && key.equals(PREFS_CURRENT_LANGUAGE)) {
+            restartActivity(this);
         }
     }
 
@@ -79,6 +112,14 @@ public abstract class BaseActivity extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        SharedPreferences prefs = getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
     }
 
     protected abstract int getLayoutResource();
@@ -173,6 +214,84 @@ public abstract class BaseActivity extends ActionBarActivity {
         if (toolbar != null) {
             toolbar.setVisibility(View.VISIBLE);
             bar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+    }
+
+    protected static void setLanguage(Activity context, int index) {
+        Logger.e("BaseActivity", "setLanguage index: " + index);
+        String[] mLangArray = context.getResources().getStringArray(R.array.pref_list_language_values);
+        Logger.e("BaseActivity", "setLanguage mLangArray[index]: " + mLangArray[index]);
+
+        mCurrentLanguageIndex = index;
+
+        Locale myLocale = new Locale(mLangArray[index]);
+        Resources res = context.getBaseContext().getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        Logger.e("BaseActivity", "setLanguage myLocale: " + myLocale.getLanguage());
+
+        res.updateConfiguration(conf, dm);
+        context.getBaseContext().getResources().updateConfiguration(
+                context.getBaseContext().getResources().getConfiguration(),
+                context.getBaseContext().getResources().getDisplayMetrics());
+
+        Locale.setDefault(myLocale);
+//        setCurrentLanguage(context, index);
+        Logger.e("BaseActivity", "setLanguage myLocale: " + Locale.getDefault().getLanguage());
+    }
+
+    protected static void setCurrentLanguage(Activity context, int index) {
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        SharedPreferences.Editor editLang = prefs.edit();
+        editLang.putInt(PREFS_CURRENT_LANGUAGE, index);
+        editLang.commit();
+    }
+
+    protected static int getCurrentLanguage(Activity context) {
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        int index = prefs.getInt(PREFS_CURRENT_LANGUAGE, -1);
+
+        if (index == -1) {
+            try {
+                String lang = Locale.getDefault().getISO3Language().substring(0, 2);
+                if (!TextUtils.isEmpty(lang)) {
+                    String[] mLangArray = context.getResources().getStringArray(R.array.pref_list_language_values);
+                    int count = mLangArray.length;
+                    for (int i = 0; i < count; ++i) {
+                        if (mLangArray[i].equalsIgnoreCase(lang)) {
+
+                            SharedPreferences.Editor editLang = prefs.edit();
+                            editLang.putInt(PREFS_CURRENT_LANGUAGE, i);
+                            editLang.commit();
+                            mCurrentLanguageIndex = i;
+                            return i;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                index = 0;
+            }
+        }
+
+        mCurrentLanguageIndex = index;
+        return index;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void restartActivity(final Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            activity.recreate();
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    activity.overridePendingTransition(0, 0);
+                    activity.startActivity(activity.getIntent());
+                }
+            });
+            activity.finish();
         }
     }
 }

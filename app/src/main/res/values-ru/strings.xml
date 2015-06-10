@@ -2,9 +2,9 @@
     <string name="app_name">Medicus</string>
 
     <!-- Storage screen -->
-    <string name="strorage_screen_header">Personal Storage</string>
-    <string name="tab_storage_all">All</string>
-    <string name="tab_storage_trip">Trip</string>
+    <string name="strorage_screen_header">Файловое хранилище</string>
+    <string name="tab_storage_all">Все</string>
+    <string name="tab_storage_trip">Путешествие</string>
     <string name="document_name_unknown">Unknown name</string>
     <string name="empty_storage_list">Empty list.\nTap + to add items</string>
     <string name="empty_state_entry_list">Empty list.</string>
@@ -37,22 +37,18 @@
 
     <string name="unknown_name">Unknown</string>
 
-    <string name="dialog_select_language_header">Select language</string>
-    <string name="dialog_language_button_choose">Choose</string>
+    <string name="dialog_select_language_header">Выберите язык</string>
+    <string name="dialog_language_button_choose">Выбрать</string>
     <string-array name="pref_list_language">
-        <item>English</item>
-        <item>Russian</item>
-    </string-array>
-    <string-array name="pref_list_language_values">
-        <item>en</item>
-        <item>ru</item>
+        <item>Английский</item>
+        <item>Русский</item>
     </string-array>
 
-    <string name="menu_storage">Storage</string>
-    <string name="menu_sos">SOS</string>
-    <string name="menu_calendar">Calendar</string>
-    <string name="menu_feedback">Feedback</string>
-    <string name="menu_account">Account</string>
+    <string name="menu_storage">Файлы</string>
+    <string name="menu_sos">Помощь</string>
+    <string name="menu_calendar">Календарь</string>
+    <string name="menu_feedback">Отзывы</string>
+    <string name="menu_account">Аккаунт</string>
 
-    <string name="settings_screen_header">Settings</string>
+    <string name="settings_screen_header">Настройки</string>
 </resources>

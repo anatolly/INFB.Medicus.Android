@@ -30,4 +30,5 @@
     <color name="colorLightButtonYellowHover">#F0B70B</color>
     <color name="colorLightButtonYellowPressed">#F0B70B</color>
 
+    <color name="accent_color">#FF22A4D4</color>
 </resources>

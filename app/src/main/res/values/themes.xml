@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppDarkTheme" parent="AppDarkTheme.Base"/>
     <style name="AppDarkTheme.Base" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorDarkPrimary</item>
@@ -15,6 +15,7 @@
         <item name="colorPrimaryDark">@color/colorLightPrimary</item>
         <item name="android:windowBackground">@color/colorLightWindowBackground</item>
         <item name="colorAccent">@color/colorLightColorAccent</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/colorLightColorAccent</item>
         <item name="android:textColorPrimary">@color/colorLightTextColorPrimary</item>
         <item name="android:textColorPrimaryInverse">@color/colorLightWindowBackground</item>
         <item name="android:textColor">@color/colorLightTextColor</item>
@@ -27,6 +28,11 @@
         <item name="android:textColorSecondary">#000</item>
         <item name="actionMenuTextColor">#fff</item>
         <item name="android:actionMenuTextColor">#fff</item>
+        <item name="mp_colorAccent">@color/colorLightPrimary</item>
+    </style>
+
+    <style name="AppLightPreferenceTheme" parent="AppLightTheme">
+        <item name="android:textColorPrimary">@color/colorLightTextMain</item>
     </style>
 
 </resources>
