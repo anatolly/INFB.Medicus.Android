@@ -34,4 +34,6 @@
     <string name="buttonAcceptAll">Accept All</string>
 
     <string name="internal_storage">Internal storage</string>
+
+    <string name="unknown_name">Unknown</string>
 </resources>

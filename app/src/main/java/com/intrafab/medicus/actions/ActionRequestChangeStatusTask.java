@@ -55,6 +55,7 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
 
             Response response = null;
             try {
+                Logger.e(TAG, "ActionRequestChangeStatusTask request body: " + activityEntry.toJson().toString());
                 response = service.changeStateActivity(oldEntry.getId(), activityEntry.toJson().toString());
             } catch (Exception e) {
                 e.printStackTrace();
