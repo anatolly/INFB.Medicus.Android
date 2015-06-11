@@ -152,11 +152,11 @@ public class ActivityEntry implements Parcelable {
             }
         }
 
-        if (object.has("language")) {
-            this.lang = object.optString("language");
-        } else {
+//        if (object.has("language")) {
+//            this.lang = object.optString("language");
+//        } else {
             this.lang = "und";
-        }
+//        }
 
         if (object.has("body")) {
             JSONObject body = object.optJSONObject("body");

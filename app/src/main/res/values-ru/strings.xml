@@ -5,17 +5,17 @@
     <string name="strorage_screen_header">Файловое хранилище</string>
     <string name="tab_storage_all">Все</string>
     <string name="tab_storage_trip">Путешествие</string>
-    <string name="document_name_unknown">Unknown name</string>
-    <string name="empty_storage_list">Empty list.\nTap + to add items</string>
-    <string name="empty_state_entry_list">Empty list.</string>
+    <string name="document_name_unknown">Имя неизвестно</string>
+    <string name="empty_storage_list">Список пуст.\nНажмите + для добавления файла</string>
+    <string name="empty_state_entry_list">Список пуст.</string>
 
-    <string name="dialog_upload_header">Upload file to server</string>
-    <string name="dialog_upload_content">You confirm uploading of the %s file?</string>
+    <string name="dialog_upload_header">Загрузка файла на сервер</string>
+    <string name="dialog_upload_content">Вы подтверждаете загрузку файла %s?</string>
     <string name="dialog_upload_button_success">Upload</string>
-    <string name="dialog_upload_button_cancel">Cancel</string>
-    <string name="dialog_progress_upload_file">File uploading</string>
-    <string name="please_wait">Please, wait&#8230;</string>
-    <string name="dialog_progress_login">Check Account</string>
+    <string name="dialog_upload_button_cancel">Отмена</string>
+    <string name="dialog_progress_upload_file">Файл выгружается</string>
+    <string name="please_wait">Пожалуйста, подождите&#8230;</string>
+    <string name="dialog_progress_login">Проверка аккаунта</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
@@ -28,14 +28,14 @@
 
     <string name="success_file_uploding">Файл был успешно загружен</string>
 
-    <string name="buttonAccept">Accept</string>
-    <string name="buttonChange">Change</string>
-    <string name="buttonCancel">Cancel</string>
-    <string name="buttonAcceptAll">Accept All</string>
+    <string name="buttonAccept">ОК</string>
+    <string name="buttonChange">Изменить</string>
+    <string name="buttonCancel">Отменить</string>
+    <string name="buttonAcceptAll">Подтвердить все</string>
 
-    <string name="internal_storage">Internal storage</string>
+    <string name="internal_storage">Локальное хранилище</string>
 
-    <string name="unknown_name">Unknown</string>
+    <string name="unknown_name">Неизвестный</string>
 
     <string name="dialog_select_language_header">Выберите язык</string>
     <string name="dialog_language_button_choose">Выбрать</string>
@@ -51,4 +51,6 @@
     <string name="menu_account">Аккаунт</string>
 
     <string name="settings_screen_header">Настройки</string>
+
+    <string name="dialog_progress_sos">Запрос информации</string>
 </resources>

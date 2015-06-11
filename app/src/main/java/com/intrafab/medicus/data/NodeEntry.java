@@ -68,11 +68,11 @@ public class NodeEntry implements Parcelable {
             this.title = object.optString("title");
         }
 
-        if (object.has("language")) {
-            this.lang = object.optString("language");
-        } else {
+//        if (object.has("language")) {
+//            this.lang = object.optString("language");
+//        } else {
             this.lang = "und";
-        }
+//        }
 
         if (object.has("field_service_type")) {
             JSONObject body = object.optJSONObject("field_service_type");

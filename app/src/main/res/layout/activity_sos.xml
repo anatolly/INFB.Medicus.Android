@@ -31,6 +31,7 @@
             app:mrl_rippleRoundedCorners="110dp">
 
             <LinearLayout
+                android:id="@+id/layoutPhone"
                 android:layout_width="220dp"
                 android:layout_height="220dp"
                 android:layout_gravity="center"
@@ -69,6 +70,7 @@
             app:mrl_rippleRoundedCorners="110dp">
 
             <LinearLayout
+                android:id="@+id/layoutHeadset"
                 android:layout_width="220dp"
                 android:layout_height="220dp"
                 android:layout_gravity="center"
@@ -87,7 +89,7 @@
                     android:id="@+id/tvRequestCall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Request Back Call"
+                    android:text="Request callback"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#fff" />
             </LinearLayout>

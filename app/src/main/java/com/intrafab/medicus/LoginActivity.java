@@ -211,6 +211,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .titleColor(getResources().getColor(R.color.colorLightTextMain))
                 .content(R.string.please_wait)
                 .contentColor(getResources().getColor(R.color.colorLightTextMain))
+                .backgroundColor(getResources().getColor(R.color.colorLightWindowBackground))
                 .progress(true, 0)
                 .autoDismiss(false)
                 .cancelable(false)

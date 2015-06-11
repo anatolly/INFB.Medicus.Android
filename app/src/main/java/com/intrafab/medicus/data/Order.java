@@ -197,22 +197,24 @@ public class Order implements Parcelable {
         }
 
         if (object.has("created")) {
+            String _createdDate = object.optString("created");
             try {
-                String _createdDate = object.optString("created");
-                long _value = Long.valueOf(_createdDate, -1);
-                created = _value == -1 ? null : new Date(_value);
+                long _created = Long.parseLong(_createdDate) * 1000L;
+                this.created = new Date(_created);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.created = null;
             }
         }
 
         if (object.has("changed")) {
+            String _changedDate = object.optString("changed");
             try {
-                String _changedDate = object.optString("changed");
-                long _value = Long.valueOf(_changedDate, -1);
-                changed = _value == -1 ? null : new Date(_value);
+                long _changed = Long.parseLong(_changedDate) * 1000L;
+                this.changed = new Date(_changed);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.changed = null;
             }
         }
 

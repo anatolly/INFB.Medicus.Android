@@ -16,6 +16,7 @@ public class Constants {
         public static final String PREF_PARAM_STORAGE = "pref_param_storage";
         public static final String PREF_PARAM_STATE_ENTRIES = "pref_param_state_entries";
         public static final String PREF_PARAM_ME = "pref_param_me";
+        public static final String PREF_PARAM_ORDER = "pref_param_order";
     }
 
     public static class Extras {
@@ -25,5 +26,6 @@ public class Constants {
         public static final String PARAM_UNKNOWN_ERROR = "param_unknown_error";
         public static final String PARAM_TOKEN = "param_token";
         public static final String PARAM_USER_DATA = "param_user_data";
+        public static final String PARAM_ACTIVE_ORDER = "param_active_order";
     }
 }

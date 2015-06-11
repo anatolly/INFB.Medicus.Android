@@ -1,6 +1,8 @@
 package com.intrafab.medicus.actions;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.intrafab.medicus.Constants;
 import com.intrafab.medicus.data.ActivityEntry;
@@ -55,8 +57,20 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
 
             Response response = null;
             try {
+                WrapperLogin log = new WrapperLogin();
+
+                String status = "0";
+                if (activityEntry.getStateStatus().equals("Сhanged"))
+                    status = "0";
+                else if (activityEntry.getStateStatus().equals("ChangeRequested"))
+                    status = "1";
+                else if (activityEntry.getStateStatus().equals("Accepted"))
+                    status = "2";
+                else if (activityEntry.getStateStatus().equals("Cancelled"))
+                    status = "3";
+                log.setInteger_activity_status(status);
                 Logger.e(TAG, "ActionRequestChangeStatusTask request body: " + activityEntry.toJson().toString());
-                response = service.changeStateActivity(oldEntry.getId(), activityEntry.toJson().toString());
+                response = service.changeStateActivity(oldEntry.getId(), log);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -126,6 +140,49 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
             return buffer.readString(body.contentType().charset());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static class WrapperLogin implements Parcelable {
+
+        public static final Creator<WrapperLogin> CREATOR = new Creator<WrapperLogin>() {
+            @Override
+            public WrapperLogin createFromParcel(Parcel source) {
+                return new WrapperLogin(source);
+            }
+
+            @Override
+            public WrapperLogin[] newArray(int size) {
+                return new WrapperLogin[size];
+            }
+        };
+
+        public String getInteger_activity_status() {
+            return integer_activity_status;
+        }
+
+        public void setInteger_activity_status(String integer_activity_status) {
+            this.integer_activity_status = integer_activity_status;
+        }
+
+        private String integer_activity_status;
+
+        public WrapperLogin() {
+
+        }
+
+        public WrapperLogin(Parcel source) {
+            integer_activity_status = source.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(integer_activity_status);
         }
     }
 }
