@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.intrafab.medicus.R;
-import com.intrafab.medicus.adapters.StorageAdapter;
 import com.intrafab.medicus.adapters.StorageTripAdapter;
 import com.intrafab.medicus.data.StorageInfo;
 import com.squareup.picasso.Picasso;
@@ -68,10 +67,10 @@ public class ItemStorageTripInfoView extends RecyclerView.ViewHolder
     private void fillView(StorageInfo item) {
         if (item == null)
             return;
-
-        if (!TextUtils.isEmpty(item.getThumbnail())) {
+//TODO load document
+        if (!TextUtils.isEmpty(item.getName())) {
             Picasso.with(getContext())
-                    .load(item.getThumbnail())
+                    .load(item.getName())
                     .placeholder(R.mipmap.ic_document_default)
                     .error(R.mipmap.ic_document_error)
                     .into(mImageThumbnail);
@@ -79,8 +78,8 @@ public class ItemStorageTripInfoView extends RecyclerView.ViewHolder
             mImageThumbnail.setImageResource(R.mipmap.ic_document_default);
         }
 
-        if (!TextUtils.isEmpty(item.getDescription())) {
-            mTextViewDocumentName.setText(item.getDescription());
+        if (!TextUtils.isEmpty(item.getName())) {
+            mTextViewDocumentName.setText(item.getName());
         } else {
             mTextViewDocumentName.setText(R.string.document_name_unknown);
         }

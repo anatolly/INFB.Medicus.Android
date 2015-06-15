@@ -19,7 +19,7 @@ public class ServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, String baseUrl, final String token) {
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .create();
 
         RestAdapter.Builder builder = new RestAdapter.Builder()

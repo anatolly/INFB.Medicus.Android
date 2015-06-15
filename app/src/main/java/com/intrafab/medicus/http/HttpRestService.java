@@ -1,9 +1,10 @@
 package com.intrafab.medicus.http;
 
 import com.intrafab.medicus.actions.ActionRequestChangeStatusTask;
+import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.data.WrapperLogin;
-import com.intrafab.medicus.wrappers.RequestStateEntries;
-import com.intrafab.medicus.wrappers.RequestStorageInfo;
+
+import java.util.List;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -22,14 +23,14 @@ import retrofit.mime.TypedString;
  */
 public interface HttpRestService {
 
-    @GET("/storage.json")
-    public RequestStorageInfo loadStorage();
+    @GET("/api/v1.0/medicusdocument")
+    public List<StorageInfo> loadStorage();
 
-    @GET("/storage_trip.json")
-    public RequestStorageInfo loadStorageTrip();
-
-    @GET("/state_entries.json")
-    public RequestStateEntries loadStateEntries();
+//    @GET("/storage_trip.json")
+//    public RequestStorageInfo loadStorageTrip();
+//
+//    @GET("/state_entries.json")
+//    public RequestStateEntries loadStateEntries();
 
     @GET("/serviceuse/csu.json")
     public Response getAllOrders();

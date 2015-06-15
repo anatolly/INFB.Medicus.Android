@@ -32,7 +32,7 @@ public class StorageDocumentActivity extends BaseActivity {
 
         StorageInfo item = getIntent().getParcelableExtra(ITEM_STORAGE_INFO);
 
-        getSupportActionBar().setTitle(item.getDescription());
+        getSupportActionBar().setTitle(item.getName());
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

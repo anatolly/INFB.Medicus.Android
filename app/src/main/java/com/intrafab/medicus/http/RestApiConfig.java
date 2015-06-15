@@ -10,7 +10,7 @@ public class RestApiConfig {
 
     public static final String BASE_HOST_NAME = Constants.RELEASE_MODE ? "medicus.caramba-shop.ru" : "medicus.caramba-shop.ru";
     public static final String VERSION_API = "v1.0";
-    public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME;// + "/" + VERSION_API;
+    public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME + ":1537";// + "/" + VERSION_API;
 
     public static final String URL_CSU = "/serviceuse/csu";
     public static final String URL_ISU = "/serviceuse/isu";

@@ -3,20 +3,12 @@ package com.intrafab.medicus.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
+import java.util.Date;
 
 /**
  * Created by Artemiy Terekhov on 19.04.2015.
  */
 public class StorageInfo implements Parcelable {
-
-    public final static String STORAGE_ID = "id";
-    public final static String STORAGE_TYPE = "type";
-    public final static String STORAGE_DESCRIPTION = "description";
-    public final static String STORAGE_THUMBNAIL = "thumbnail";
-    public final static String STORAGE_TIMESTAMP = "timestamp";
-    public final static String STORAGE_ACCESS_URL = "access_url";
-    public final static String STORAGE_ACCESS_SESSION_ID = "access_session_id";
 
     public static final Creator<StorageInfo> CREATOR = new Creator<StorageInfo>() {
         @Override
@@ -32,11 +24,44 @@ public class StorageInfo implements Parcelable {
 
     private int id;
     private String type;
-    private String description;
-    private String thumbnail;
-    private long timestamp;
-    private String access_url;
-    private String access_session_id;
+    private String name;
+    private boolean belongsToActiveTrip;
+    private Date createdAt;
+    private Date updatedAt;
+    private int belongsToUser;
+    private int document;
+
+    public boolean isBelongsToActiveTrip() {
+        return belongsToActiveTrip;
+    }
+
+    public void setBelongsToActiveTrip(boolean belongsToActiveTrip) {
+        this.belongsToActiveTrip = belongsToActiveTrip;
+    }
+
+    public int getBelongsToUser() {
+        return belongsToUser;
+    }
+
+    public void setBelongsToUser(int belongsToUser) {
+        this.belongsToUser = belongsToUser;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getDocument() {
+        return document;
+    }
+
+    public void setDocument(int document) {
+        this.document = document;
+    }
 
     public int getId() {
         return id;
@@ -44,6 +69,14 @@ public class StorageInfo implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getType() {
@@ -54,44 +87,12 @@ public class StorageInfo implements Parcelable {
         this.type = type;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getAccess_url() {
-        return access_url;
-    }
-
-    public void setAccess_url(String access_url) {
-        this.access_url = access_url;
-    }
-
-    public String getAccess_session_id() {
-        return access_session_id;
-    }
-
-    public void setAccess_session_id(String access_session_id) {
-        this.access_session_id = access_session_id;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public StorageInfo() {
@@ -100,44 +101,14 @@ public class StorageInfo implements Parcelable {
     public StorageInfo(Parcel source) {
         id = source.readInt();
         type = source.readString();
-        description = source.readString();
-        thumbnail = source.readString();
-        timestamp = source.readLong();
-        access_url = source.readString();
-        access_session_id = source.readString();
-    }
-
-    public StorageInfo(JSONObject object) {
-        if (object == null)
-            return;
-
-        if (object.has(STORAGE_ID)) {
-            this.id = object.optInt(STORAGE_ID);
-        }
-
-        if (object.has(STORAGE_TYPE)) {
-            this.type = object.optString(STORAGE_TYPE);
-        }
-
-        if (object.has(STORAGE_DESCRIPTION)) {
-            this.description = object.optString(STORAGE_DESCRIPTION);
-        }
-
-        if (object.has(STORAGE_THUMBNAIL)) {
-            this.thumbnail = object.optString(STORAGE_THUMBNAIL);
-        }
-
-        if (object.has(STORAGE_TIMESTAMP)) {
-            this.timestamp = object.optLong(STORAGE_TIMESTAMP);
-        }
-
-        if (object.has(STORAGE_ACCESS_URL)) {
-            this.access_url = object.optString(STORAGE_ACCESS_URL);
-        }
-
-        if (object.has(STORAGE_ACCESS_SESSION_ID)) {
-            this.access_session_id = object.optString(STORAGE_ACCESS_SESSION_ID);
-        }
+        name = source.readString();
+        belongsToActiveTrip = source.readInt() == 1 ? true : false;
+        long _createdAt = source.readLong();
+        createdAt = _createdAt == -1 ? null : new Date(_createdAt);
+        long _updatedAt = source.readLong();
+        updatedAt = _updatedAt == -1 ? null : new Date(_updatedAt);
+        belongsToUser = source.readInt();
+        document = source.readInt();
     }
 
     @Override
@@ -149,10 +120,11 @@ public class StorageInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(type);
-        dest.writeString(description);
-        dest.writeString(thumbnail);
-        dest.writeLong(timestamp);
-        dest.writeString(access_url);
-        dest.writeString(access_session_id);
+        dest.writeString(name);
+        dest.writeInt(belongsToActiveTrip ? 1 : 0);
+        dest.writeLong(createdAt != null ? createdAt.getTime() : -1);
+        dest.writeLong(updatedAt != null ? updatedAt.getTime() : -1);
+        dest.writeInt(belongsToUser);
+        dest.writeInt(document);
     }
 }
