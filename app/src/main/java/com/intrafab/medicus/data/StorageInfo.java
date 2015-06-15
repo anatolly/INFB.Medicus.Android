@@ -3,6 +3,8 @@ package com.intrafab.medicus.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.intrafab.medicus.http.RestApiConfig;
+
 import java.util.Date;
 
 /**
@@ -126,5 +128,12 @@ public class StorageInfo implements Parcelable {
         dest.writeLong(updatedAt != null ? updatedAt.getTime() : -1);
         dest.writeInt(belongsToUser);
         dest.writeInt(document);
+    }
+
+    public String getImagePath() {
+        if (type.equalsIgnoreCase("JPG") || type.equalsIgnoreCase("JPG"))
+            return RestApiConfig.BASE_HOST_URL2 + "/api/v1.0/fileEntity/getFile?id=" + document;
+
+        return "";
     }
 }

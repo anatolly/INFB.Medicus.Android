@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.intrafab.medicus.data.StorageInfo;
+import com.intrafab.medicus.utils.Logger;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by Artemiy Terekhov on 19.04.2015.
@@ -24,6 +30,10 @@ public class StorageDocumentActivity extends BaseActivity {
     private ImageView mIconView;
     private ImageView mIconRemove;
 
+    private PhotoViewAttacher mAttacher;
+
+    private ImageView mImageThumbnail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +41,16 @@ public class StorageDocumentActivity extends BaseActivity {
         getSupportActionBar().getThemedContext();
 
         StorageInfo item = getIntent().getParcelableExtra(ITEM_STORAGE_INFO);
+        if (item == null) {
+            finish();
+            return;
+        }
 
-        getSupportActionBar().setTitle(item.getName());
+        String name = item.getName();
+        if (!TextUtils.isEmpty(name))
+            getSupportActionBar().setTitle(name);
+        else
+            getSupportActionBar().setTitle(getString(R.string.unknown_name));
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 
@@ -45,6 +63,35 @@ public class StorageDocumentActivity extends BaseActivity {
         mIconSync.setColorFilter(getResources().getColor(R.color.colorLightSuccess));
         mIconView.setColorFilter(getResources().getColor(R.color.colorLightPrimary));
         mIconRemove.setColorFilter(getResources().getColor(R.color.colorLightError));
+
+        mImageThumbnail = (ImageView) findViewById(R.id.ivThumbnail);
+        if (!TextUtils.isEmpty(item.getImagePath())) {
+            Logger.e(TAG, "StorageDocumentActivity load path: " + item.getImagePath());
+            Picasso.with(this)
+                    .load(item.getImagePath())
+                    .placeholder(R.mipmap.ic_document_default)
+                    .error(R.mipmap.ic_document_error)
+                    .into(mImageThumbnail, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mAttacher = new PhotoViewAttacher(mImageThumbnail);
+                            mAttacher.setZoomable(true);
+                            mAttacher.update();
+                        }
+
+                        @Override
+                        public void onError() {
+                            mAttacher = new PhotoViewAttacher(mImageThumbnail);
+                            mAttacher.setZoomable(true);
+                            mAttacher.update();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

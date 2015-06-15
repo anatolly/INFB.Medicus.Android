@@ -53,7 +53,7 @@ public interface HttpRestService {
 
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
-    @POST("/api/v1.0/medicusdocument")
+    @POST("/api/v1.0/medicusdocument/storeMedicusDocumentByFormData")
     public StorageInfo uploadFileToStorage(
             @Part("name") TypedString fileName,
             @Part("type") TypedString fileType,

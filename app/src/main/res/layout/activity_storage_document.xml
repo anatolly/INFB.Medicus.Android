@@ -10,14 +10,21 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize" />
 
+    <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription=""
+        android:src="@mipmap/ic_file" />
+
     <RelativeLayout
         android:id="@+id/layoutInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp">
+        android:background="#995b2796"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textViewName"
@@ -28,7 +35,7 @@
             android:singleLine="true"
             android:text="Document name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="#273849"
+            android:textColor="#fff"
             android:textSize="16sp" />
 
         <TextView
@@ -41,26 +48,18 @@
             android:singleLine="true"
             android:text="Jan 19, 2015"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#273849"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/ivThumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/layoutActions"
-        android:layout_below="@+id/layoutInfo"
-        android:layout_margin="16dp"
-        android:contentDescription=""
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_file" />
+
 
     <RelativeLayout
         android:id="@+id/layoutActions"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:gravity="center_horizontal">
 
         <com.balysv.materialripple.MaterialRippleLayout

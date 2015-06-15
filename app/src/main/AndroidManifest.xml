@@ -54,7 +54,7 @@
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".StorageDocumentActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensor"></activity>
         <activity
             android:name=".EventDetailActivity"
             android:screenOrientation="sensorPortrait"></activity>
