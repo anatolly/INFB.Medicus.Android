@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.intrafab.medicus.R;
 import com.intrafab.medicus.adapters.StorageAdapter;
 import com.intrafab.medicus.data.StorageInfo;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by Artemiy Terekhov on 19.04.2015.
@@ -68,14 +67,36 @@ public class ItemStorageInfoView extends RecyclerView.ViewHolder
         if (item == null)
             return;
 //TODO load document
-        if (!TextUtils.isEmpty(item.getName())) {
-            Picasso.with(getContext())
-                    .load(item.getName())
-                    .placeholder(R.mipmap.ic_document_default)
-                    .error(R.mipmap.ic_document_error)
-                    .into(mImageThumbnail);
-        } else {
-            mImageThumbnail.setImageResource(R.mipmap.ic_document_default);
+//        if (!TextUtils.isEmpty(item.getName())) {
+//            Picasso.with(getContext())
+//                    .load(item.getName())
+//                    .placeholder(R.mipmap.ic_document_default)
+//                    .error(R.mipmap.ic_document_error)
+//                    .into(mImageThumbnail);
+//        } else {
+//            mImageThumbnail.setImageResource(R.mipmap.ic_document_default);
+//        }
+
+        if (!TextUtils.isEmpty(item.getType())) {
+            String type = item.getType();
+
+            if (type.equalsIgnoreCase("JPG") ||
+                    type.equalsIgnoreCase("JPEG")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_jpg);
+            } else if (type.equalsIgnoreCase("ZIP")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_zip);
+            } else if (type.equalsIgnoreCase("PDF")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_pdf);
+            } else if (type.equalsIgnoreCase("DOC")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_doc);
+            } else if (type.equalsIgnoreCase("DOCX")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_docx);
+            } else if (type.equalsIgnoreCase("DCM") ||
+                    type.equalsIgnoreCase("DICOM")) {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_dcm);
+            } else {
+                mImageThumbnail.setImageResource(R.mipmap.ic_format_unknown);
+            }
         }
 
         if (!TextUtils.isEmpty(item.getName())) {

@@ -25,67 +25,111 @@
         android:id="@+id/tabPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layoutFooter"
         android:layout_below="@+id/tabHost"
         android:visibility="visible" />
 
-    <RelativeLayout
-        android:id="@+id/layoutFooter"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
+    <com.intrafab.medicus.widgets.FloatingActionsMenu
+        android:id="@+id/famAddFiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorLightPrimary" >
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        app:fab_addButtonColorNormal="@color/colorLightPrimary"
+        app:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
+        app:fab_addButtonPlusIconColor="#fff"
+        app:fab_expandDirection="up"
+        app:fab_labelStyle="@style/menu_labels_style">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:layout_height="1dp" />
-
-        <TableRow
-            android:layout_width="match_parent"
+        <com.intrafab.medicus.widgets.FloatingActionButton
+            android:id="@+id/fabSyncCloud"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical" >
+            app:fab_colorNormal="@color/colorLightButtonGreen"
+            app:fab_colorPressed="@color/colorLightButtonGreenPressed"
+            app:fab_icon="@mipmap/ic_cloud_sync"
+            app:fab_size="mini"
+            app:fab_title="Sync with cloud" />
 
-            <TextView
-                android:id="@+id/btnClear"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:textAlignment="gravity"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="14sp"
-                android:text="Clear (Only test)"
-                android:layout_weight="0.5"/>
+        <com.intrafab.medicus.widgets.FloatingActionButton
+            android:id="@+id/fabCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorLightButtonYellow"
+            app:fab_colorPressed="@color/colorLightButtonYellowPressed"
+            app:fab_icon="@mipmap/ic_screenshot"
+            app:fab_size="mini"
+            app:fab_title="Camera" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/white"
-                android:layout_height="25dp" />
+        <com.intrafab.medicus.widgets.FloatingActionButton
+            android:id="@+id/fabGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorLightButtonMagenta"
+            app:fab_colorPressed="@color/colorLightButtonMagentaPressed"
+            app:fab_icon="@mipmap/ic_add_file"
+            app:fab_size="mini"
+            app:fab_title="Gallery" />
+    </com.intrafab.medicus.widgets.FloatingActionsMenu>
 
-            <TextView
-                android:id="@+id/btnSync"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:textAlignment="gravity"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="14sp"
-                android:text="Sync with cloud"
-                android:layout_weight="0.5"/>
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/layoutFooter"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/colorLightPrimary" >-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:layout_height="1dp" />-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:minHeight="?attr/actionBarSize"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:gravity="center_vertical" >-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/btnClear"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textAlignment="gravity"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="Clear (Only test)"-->
+                <!--android:layout_weight="0.5"/>-->
+
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:layout_height="25dp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/btnSync"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textAlignment="gravity"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="Sync with cloud"-->
+                <!--android:layout_weight="0.5"/>-->
 
 
-        </TableRow>
+        <!--</TableRow>-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 
 </RelativeLayout>

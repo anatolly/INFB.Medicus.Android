@@ -1,33 +1,43 @@
 package com.intrafab.medicus.actions;
 
+import android.os.Bundle;
+import android.text.TextUtils;
+
 import com.intrafab.medicus.Constants;
 import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.http.HttpRestService;
 import com.intrafab.medicus.http.RestApiConfig;
 import com.intrafab.medicus.loaders.StorageListLoader;
+import com.intrafab.medicus.loaders.StorageTripListLoader;
 import com.intrafab.medicus.utils.Connectivity;
 import com.telly.groundy.GroundyTask;
 import com.telly.groundy.TaskResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Artemiy Terekhov on 19.04.2015.
  */
 public class ActionRequestStorageTask extends GroundyTask {
+    public static final String TAG = ActionRequestStorageTask.class.getName();
 
-    public static final String INTERNET_AVAILABLE = "internet_available";
+    public static final String ARG_USER_OWNER_ID = "arg_user_owner_id";
 
     @Override
     protected TaskResult doInBackground() {
 
+        Bundle inputBundle = getArgs();
+        String userUid = inputBundle.getString(ARG_USER_OWNER_ID);
+
         if (!Connectivity.isNetworkConnected()) {
-            return failed().add(INTERNET_AVAILABLE, false);
+            DBManager.getInstance().onContentChanged();
+            return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, false);
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService();
+            HttpRestService service = RestApiConfig.getRestService2();
             List<StorageInfo> storageList = service.loadStorage();
 
 //            Thread.sleep(5000);
@@ -53,11 +63,31 @@ public class ActionRequestStorageTask extends GroundyTask {
 //                return failed();
 
 //            List<StorageInfo> storageList = storageInfo.getStorageList();
-            if (storageList.size() > 0)
-                DBManager.getInstance().insertArrayObject(getContext(), StorageListLoader.class, Constants.Prefs.PREF_PARAM_STORAGE, storageList, StorageInfo.class);
+            if (storageList.size() > 0) {
+                ArrayList<StorageInfo> storageData = new ArrayList<StorageInfo>();
+                ArrayList<StorageInfo> storageTripData = new ArrayList<StorageInfo>();
+
+                for (StorageInfo info : storageList) {
+                    String id = String.format("%d", info.getBelongsToUser());
+                    if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(userUid) && userUid.equals(id) ) {
+                        if (info.isBelongsToActiveTrip()) {
+                            storageTripData.add(info);
+                        }
+
+                        storageData.add(info);
+                    }
+                }
+
+                if (storageData.size() > 0)
+                    DBManager.getInstance().insertArrayObject(getContext(), StorageListLoader.class, Constants.Prefs.PREF_PARAM_STORAGE, storageData, StorageInfo.class);
+
+                if (storageTripData.size() > 0)
+                    DBManager.getInstance().insertArrayObject(getContext(), StorageTripListLoader.class, Constants.Prefs.PREF_PARAM_STORAGE_TRIP, storageTripData, StorageInfo.class);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return failed();
+            DBManager.getInstance().onContentChanged();
+            return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
         }
 
         return succeeded();

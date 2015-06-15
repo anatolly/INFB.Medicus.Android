@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         tools:context=".CalendarActivity"
         android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/layoutFooter"
         tools:ignore="MergeRootFrame" />
 
     <com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu
