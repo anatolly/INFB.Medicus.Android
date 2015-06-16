@@ -142,14 +142,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewDelim"
-                android:layout_gravity="center_vertical|right"
+                android:layout_gravity="center"
                 android:layout_toEndOf="@+id/ivThumbnail"
                 android:layout_toRightOf="@+id/ivThumbnail"
-                android:gravity="center_vertical|right"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mrl_rippleAlpha="0.5"
                     app:mrl_rippleColor="@color/colorLightPrimary"
@@ -158,7 +158,7 @@
 
                     <TextView
                         android:id="@+id/btnAccept"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
@@ -171,11 +171,11 @@
                         android:textAlignment="gravity"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorLightTextMain"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mrl_rippleAlpha="0.5"
                     app:mrl_rippleColor="@color/colorLightPrimary"
@@ -184,7 +184,7 @@
 
                     <TextView
                         android:id="@+id/btnChange"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
@@ -197,11 +197,11 @@
                         android:textAlignment="gravity"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorLightTextMain"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mrl_rippleAlpha="0.5"
                     app:mrl_rippleColor="@color/colorLightPrimary"
@@ -210,7 +210,7 @@
 
                     <TextView
                         android:id="@+id/btnCancel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
@@ -223,7 +223,7 @@
                         android:textAlignment="gravity"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorLightTextMain"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
             </LinearLayout>

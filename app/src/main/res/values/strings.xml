@@ -33,8 +33,8 @@
     <string name="success_update_all_statuses">Все статусы были успешно обновлены</string>
 
     <string name="buttonAccept">Accept</string>
-    <string name="buttonChange">Change</string>
-    <string name="buttonCancel">Cancel</string>
+    <string name="buttonChange">Request change</string>
+    <string name="buttonCancel">Remove</string>
     <string name="buttonAcceptAll">Accept All</string>
 
     <string name="internal_storage">Internal storage</string>
