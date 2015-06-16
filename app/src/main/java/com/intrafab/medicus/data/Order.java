@@ -2,6 +2,7 @@ package com.intrafab.medicus.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -182,6 +183,8 @@ public class Order implements Parcelable {
 
         if (object.has("callbackphonenumber")) {
             this.callbackPhoneNumber = object.optString("callbackphonenumber");
+            if (!TextUtils.isEmpty(this.callbackPhoneNumber) && this.callbackPhoneNumber.equals("null"))
+                this.callbackPhoneNumber = "";
         }
 
         if (object.has("callbackisrequested")) {

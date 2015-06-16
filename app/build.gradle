@@ -75,4 +75,8 @@ dependencies {
     compile project(':libraries:PhotoView')
     compile project(':libraries:FloatingActionButton')
 //    compile 'com.github.chrisbanes.photoview:library:1.2.4'
+    compile ('com.github.ganfra:material-spinner:1.1.0'){
+        exclude group: 'com.nineoldandroids', module: 'library'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 }

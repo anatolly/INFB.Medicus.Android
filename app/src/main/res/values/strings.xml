@@ -27,6 +27,7 @@
     <string name="error_login">Ошибка. Не удалось авторизоваться. Проверьте правильность введенных данных.</string>
     <string name="error_empty_login">Необходимо ввести Имя пользователя или Email</string>
     <string name="error_file_not_selected">Ошибка при выборе файла</string>
+    <string name="error_empty_phone">Нужно ввести номер телефона</string>
 
     <string name="success_file_uploding">Файл был успешно загружен</string>
     <string name="success_update_status">Статус был успешно обновлен</string>
@@ -61,4 +62,14 @@
     <string name="settings_screen_header">Settings</string>
 
     <string name="dialog_progress_sos">Request info</string>
+
+    <string name="sos_request_callback">Request callback</string>
+    <string name="sos_callback_requested">Callback is requested</string>
+    <string name="sos_call_manager">Call Manager</string>
+
+    <string name="select_phone">Select phone number</string>
+    <string name="select_phone_help">Если номера нет в списке,\nто Вы можете\nввести свой в поле ниже</string>
+    <string name="your_phone">Your phone number</string>
+    <string name="dialog_sos_button_request">Request</string>
+    <string name="dialog_sos_button_cancel">Cancel</string>
 </resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:material="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <fr.ganfra.materialspinner.MaterialSpinner
+        android:id="@+id/phoneSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:popupBackground="@color/colorLightTextColorPrimary"
+        material:ms_alignLabels="true"
+        material:ms_arrowColor="#273747"
+        material:ms_arrowSize="12dp"
+        material:ms_baseColor="@color/colorLightTextMain"
+        material:ms_errorColor="@color/colorLightError"
+        material:ms_floatingLabelColor="#273747"
+        material:ms_floatingLabelText="@string/select_phone"
+        material:ms_highlightColor="@color/colorLightPrimary"
+        material:ms_hint="@string/select_phone"
+        material:ms_multiline="false" />
+
+    <TextView
+        android:id="@+id/tvHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:singleLine="false"
+        android:text="@string/select_phone_help"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/colorLightTextMain"
+        android:textSize="14sp" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/metPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:gravity="bottom|left"
+        android:hint="@string/your_phone"
+        android:inputType="phone"
+        android:singleLine="true"
+        android:textColor="@color/colorLightTextMain"
+        android:textSize="18sp"
+        material:met_baseColor="#000"
+        material:met_floatingLabel="highlight"
+        material:met_floatingLabelAlwaysShown="true"
+        material:met_floatingLabelText="@string/your_phone"
+        material:met_primaryColor="@color/colorLightPrimary"
+        material:met_singleLineEllipsis="false" />
+</LinearLayout>

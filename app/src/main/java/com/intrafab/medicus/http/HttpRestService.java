@@ -1,6 +1,7 @@
 package com.intrafab.medicus.http;
 
 import com.intrafab.medicus.data.StorageInfo;
+import com.intrafab.medicus.data.WrapperCallback;
 import com.intrafab.medicus.data.WrapperLogin;
 import com.intrafab.medicus.data.WrapperStatus;
 
@@ -64,4 +65,8 @@ public interface HttpRestService {
     @POST("/serviceuse/user/login")
     @Headers({"Content-Type: application/json"})
     public Response login(@Body WrapperLogin data);
+
+    @PUT("/serviceuse/csu/{id}")
+    @Headers({"Content-Type: application/json"})
+    public Response requestCallback(@Path("id") String id, @Body WrapperCallback callbackJson);
 }
