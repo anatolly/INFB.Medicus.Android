@@ -210,12 +210,19 @@ public class SosActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.layoutHeadset:
+                showHeadsetDialog();
                 break;
         }
     }
 
     private void showHeadsetDialog() {
+        if (mActiveOrder != null) {
+            String callbackPhone = mActiveOrder.getCallbackPhoneNumber();
+            String myPhone = getPhoneNumber();
 
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
     }
 
     private String getPhoneNumber() {
