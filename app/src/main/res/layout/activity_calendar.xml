@@ -20,7 +20,7 @@
         android:layout_below="@+id/toolbar"
         tools:ignore="MergeRootFrame" />
 
-    <com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/famCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,10 +32,9 @@
         fab:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
         fab:fab_expandDirection="up"
         fab:fab_collapsedIcon="@mipmap/ic_more_vert_white"
-        fab:fab_expandedIcon="@mipmap/ic_delete"
         fab:fab_labelStyle="@style/menu_labels_style">
 
-        <com.intrafab.medicus.widgets.FloatingActionButton
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAcceptAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
             fab:fab_size="mini"
             fab:fab_title="Accept All" />
 
-        <com.intrafab.medicus.widgets.FloatingActionButton
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSyncCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,5 +54,5 @@
             fab:fab_size="mini"
             fab:fab_title="Sync with cloud" />
 
-    </com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

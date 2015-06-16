@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.intrafab.medicus.actions.ActionRequestSendFeedbackTask;
-import com.intrafab.medicus.widgets.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;

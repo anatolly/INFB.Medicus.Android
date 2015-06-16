@@ -1,4 +1,4 @@
-package com.intrafab.medicus.widgets;
+package com.getbase.floatingactionbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,8 +11,6 @@ import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
-
-import com.intrafab.medicus.R;
 
 public class AddFloatingActionButton extends FloatingActionButton {
   int mPlusColor;

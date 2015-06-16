@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.intrafab.medicus.actions.ActionRequestAcceptAllTask;
 import com.intrafab.medicus.actions.ActionRequestStateEntryTask;
 import com.intrafab.medicus.adapters.StateEntryAdapter;
@@ -20,8 +22,6 @@ import com.intrafab.medicus.loaders.StateEntryListLoader;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.intrafab.medicus.views.ItemStateEntryView;
-import com.intrafab.medicus.widgets.ChangingIconFloatingActionsMenu;
-import com.intrafab.medicus.widgets.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -49,7 +49,7 @@ public class CalendarActivity extends BaseActivity
 
     private boolean mIsNeedAcceptAll = false;
 
-    private ChangingIconFloatingActionsMenu mActionsMenu;
+    private FloatingActionsMenu mActionsMenu;
     private FloatingActionButton mFabAcceptAll;
     private FloatingActionButton mFabSyncCloud;
 
@@ -176,7 +176,7 @@ public class CalendarActivity extends BaseActivity
                     .commit();
         }
 
-        mActionsMenu = (ChangingIconFloatingActionsMenu) this.findViewById(R.id.famCalendar);
+        mActionsMenu = (FloatingActionsMenu) this.findViewById(R.id.famCalendar);
         mFabAcceptAll = (FloatingActionButton) this.findViewById(R.id.fabAcceptAll);
         mFabSyncCloud = (FloatingActionButton) this.findViewById(R.id.fabSyncCloud);
 
@@ -264,7 +264,7 @@ public class CalendarActivity extends BaseActivity
         PlaceholderStateEntryFragment fragment = getFragment();
         switch (v.getId()) {
             case R.id.fabSyncCloud:
-                mActionsMenu.collapse(true);
+                mActionsMenu.collapse();
                 mFabAcceptAll.setEnabled(false);
                 mFabSyncCloud.setEnabled(false);
                 if (!Connectivity.isConnected(this)) {
@@ -289,7 +289,7 @@ public class CalendarActivity extends BaseActivity
                         .queueUsing(CalendarActivity.this);
                 break;
             case R.id.fabAcceptAll:
-                mActionsMenu.collapse(true);
+                mActionsMenu.collapse();
                 mFabAcceptAll.setEnabled(false);
                 mFabSyncCloud.setEnabled(false);
                 if (fragment != null)

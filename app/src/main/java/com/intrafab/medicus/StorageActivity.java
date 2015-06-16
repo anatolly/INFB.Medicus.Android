@@ -20,6 +20,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.intrafab.medicus.actions.ActionRequestStorageTask;
 import com.intrafab.medicus.actions.ActionRequestUploadFileTask;
 import com.intrafab.medicus.adapters.StorageAdapter;
@@ -33,8 +35,6 @@ import com.intrafab.medicus.loaders.StorageTripListLoader;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.FileUtils;
 import com.intrafab.medicus.utils.Logger;
-import com.intrafab.medicus.widgets.FloatingActionButton;
-import com.intrafab.medicus.widgets.FloatingActionsMenu;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -76,9 +76,11 @@ public class StorageActivity extends BaseActivity
     private StoragePagerAdapter mAdapter;
 
     private FloatingActionsMenu mActionsMenu;
-    private FloatingActionButton mBtnSyncCloud;
+//    private FloatingActionButton mBtnSyncCloud;
     private FloatingActionButton mBtnCamera;
     private FloatingActionButton mBtnGallery;
+
+    private boolean mEnabledSyncMenu;
 
     private CallbacksManager mCallbacksManager;
     private TaskHandler mUploadTaskHandler;
@@ -249,7 +251,7 @@ public class StorageActivity extends BaseActivity
         @Override
         public void onTabSelected(MaterialTab materialTab) {
             mPager.setCurrentItem(materialTab.getPosition());
-            mActionsMenu.collapse(true);
+            mActionsMenu.collapse();
 
             switch (materialTab.getPosition()) {
                 case 0:
@@ -276,7 +278,7 @@ public class StorageActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_PICK_FILE) {
-            mActionsMenu.collapse(true);
+            mActionsMenu.collapse();
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     Uri uri = data.getData();
@@ -463,6 +465,8 @@ public class StorageActivity extends BaseActivity
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 
+        mEnabledSyncMenu = true;
+
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_STORAGE);
 
         mCallbacksManager = CallbacksManager.init(savedInstanceState);
@@ -472,11 +476,11 @@ public class StorageActivity extends BaseActivity
         mPager = (ViewPager) this.findViewById(R.id.tabPager);
 
         mActionsMenu = (FloatingActionsMenu) this.findViewById(R.id.famAddFiles);
-        mBtnSyncCloud = (FloatingActionButton) this.findViewById(R.id.fabSyncCloud);
+//        mBtnSyncCloud = (FloatingActionButton) this.findViewById(R.id.fabSyncCloud);
         mBtnCamera = (FloatingActionButton) this.findViewById(R.id.fabCamera);
         mBtnGallery = (FloatingActionButton) this.findViewById(R.id.fabGallery);
 
-        mBtnSyncCloud.setOnClickListener(this);
+//        mBtnSyncCloud.setOnClickListener(this);
         mBtnCamera.setOnClickListener(this);
         mBtnGallery.setOnClickListener(this);
 
@@ -515,7 +519,7 @@ public class StorageActivity extends BaseActivity
             public void onPageSelected(int position) {
                 // when user do a swipe the selected tab change
                 mTabHost.setSelectedNavigationItem(position);
-                mActionsMenu.collapse(true);
+                mActionsMenu.collapse();
             }
 
             @Override
@@ -526,7 +530,7 @@ public class StorageActivity extends BaseActivity
                     int position = mPager.getCurrentItem();
                     mTabHost.setSelectedNavigationItem(position);
                     mPager.setCurrentItem(position);
-                    mActionsMenu.collapse(true);
+                    mActionsMenu.collapse();
 
                     switch (position) {
                         case 0:
@@ -592,6 +596,16 @@ public class StorageActivity extends BaseActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem item = menu.findItem(R.id.action_sync_with_cloud);
+        if (item != null)
+            item.setEnabled(mEnabledSyncMenu);
+        return super.onPrepareOptionsMenu(menu);
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -602,12 +616,41 @@ public class StorageActivity extends BaseActivity
 //            startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
 //            return true;
 //        } else
+        if (id == R.id.action_sync_with_cloud) {
+            mAdapter.setData(null, mPager.getCurrentItem());
+
+            mActionsMenu.collapse();
+//            mBtnSyncCloud.setEnabled(false);
+            enabledMenu(false);
+            if (!Connectivity.isConnected(this)) {
+                showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+//                mBtnSyncCloud.setEnabled(true);
+                enabledMenu(true);
+                return true;
+            }
+
+            mAdapter.showProgress(mPager.getCurrentItem());
+            String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
+            Groundy.create(ActionRequestStorageTask.class)
+                    .callback(StorageActivity.this)
+                    .callbackManager(mCallbacksManager)
+                    .arg(ActionRequestStorageTask.ARG_USER_OWNER_ID, userUid)
+                    .queueUsing(StorageActivity.this);
+            return true;
+        } else
         if (id == android.R.id.home) {
             finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enabledMenu(boolean enabled) {
+        mEnabledSyncMenu = enabled;
+        invalidateOptionsMenu();
+        mBtnCamera.setEnabled(enabled);
+        mBtnGallery.setEnabled(enabled);
     }
 
     @Override
@@ -667,20 +710,18 @@ public class StorageActivity extends BaseActivity
 
         mAdapter.hideProgress(mPager.getCurrentItem());
 
-        mActionsMenu.collapse(true);
-        mBtnSyncCloud.setEnabled(true);
-        mBtnCamera.setEnabled(true);
-        mBtnGallery.setEnabled(true);
+        mActionsMenu.collapse();
+//        mBtnSyncCloud.setEnabled(true);
+        enabledMenu(true);
     }
 
     @OnFailure(ActionRequestStorageTask.class)
     public void onFailureRequestStorage(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
         mAdapter.hideProgress(mPager.getCurrentItem());
 
-        mActionsMenu.collapse(true);
-        mBtnSyncCloud.setEnabled(true);
-        mBtnCamera.setEnabled(true);
-        mBtnGallery.setEnabled(true);
+        mActionsMenu.collapse();
+//        mBtnSyncCloud.setEnabled(true);
+        enabledMenu(true);
 
         if (!isAvailable) {
             showSnackBarError(getResources().getString(R.string.error_internet_not_available));
@@ -716,10 +757,9 @@ public class StorageActivity extends BaseActivity
 
         showSnackBarSuccess(getResources().getString(R.string.success_file_uploding));
 
-        mActionsMenu.collapse(true);
-        mBtnSyncCloud.setEnabled(true);
-        mBtnCamera.setEnabled(true);
-        mBtnGallery.setEnabled(true);
+        mActionsMenu.collapse();
+//        mBtnSyncCloud.setEnabled(true);
+        enabledMenu(true);
 
         mIsStartUpload = false;
         mLastFilePath = null;
@@ -758,10 +798,9 @@ public class StorageActivity extends BaseActivity
             showSnackBarError(getResources().getString(R.string.error_occurred));
         }
 
-        mActionsMenu.collapse(true);
-        mBtnSyncCloud.setEnabled(true);
-        mBtnCamera.setEnabled(true);
-        mBtnGallery.setEnabled(true);
+        mActionsMenu.collapse();
+//        mBtnSyncCloud.setEnabled(true);
+        enabledMenu(true);
 
         mIsStartUpload = false;
         mLastFilePath = null;
@@ -788,29 +827,29 @@ public class StorageActivity extends BaseActivity
                 intent.setType("file/*");
                 startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
                 break;
-            case R.id.fabSyncCloud:
-                mAdapter.setData(null, mPager.getCurrentItem());
-
-                mActionsMenu.collapse(true);
-                mBtnSyncCloud.setEnabled(false);
-                mBtnCamera.setEnabled(false);
-                mBtnGallery.setEnabled(false);
-                if (!Connectivity.isConnected(this)) {
-                    showSnackBarError(getResources().getString(R.string.error_internet_not_available));
-                    mBtnSyncCloud.setEnabled(true);
-                    mBtnCamera.setEnabled(true);
-                    mBtnGallery.setEnabled(true);
-                    return;
-                }
-
-                mAdapter.showProgress(mPager.getCurrentItem());
-                String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
-                Groundy.create(ActionRequestStorageTask.class)
-                        .callback(StorageActivity.this)
-                        .callbackManager(mCallbacksManager)
-                        .arg(ActionRequestStorageTask.ARG_USER_OWNER_ID, userUid)
-                        .queueUsing(StorageActivity.this);
-                break;
+//            case R.id.fabSyncCloud:
+//                mAdapter.setData(null, mPager.getCurrentItem());
+//
+//                mActionsMenu.collapse(true);
+//                mBtnSyncCloud.setEnabled(false);
+//                mBtnCamera.setEnabled(false);
+//                mBtnGallery.setEnabled(false);
+//                if (!Connectivity.isConnected(this)) {
+//                    showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+//                    mBtnSyncCloud.setEnabled(true);
+//                    mBtnCamera.setEnabled(true);
+//                    mBtnGallery.setEnabled(true);
+//                    return;
+//                }
+//
+//                mAdapter.showProgress(mPager.getCurrentItem());
+//                String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
+//                Groundy.create(ActionRequestStorageTask.class)
+//                        .callback(StorageActivity.this)
+//                        .callbackManager(mCallbacksManager)
+//                        .arg(ActionRequestStorageTask.ARG_USER_OWNER_ID, userUid)
+//                        .queueUsing(StorageActivity.this);
+//                break;
         }
     }
 

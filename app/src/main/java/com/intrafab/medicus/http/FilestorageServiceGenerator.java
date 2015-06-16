@@ -12,9 +12,9 @@ import retrofit.converter.GsonConverter;
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
  */
-public class ServiceGenerator2 {
+public class FilestorageServiceGenerator {
     // No need to instantiate this class.
-    private ServiceGenerator2() {
+    private FilestorageServiceGenerator() {
     }
 
     public static <S> S createService(Class<S> serviceClass, String baseUrl, final String token) {

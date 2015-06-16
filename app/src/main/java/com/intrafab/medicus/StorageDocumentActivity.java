@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.utils.Logger;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +34,7 @@ public class StorageDocumentActivity extends BaseActivity {
     private PhotoViewAttacher mAttacher;
 
     private ImageView mImageThumbnail;
+    private ProgressWheel mProgressWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +66,21 @@ public class StorageDocumentActivity extends BaseActivity {
         mIconView.setColorFilter(getResources().getColor(R.color.colorLightPrimary));
         mIconRemove.setColorFilter(getResources().getColor(R.color.colorLightError));
 
+        mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        mProgressWheel.setVisibility(View.GONE);
+
         mImageThumbnail = (ImageView) findViewById(R.id.ivThumbnail);
         if (!TextUtils.isEmpty(item.getImagePath())) {
             Logger.e(TAG, "StorageDocumentActivity load path: " + item.getImagePath());
+            mProgressWheel.setVisibility(View.VISIBLE);
             Picasso.with(this)
                     .load(item.getImagePath())
-                    .placeholder(R.mipmap.ic_document_default)
+//                    .placeholder(R.mipmap.ic_document_default)
                     .error(R.mipmap.ic_document_error)
                     .into(mImageThumbnail, new Callback() {
                         @Override
                         public void onSuccess() {
+                            mProgressWheel.setVisibility(View.GONE);
                             mAttacher = new PhotoViewAttacher(mImageThumbnail);
                             mAttacher.setZoomable(true);
                             mAttacher.update();
@@ -81,6 +88,7 @@ public class StorageDocumentActivity extends BaseActivity {
 
                         @Override
                         public void onError() {
+                            mProgressWheel.setVisibility(View.GONE);
                             mAttacher = new PhotoViewAttacher(mImageThumbnail);
                             mAttacher.setZoomable(true);
                             mAttacher.update();

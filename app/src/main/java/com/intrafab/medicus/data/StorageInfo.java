@@ -132,7 +132,7 @@ public class StorageInfo implements Parcelable {
 
     public String getImagePath() {
         if (type.equalsIgnoreCase("JPG") || type.equalsIgnoreCase("JPG"))
-            return RestApiConfig.BASE_HOST_URL2 + "/api/v1.0/fileEntity/getFile?id=" + document;
+            return RestApiConfig.FILESTORAGE_HOST_URL + "/api/v1.0/fileEntity/getFile?id=" + document;
 
         return "";
     }
