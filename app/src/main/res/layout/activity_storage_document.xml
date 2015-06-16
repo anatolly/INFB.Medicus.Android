@@ -13,10 +13,11 @@
 
     <ImageView
         android:id="@+id/ivThumbnail"
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
         android:contentDescription=""
+        android:visibility="gone"
         android:src="@mipmap/ic_file" />
 
     <com.pnikosis.materialishprogress.ProgressWheel
@@ -25,8 +26,8 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        wheel:matProg_barColor="@color/colorLightPrimary"
         android:visibility="gone"
+        wheel:matProg_barColor="@color/colorLightPrimary"
         wheel:matProg_progressIndeterminate="true" />
 
     <RelativeLayout
@@ -35,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:background="#995b2796"
-        android:visibility="gone"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textViewName"
@@ -64,6 +65,57 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layoutFileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/toolbar"
+        android:visibility="visible">
+        <ImageView
+            android:id="@+id/ivFileThumbnail"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription=""
+            android:src="@mipmap/ic_file" />
+
+        <TextView
+            android:id="@+id/tvFileType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/ivFileThumbnail"
+            android:layout_margin="8dp"
+            android:text="JPG"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorLightTextMain" />
+
+        <TextView
+            android:id="@+id/tvFileDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/tvFileType"
+            android:layout_margin="8dp"
+            android:text="Date"
+            android:textSize="18sp"
+            android:textColor="@color/colorLightTextMain" />
+    </RelativeLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFileView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:visibility="visible"
+        app:fab_colorNormal="@color/colorLightPrimary"
+        app:fab_colorPressed="@color/colorLightPrimaryDark"
+        app:fab_icon="@mipmap/ic_visible" />
 
 
     <RelativeLayout
@@ -71,8 +123,8 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:visibility="gone">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/btnRippleSync"

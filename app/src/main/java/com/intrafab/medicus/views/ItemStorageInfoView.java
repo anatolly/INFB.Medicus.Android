@@ -87,11 +87,14 @@ public class ItemStorageInfoView extends RecyclerView.ViewHolder
                 mImageThumbnail.setImageResource(R.mipmap.ic_format_zip);
             } else if (type.equalsIgnoreCase("PDF")) {
                 mImageThumbnail.setImageResource(R.mipmap.ic_format_pdf);
-            } else if (type.equalsIgnoreCase("DOC")) {
+            } else if (type.equalsIgnoreCase("DOC") ||
+                    type.equalsIgnoreCase("DOCX")) {
                 mImageThumbnail.setImageResource(R.mipmap.ic_format_doc);
-            } else if (type.equalsIgnoreCase("DOCX")) {
-                mImageThumbnail.setImageResource(R.mipmap.ic_format_docx);
-            } else if (type.equalsIgnoreCase("DCM") ||
+            }
+//            else if (type.equalsIgnoreCase("DOCX")) {
+//                mImageThumbnail.setImageResource(R.mipmap.ic_format_docx);
+//            }
+            else if (type.equalsIgnoreCase("DCM") ||
                     type.equalsIgnoreCase("DICOM")) {
                 mImageThumbnail.setImageResource(R.mipmap.ic_format_dcm);
             } else {

@@ -241,7 +241,7 @@
 
     </ScrollView>
 
-    <com.intrafab.medicus.widgets.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
