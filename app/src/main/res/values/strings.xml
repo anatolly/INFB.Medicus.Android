@@ -16,6 +16,7 @@
     <string name="dialog_progress_upload_file">File uploading</string>
     <string name="please_wait">Please, wait&#8230;</string>
     <string name="dialog_progress_login">Check Account</string>
+    <string name="dialog_progress_update_status">Update status</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
@@ -28,6 +29,7 @@
     <string name="error_file_not_selected">Ошибка при выборе файла</string>
 
     <string name="success_file_uploding">Файл был успешно загружен</string>
+    <string name="success_update_status">Статус был успешно обновлен</string>
 
     <string name="buttonAccept">Accept</string>
     <string name="buttonChange">Change</string>

@@ -1,21 +1,24 @@
 package com.intrafab.medicus.actions;
 
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.intrafab.medicus.Constants;
 import com.intrafab.medicus.data.ActivityEntry;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
+import com.intrafab.medicus.data.WrapperStatus;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.http.HttpRestService;
 import com.intrafab.medicus.http.RestApiConfig;
+import com.intrafab.medicus.loaders.StateEntryListLoader;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.squareup.okhttp.RequestBody;
 import com.telly.groundy.GroundyTask;
 import com.telly.groundy.TaskResult;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -57,7 +60,7 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
 
             Response response = null;
             try {
-                WrapperLogin log = new WrapperLogin();
+                WrapperStatus newWrapperStatus = new WrapperStatus();
 
                 String status = "0";
                 if (activityEntry.getStateStatus().equals("Сhanged"))
@@ -68,50 +71,62 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
                     status = "2";
                 else if (activityEntry.getStateStatus().equals("Cancelled"))
                     status = "3";
-                log.setInteger_activity_status(status);
+                newWrapperStatus.setInteger_activity_status(status);
                 Logger.e(TAG, "ActionRequestChangeStatusTask request body: " + activityEntry.toJson().toString());
-                response = service.changeStateActivity(oldEntry.getId(), log);
+                response = service.changeStateActivity(oldEntry.getId(), newWrapperStatus);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            ActivityEntry updatedEntry = null;
             TypedInput bodyResponse = response.getBody();
 
             if (bodyResponse != null) {
                 String resultResponse = new String(((TypedByteArray) bodyResponse).getBytes());
                 Logger.e(TAG, "ActionRequestChangeStatusTask resultResponse: " + resultResponse);
+
+                updatedEntry = new ActivityEntry(new JSONObject(resultResponse));
             }
 
             // only test
 //            Thread.sleep(5000);
 
 
-            if (newStatus.equals(StateEntryType.STATUSES.get(1))) { //Canceled
+            if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
                 entry = createEntry(
-                        oldEntry.getStateStart(),
-                        oldEntry.getStateEnd(),
-                        oldEntry.getStateDescription(),
-                        oldEntry.getStateStatus(), "Canceled");
-            } else if (newStatus.equals(StateEntryType.STATUSES.get(2))) { //Changed
+                        updatedEntry.getId(),
+                        updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
+                        updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
+                        updatedEntry.getStateTitle(),
+                        oldEntry.getStateType(), "Canceled");
+            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
                 entry = createEntry(
-                        oldEntry.getStateStart(),
-                        oldEntry.getStateEnd(),
-                        oldEntry.getStateDescription(),
-                        oldEntry.getStateStatus(), "ChangeRequested");
-            } else if (newStatus.equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
+                        updatedEntry.getId(),
+                        updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
+                        updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
+                        updatedEntry.getStateTitle(),
+                        oldEntry.getStateType(), "Changed");
+            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
+                entry = createEntry(
+                        updatedEntry.getId(),
+                        updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
+                        updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
+                        updatedEntry.getStateTitle(),
+                        oldEntry.getStateType(), "ChangeRequested");
             } else {
                 entry = createEntry(
-                        oldEntry.getStateStart(),
-                        oldEntry.getStateEnd(),
-                        oldEntry.getStateDescription(),
-                        oldEntry.getStateStatus(), "Accepted");
+                        updatedEntry.getId(),
+                        updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
+                        updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
+                        updatedEntry.getStateTitle(),
+                        oldEntry.getStateType(), "Accepted");
             }
             // test ended
 
             if (entry == null)
                 return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
 
-            DBManager.getInstance().insertObjectToArray(getContext(), Constants.Prefs.PREF_PARAM_STATE_ENTRIES, entry, StateEntry[].class);
+            DBManager.getInstance().insertObjectToArray(getContext(), StateEntryListLoader.class, Constants.Prefs.PREF_PARAM_STATE_ENTRIES, entry, StateEntry[].class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
@@ -121,13 +136,16 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
                 .add(ARG_STATE_ENTRY, entry);
     }
 
-    private StateEntry createEntry(long stateStart, long stateEnd, String stateDescription, String stateType, String stateStatus) {
+    private StateEntry createEntry(String id, long stateStart, long stateEnd, String stateDescription, String stateType, String stateStatus) {
         StateEntry item = new StateEntry();
 
+        item.setId(id);
         item.setStateStart(stateStart);
         item.setStateEnd(stateEnd);
         item.setStateDescription(stateDescription);
         item.setStateType(stateType);
+        if (TextUtils.isEmpty(stateStatus))
+            stateStatus = "Changed";
         item.setStateStatus(stateStatus);
 
         return item;
@@ -140,49 +158,6 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
             return buffer.readString(body.contentType().charset());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public static class WrapperLogin implements Parcelable {
-
-        public static final Creator<WrapperLogin> CREATOR = new Creator<WrapperLogin>() {
-            @Override
-            public WrapperLogin createFromParcel(Parcel source) {
-                return new WrapperLogin(source);
-            }
-
-            @Override
-            public WrapperLogin[] newArray(int size) {
-                return new WrapperLogin[size];
-            }
-        };
-
-        public String getInteger_activity_status() {
-            return integer_activity_status;
-        }
-
-        public void setInteger_activity_status(String integer_activity_status) {
-            this.integer_activity_status = integer_activity_status;
-        }
-
-        private String integer_activity_status;
-
-        public WrapperLogin() {
-
-        }
-
-        public WrapperLogin(Parcel source) {
-            integer_activity_status = source.readString();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(integer_activity_status);
         }
     }
 }

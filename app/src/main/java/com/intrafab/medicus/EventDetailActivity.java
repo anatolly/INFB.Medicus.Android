@@ -11,14 +11,19 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.intrafab.medicus.actions.ActionRequestChangeStatusTask;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
+import com.telly.groundy.annotations.OnFailure;
+import com.telly.groundy.annotations.OnSuccess;
+import com.telly.groundy.annotations.Param;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -53,6 +58,8 @@ public class EventDetailActivity extends BaseActivity
     private TextView mViewBtnCancel;
 
     private CallbacksManager mCallbacksManager;
+
+    private MaterialDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,9 +167,6 @@ public class EventDetailActivity extends BaseActivity
 
         mViewValueStatus.setText(mStateEntry.getStateStatus());
 
-        int rippleColor = getResources().getColor(R.color.colorLightPrimary);
-        float rippleAlpha = 0.5f;
-
         if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
             mViewBtnAccept.setVisibility(View.VISIBLE);
             mViewBtnChange.setVisibility(View.VISIBLE);
@@ -180,29 +184,11 @@ public class EventDetailActivity extends BaseActivity
         mViewBtnAccept.setOnClickListener(this);
         mViewBtnAccept.setTextColor(entryType.getTextColor());
 
-        MaterialRippleLayout.on(mViewBtnAccept)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
-
         mViewBtnChange.setOnClickListener(this);
         mViewBtnChange.setTextColor(entryType.getTextColor());
 
-        MaterialRippleLayout.on(mViewBtnChange)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
-
         mViewBtnCancel.setOnClickListener(this);
         mViewBtnCancel.setTextColor(entryType.getTextColor());
-
-        MaterialRippleLayout.on(mViewBtnCancel)
-                .rippleColor(rippleColor)
-                .rippleAlpha(rippleAlpha)
-                .rippleHover(true)
-                .create();
 
         ViewCompat.setTransitionName(mViewThumbnail, EXTRA_OPEN_EVENT_DETAIL);
     }
@@ -240,6 +226,7 @@ public class EventDetailActivity extends BaseActivity
     }
 
     private void runAccept() {
+        showProgress();
         Groundy.create(ActionRequestChangeStatusTask.class)
                 .callback(EventDetailActivity.this)
                 .callbackManager(mCallbacksManager)
@@ -249,10 +236,98 @@ public class EventDetailActivity extends BaseActivity
     }
 
     private void runChange() {
-        Toast.makeText(this, "run Dismiss", Toast.LENGTH_SHORT).show();
+        showProgress();
+        Groundy.create(ActionRequestChangeStatusTask.class)
+                .callback(EventDetailActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Ñhanged")
+                .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
+                .queueUsing(EventDetailActivity.this);
     }
 
     private void runCancel() {
-        Toast.makeText(this, "run Claim", Toast.LENGTH_SHORT).show();
+        showProgress();
+        Groundy.create(ActionRequestChangeStatusTask.class)
+                .callback(EventDetailActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Cancelled")
+                .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
+                .queueUsing(EventDetailActivity.this);
+    }
+
+    @OnSuccess(ActionRequestChangeStatusTask.class)
+    public void onSuccessRequestChangeStatus(@Param(ActionRequestChangeStatusTask.ARG_STATE_ENTRY) StateEntry entry) {
+        mStateEntry = entry;
+
+        StateEntryType entryType = null;
+        String itemType = mStateEntry.getStateType();
+        if (itemType.equals("default")) {
+            entryType = StateEntryType.getDefault();
+        } else {
+            if (!TextUtils.isEmpty(itemType) && StateEntryType.TYPES.containsKey(itemType)) {
+                entryType = StateEntryType.TYPES.get(itemType);
+            } else {
+                entryType = StateEntryType.getDefault();
+            }
+        }
+        setupViews(entryType);
+        hideProgress();
+        showSnackBarSuccess(getResources().getString(R.string.success_update_status));
+    }
+
+    @OnFailure(ActionRequestChangeStatusTask.class)
+    public void onFailureRequestChangeStatus(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    private void showSnackBarError(String error) {
+        SnackbarManager.show(
+                Snackbar.with(EventDetailActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(error)
+                        .color(getResources().getColor(R.color.colorLightError))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(true)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_LONG)
+                , EventDetailActivity.this); // activity where it is displayed
+    }
+
+    private void showSnackBarSuccess(String text) {
+        SnackbarManager.show(
+                Snackbar.with(EventDetailActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(text)
+                        .color(getResources().getColor(R.color.colorLightSuccess))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(false)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                , EventDetailActivity.this); // activity where it is displayed
+    }
+
+    private void showProgress() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_progress_update_status)
+                .titleColor(getResources().getColor(R.color.colorLightTextMain))
+                .content(R.string.please_wait)
+                .contentColor(getResources().getColor(R.color.colorLightTextMain))
+                .backgroundColor(getResources().getColor(R.color.colorLightWindowBackground))
+                .progress(true, 0)
+                .autoDismiss(false)
+                .cancelable(false)
+                .build();
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 }

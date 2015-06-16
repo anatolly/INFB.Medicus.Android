@@ -1,8 +1,8 @@
 package com.intrafab.medicus.http;
 
-import com.intrafab.medicus.actions.ActionRequestChangeStatusTask;
 import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.data.WrapperLogin;
+import com.intrafab.medicus.data.WrapperStatus;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public interface HttpRestService {
 
     @PUT("/serviceuse/activity/{id} ")
     @Headers({"Content-Type: application/json"})
-    public Response changeStateActivity(@Path("id") String id, @Body ActionRequestChangeStatusTask.WrapperLogin statusJson);
+    public Response changeStateActivity(@Path("id") String id, @Body WrapperStatus statusJson);
 
     @GET("/serviceuse/csu/{id}.json")
     public Response getOrder(@Path("id") String id);
