@@ -30,6 +30,7 @@
 
     <string name="success_file_uploding">Файл был успешно загружен</string>
     <string name="success_update_status">Статус был успешно обновлен</string>
+    <string name="success_update_all_statuses">Все статусы были успешно обновлены</string>
 
     <string name="buttonAccept">Accept</string>
     <string name="buttonChange">Change</string>

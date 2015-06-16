@@ -129,15 +129,15 @@ public class ItemStateEntryView extends RecyclerView.ViewHolder
             mTextViewEventName.setText(R.string.document_name_unknown);
         }
 
-        if (item.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+        if (item.getStateStatus().equals(StateEntryType.STATUSES.get(0))) { //Changed
             mImagePerfecting.setVisibility(View.VISIBLE);
             mImagePerfecting.setImageResource(R.mipmap.ic_importance);
             mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
+        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //ChangeRequested
             mImagePerfecting.setVisibility(View.VISIBLE);
             mImagePerfecting.setImageResource(R.mipmap.ic_available_updates);
             mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
+        } else if (item.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //Canceled
             mImagePerfecting.setVisibility(View.INVISIBLE);
             mTextViewEventName.setPaintFlags(mTextViewEventName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {

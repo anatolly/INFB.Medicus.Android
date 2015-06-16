@@ -140,15 +140,15 @@ public class ActivityEntry implements Parcelable {
         if (object.has("integer_activity_status")) {
             String status = object.optString("integer_activity_status");
             if (status.equals("0")) {
-                this.stateStatus = "Сhanged";
+                this.stateStatus = StateEntryType.STATUSES.get(0);
             } else if (status.equals("1")) {
-                this.stateStatus = "ChangeRequested";
+                this.stateStatus = StateEntryType.STATUSES.get(1);
             } else if (status.equals("2")) {
-                this.stateStatus = "Accepted";
+                this.stateStatus = StateEntryType.STATUSES.get(2);
             } else if (status.equals("3")) {
-                this.stateStatus = "Cancelled";
+                this.stateStatus = StateEntryType.STATUSES.get(3);
             } else {
-                this.stateStatus = "Сhanged";
+                this.stateStatus = StateEntryType.STATUSES.get(0);
             }
         }
 
@@ -205,13 +205,13 @@ public class ActivityEntry implements Parcelable {
 //        root.put("vid", id);
 //        root.put("title", stateTitle);
         String status = "0";
-        if (stateStatus.equals("Сhanged"))
+        if (stateStatus.equals(StateEntryType.STATUSES.get(0)))
             status = "0";
-        else if (stateStatus.equals("ChangeRequested"))
+        else if (stateStatus.equals(StateEntryType.STATUSES.get(1)))
             status = "1";
-        else if (stateStatus.equals("Accepted"))
+        else if (stateStatus.equals(StateEntryType.STATUSES.get(2)))
             status = "2";
-        else if (stateStatus.equals("Cancelled"))
+        else if (stateStatus.equals(StateEntryType.STATUSES.get(3)))
             status = "3";
         root.put("integer_activity_status", status);
 

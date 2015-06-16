@@ -89,6 +89,14 @@ public class PlaceholderStateEntryFragment extends Fragment {
         mRecyclerView.setEmptyView(mEmptyLayout);
     }
 
+    public List<StateEntry> getItems() {
+        if (mEntryAdapter != null) {
+            return mEntryAdapter.getItems();
+        }
+
+        return null;
+    }
+
     public void setData(List<StateEntry> data) {
         mEntryAdapter.clear();
         mEntryAdapter.addAll(data);

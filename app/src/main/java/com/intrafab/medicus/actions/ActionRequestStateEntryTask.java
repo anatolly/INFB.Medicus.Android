@@ -10,6 +10,7 @@ import com.intrafab.medicus.data.Order;
 import com.intrafab.medicus.data.OrderItem;
 import com.intrafab.medicus.data.ServiceSet;
 import com.intrafab.medicus.data.StateEntry;
+import com.intrafab.medicus.data.StateEntryType;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.http.HttpRestService;
 import com.intrafab.medicus.http.RestApiConfig;
@@ -267,7 +268,7 @@ public class ActionRequestStateEntryTask extends GroundyTask {
         item.setStateType(stateType);
         Logger.e(TAG, "ActionRequestStateEntryTask createEntry stateStatus: " + stateStatus);
         if (TextUtils.isEmpty(stateStatus))
-            stateStatus = "Changed";
+            stateStatus = StateEntryType.STATUSES.get(0);
         item.setStateStatus(stateStatus);
 
         return item;

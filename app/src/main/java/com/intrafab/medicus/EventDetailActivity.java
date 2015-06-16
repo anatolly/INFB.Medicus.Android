@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class EventDetailActivity extends BaseActivity
 
         getSupportActionBar().setTitle(mStateEntry.getStateDescription());
         showActionBar();
+        setActionBarIcon(R.mipmap.ic_action_back);
 
         mCallbacksManager = CallbacksManager.init(savedInstanceState);
         mCallbacksManager.linkCallbacks(this);
@@ -167,11 +169,11 @@ public class EventDetailActivity extends BaseActivity
 
         mViewValueStatus.setText(mStateEntry.getStateStatus());
 
-        if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+        if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(0))) { //Changed
             mViewBtnAccept.setVisibility(View.VISIBLE);
             mViewBtnChange.setVisibility(View.VISIBLE);
             mViewBtnCancel.setVisibility(View.VISIBLE);
-        } else if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
+        } else if (mStateEntry.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //Canceled
             mViewBtnAccept.setVisibility(View.GONE);
             mViewBtnCancel.setVisibility(View.GONE);
             mViewBtnChange.setVisibility(View.VISIBLE);
@@ -198,7 +200,7 @@ public class EventDetailActivity extends BaseActivity
         return R.layout.activity_event_detail;
     }
 
-    public static void launch(BaseActivity activity, View transitionView, StateEntry entry) {
+    public static void launch(BaseActivity activity, View transitionView, StateEntry entry, int requestCode) {
         Intent intent = new Intent(activity, EventDetailActivity.class);
         intent.putExtra(EXTRA_STATE_ENTRY, entry);
 
@@ -207,7 +209,19 @@ public class EventDetailActivity extends BaseActivity
                         transitionView,
                         EXTRA_OPEN_EVENT_DETAIL
                 );
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
+        ActivityCompat.startActivityForResult(activity, intent, requestCode, options.toBundle());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -230,7 +244,7 @@ public class EventDetailActivity extends BaseActivity
         Groundy.create(ActionRequestChangeStatusTask.class)
                 .callback(EventDetailActivity.this)
                 .callbackManager(mCallbacksManager)
-                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Accepted")
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, StateEntryType.STATUSES.get(2)) //Accepted
                 .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
                 .queueUsing(EventDetailActivity.this);
     }
@@ -240,7 +254,7 @@ public class EventDetailActivity extends BaseActivity
         Groundy.create(ActionRequestChangeStatusTask.class)
                 .callback(EventDetailActivity.this)
                 .callbackManager(mCallbacksManager)
-                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Ñhanged")
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, StateEntryType.STATUSES.get(0)) //Changed
                 .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
                 .queueUsing(EventDetailActivity.this);
     }
@@ -250,7 +264,7 @@ public class EventDetailActivity extends BaseActivity
         Groundy.create(ActionRequestChangeStatusTask.class)
                 .callback(EventDetailActivity.this)
                 .callbackManager(mCallbacksManager)
-                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, "Cancelled")
+                .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, StateEntryType.STATUSES.get(3))//Cancelled
                 .arg(ActionRequestChangeStatusTask.ARG_STATE_ENTRY, mStateEntry)
                 .queueUsing(EventDetailActivity.this);
     }

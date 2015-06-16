@@ -21,6 +21,8 @@ import com.telly.groundy.TaskResult;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import okio.Buffer;
 import retrofit.client.Response;
@@ -63,13 +65,13 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
                 WrapperStatus newWrapperStatus = new WrapperStatus();
 
                 String status = "0";
-                if (activityEntry.getStateStatus().equals("Сhanged"))
+                if (activityEntry.getStateStatus().equals(StateEntryType.STATUSES.get(0)))
                     status = "0";
-                else if (activityEntry.getStateStatus().equals("ChangeRequested"))
+                else if (activityEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1)))
                     status = "1";
-                else if (activityEntry.getStateStatus().equals("Accepted"))
+                else if (activityEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2)))
                     status = "2";
-                else if (activityEntry.getStateStatus().equals("Cancelled"))
+                else if (activityEntry.getStateStatus().equals(StateEntryType.STATUSES.get(3)))
                     status = "3";
                 newWrapperStatus.setInteger_activity_status(status);
                 Logger.e(TAG, "ActionRequestChangeStatusTask request body: " + activityEntry.toJson().toString());
@@ -92,41 +94,57 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
 //            Thread.sleep(5000);
 
 
-            if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //Canceled
+            Logger.e(TAG, "ActionRequestChangeStatusTask updatedEntry status: " + updatedEntry.getStateStatus());
+            if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //Canceled
                 entry = createEntry(
                         updatedEntry.getId(),
                         updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
                         updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
                         updatedEntry.getStateTitle(),
-                        oldEntry.getStateType(), "Canceled");
-            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(2))) { //Changed
+                        oldEntry.getStateType(), StateEntryType.STATUSES.get(3));
+            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(0))) { //Changed
                 entry = createEntry(
                         updatedEntry.getId(),
                         updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
                         updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
                         updatedEntry.getStateTitle(),
-                        oldEntry.getStateType(), "Changed");
-            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(3))) { //ChangeRequested
+                        oldEntry.getStateType(), StateEntryType.STATUSES.get(0));
+            } else if (updatedEntry.getStateStatus().equals(StateEntryType.STATUSES.get(1))) { //ChangeRequested
                 entry = createEntry(
                         updatedEntry.getId(),
                         updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
                         updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
                         updatedEntry.getStateTitle(),
-                        oldEntry.getStateType(), "ChangeRequested");
+                        oldEntry.getStateType(), StateEntryType.STATUSES.get(1));
             } else {
                 entry = createEntry(
                         updatedEntry.getId(),
                         updatedEntry.getStateStart() == null ? 0 : updatedEntry.getStateStart().getTime(),
                         updatedEntry.getStateEnd() == null ? 0 : updatedEntry.getStateEnd().getTime(),
                         updatedEntry.getStateTitle(),
-                        oldEntry.getStateType(), "Accepted");
+                        oldEntry.getStateType(), StateEntryType.STATUSES.get(2));
             }
             // test ended
 
             if (entry == null)
                 return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
 
-            DBManager.getInstance().insertObjectToArray(getContext(), StateEntryListLoader.class, Constants.Prefs.PREF_PARAM_STATE_ENTRIES, entry, StateEntry[].class);
+            List<StateEntry> dbItems = DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_STATE_ENTRIES, StateEntry[].class);
+            List<StateEntry> items = new LinkedList<StateEntry>(dbItems);
+
+            int count = items.size();
+            for (int i = 0; i < count; ++i) {
+                StateEntry itemEntry = items.get(i);
+                Logger.e(TAG, "ActionRequestChangeStatusTask itemEntry id: " + itemEntry.getId());
+                Logger.e(TAG, "ActionRequestChangeStatusTask entry id: " + entry.getId());
+                if (itemEntry.getId().equals(entry.getId())) {
+                    Logger.e(TAG, "ActionRequestChangeStatusTask updatedEntry id: " + entry.getId());
+                    items.set(i, entry);
+                    break;
+                }
+            }
+
+            DBManager.getInstance().insertArrayObject(getContext(), StateEntryListLoader.class, Constants.Prefs.PREF_PARAM_STATE_ENTRIES, items, StateEntry.class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
@@ -145,7 +163,7 @@ public class ActionRequestChangeStatusTask extends GroundyTask {
         item.setStateDescription(stateDescription);
         item.setStateType(stateType);
         if (TextUtils.isEmpty(stateStatus))
-            stateStatus = "Changed";
+            stateStatus = StateEntryType.STATUSES.get(0);
         item.setStateStatus(stateStatus);
 
         return item;

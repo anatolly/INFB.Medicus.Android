@@ -55,6 +55,10 @@ public class StateEntryAdapter extends RecyclerView.Adapter<ItemStateEntryView> 
         //notifyDataSetChanged();
     }
 
+    public List<StateEntry> getItems() {
+        return mListItems;
+    }
+
     public int size() { return mListItems.size(); }
 
     public void clear() {

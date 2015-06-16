@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int LOADER_ME_ID = 15;
 
-    private static final int REQUST_CODE_SETTINGS = 1005;
+    private static final int REQUEST_CODE_SETTINGS = 1005;
 
     private LinearLayout mButtonStorage;
     private LinearLayout mButtonSos;
@@ -175,8 +175,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUST_CODE_SETTINGS) {
-            Logger.e(TAG, "onActivityResult REQUST_CODE_SETTINGS");
+        if (requestCode == REQUEST_CODE_SETTINGS) {
+            Logger.e(TAG, "onActivityResult REQUEST_CODE_SETTINGS");
             restartActivity(this);
         }
     }
@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            SettingsActivity.launch(this, REQUST_CODE_SETTINGS);
+            SettingsActivity.launch(this, REQUEST_CODE_SETTINGS);
             return true;
         }
 

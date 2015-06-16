@@ -1,6 +1,7 @@
 package com.intrafab.medicus;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -10,13 +11,16 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.intrafab.medicus.actions.ActionRequestAcceptAllTask;
+import com.intrafab.medicus.actions.ActionRequestChangeStatusTask;
 import com.intrafab.medicus.actions.ActionRequestStateEntryTask;
 import com.intrafab.medicus.adapters.StateEntryAdapter;
 import com.intrafab.medicus.data.StateEntry;
 import com.intrafab.medicus.data.StateEntryType;
+import com.intrafab.medicus.data.WrapperStatusList;
 import com.intrafab.medicus.fragments.PlaceholderStateEntryFragment;
 import com.intrafab.medicus.loaders.StateEntryListLoader;
 import com.intrafab.medicus.utils.Connectivity;
@@ -31,6 +35,7 @@ import com.telly.groundy.annotations.OnFailure;
 import com.telly.groundy.annotations.OnSuccess;
 import com.telly.groundy.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,18 +48,22 @@ public class CalendarActivity extends BaseActivity
     public static final String TAG = CalendarActivity.class.getName();
     public static final String EXTRA_OPEN_CALENDAR = "openCalendar";
 
+    private static final long UPDATE_PERIOD = 1800000L; // 30 min
+
     private static final int LOADER_ENTRY_ID = 12;
+
+    private static final int REQUEST_CODE_DETAIL = 2005;
 
     private CallbacksManager mCallbacksManager;
 
     private boolean mIsNeedAcceptAll = false;
+    private boolean mIsSyncStarted = false;
 
     private FloatingActionsMenu mActionsMenu;
     private FloatingActionButton mFabAcceptAll;
     private FloatingActionButton mFabSyncCloud;
 
-    //private TextView mBtnClear;
-    //private TextView mBtnAcceptAll;
+    private MaterialDialog mProgressDialog;
 
     private android.app.LoaderManager.LoaderCallbacks<List<StateEntry>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<StateEntry>>() {
         @Override
@@ -99,6 +108,9 @@ public class CalendarActivity extends BaseActivity
 
     private void finishedStateEntryLoader(List<StateEntry> data) {
 
+        if (mIsSyncStarted)
+            return;
+
         PlaceholderStateEntryFragment fragment = getFragment();
         if (data == null) {
             Logger.d(TAG, "finishedStateEntryLoader start ActionRequestStorageTask");
@@ -122,7 +134,7 @@ public class CalendarActivity extends BaseActivity
 
                 for (StateEntry entry : data) {
                     String status = entry.getStateStatus();
-                    if (!TextUtils.isEmpty(status) && status.equals(StateEntryType.STATUSES.get(2))) { //Changed
+                    if (!TextUtils.isEmpty(status) && status.equals(StateEntryType.STATUSES.get(0))) { //Changed
                         mIsNeedAcceptAll = true;
                         showAcceptAll();
                         break;
@@ -183,6 +195,7 @@ public class CalendarActivity extends BaseActivity
         mFabAcceptAll.setOnClickListener(this);
         mFabSyncCloud.setOnClickListener(this);
 
+        mIsSyncStarted = false;
         toolbar.post(new Runnable() {
             @Override
             public void run() {
@@ -229,6 +242,23 @@ public class CalendarActivity extends BaseActivity
             showAcceptAll();
         else
             hideAcceptAll();
+
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                long lastUpdate = getLastUpdate();
+                long currentTime = new Date().getTime();
+
+                if (currentTime - lastUpdate >= UPDATE_PERIOD) {
+                    try {
+                        syncList();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    setLastUpdate(currentTime);
+                }
+            }
+        });
     }
 
     public static void launch(BaseActivity activity, View transitionView) {
@@ -255,52 +285,84 @@ public class CalendarActivity extends BaseActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_DETAIL) {
+            Logger.e(TAG, "onActivityResult REQUEST_CODE_DETAIL");
+            toolbar.post(new Runnable() {
+                @Override
+                public void run() {
+                    startStateEntryLoading();
+                }
+            });
+        }
+    }
+
+    @Override
     public void onClickItem(StateEntry itemStateEntry, ItemStateEntryView entryView) {
-        EventDetailActivity.launch(this, entryView.getThumbnail(), itemStateEntry);
+        EventDetailActivity.launch(this, entryView.getThumbnail(), itemStateEntry, REQUEST_CODE_DETAIL);
     }
 
     @Override
     public void onClick(View v) {
-        PlaceholderStateEntryFragment fragment = getFragment();
-        switch (v.getId()) {
+                switch (v.getId()) {
             case R.id.fabSyncCloud:
-                mActionsMenu.collapse();
-                mFabAcceptAll.setEnabled(false);
-                mFabSyncCloud.setEnabled(false);
-                if (!Connectivity.isConnected(this)) {
-                    showSnackBarError(getResources().getString(R.string.error_internet_not_available));
-                    mFabAcceptAll.setEnabled(true);
-                    mFabSyncCloud.setEnabled(true);
-                    return;
-                }
-
-                if (fragment != null) {
-                    fragment.hideProgress();
-                    fragment.setData(null);
-                }
-
-                if (fragment != null)
-                    fragment.showProgress();
-                String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
-                Groundy.create(ActionRequestStateEntryTask.class)
-                        .callback(CalendarActivity.this)
-                        .callbackManager(mCallbacksManager)
-                        .arg(ActionRequestStateEntryTask.ARG_USER_OWNER_ID, userUid)
-                        .queueUsing(CalendarActivity.this);
+                syncList();
                 break;
             case R.id.fabAcceptAll:
+                PlaceholderStateEntryFragment fragment = getFragment();
+                if (fragment == null)
+                    return;
+
                 mActionsMenu.collapse();
                 mFabAcceptAll.setEnabled(false);
                 mFabSyncCloud.setEnabled(false);
-                if (fragment != null)
-                    fragment.showProgress();
+                showProgress();
+
+                WrapperStatusList statuses = new WrapperStatusList();
+                List<StateEntry> entries = fragment.getItems();
+                if (entries != null && entries.size() > 0) {
+                    statuses.setEntries(entries);
+                }
 
                 Groundy.create(ActionRequestAcceptAllTask.class)
                         .callback(CalendarActivity.this)
                         .callbackManager(mCallbacksManager)
+                        .arg(ActionRequestChangeStatusTask.ARG_NEW_STATUS, StateEntryType.STATUSES.get(2)) //Accepted
+                        .arg(ActionRequestAcceptAllTask.ARG_STATUSES_LIST, statuses)
                         .queueUsing(CalendarActivity.this);
                 break;
         }
+    }
+
+    private void syncList() {
+        PlaceholderStateEntryFragment fragment = getFragment();
+        if (fragment == null)
+            return;
+
+        mActionsMenu.collapse();
+        mFabAcceptAll.setEnabled(false);
+        mFabSyncCloud.setEnabled(false);
+        if (!Connectivity.isConnected(this)) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+            mFabAcceptAll.setEnabled(true);
+            mFabSyncCloud.setEnabled(true);
+            return;
+        }
+
+        fragment.hideProgress();
+        fragment.setData(null);
+
+        fragment.showProgress();
+        String userUid = AppApplication.getApplication(this).getUserAccount().getUid();
+        Groundy.create(ActionRequestStateEntryTask.class)
+                .callback(CalendarActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestStateEntryTask.ARG_USER_OWNER_ID, userUid)
+                .queueUsing(CalendarActivity.this);
+
+        mIsSyncStarted = true;
     }
 
     private void showAcceptAll() {
@@ -313,6 +375,18 @@ public class CalendarActivity extends BaseActivity
         if (mFabAcceptAll != null) {
             mFabAcceptAll.setVisibility(View.GONE);
         }
+    }
+
+    private void showSnackBarSuccess(String text) {
+        SnackbarManager.show(
+                Snackbar.with(CalendarActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(text)
+                        .color(getResources().getColor(R.color.colorLightSuccess))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(false)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                , CalendarActivity.this); // activity where it is displayed
     }
 
     private void showSnackBarError(String error) {
@@ -331,13 +405,12 @@ public class CalendarActivity extends BaseActivity
     public void onSuccessRequestAcceptAll() {
         mFabAcceptAll.setEnabled(true);
         mFabSyncCloud.setEnabled(true);
-        PlaceholderStateEntryFragment fragment = getFragment();
-        if (fragment != null) {
-            fragment.hideProgress();
-        }
+        hideProgress();
 
         mIsNeedAcceptAll = false;
         hideAcceptAll();
+
+        showSnackBarSuccess(getResources().getString(R.string.success_update_all_statuses));
     }
 
     @OnFailure(ActionRequestAcceptAllTask.class)
@@ -345,6 +418,7 @@ public class CalendarActivity extends BaseActivity
             @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
         mFabAcceptAll.setEnabled(true);
         mFabSyncCloud.setEnabled(true);
+        hideProgress();
         if (!isAvailable) {
             showSnackBarError(getResources().getString(R.string.error_internet_not_available));
         } else {
@@ -362,6 +436,8 @@ public class CalendarActivity extends BaseActivity
 
         mFabAcceptAll.setEnabled(true);
         mFabSyncCloud.setEnabled(true);
+
+        mIsSyncStarted = false;
     }
 
     @OnFailure(ActionRequestStateEntryTask.class)
@@ -380,5 +456,41 @@ public class CalendarActivity extends BaseActivity
 
         mFabAcceptAll.setEnabled(true);
         mFabSyncCloud.setEnabled(true);
+
+        mIsSyncStarted = false;
+    }
+
+    private void showProgress() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_progress_update_status)
+                .titleColor(getResources().getColor(R.color.colorLightTextMain))
+                .content(R.string.please_wait)
+                .contentColor(getResources().getColor(R.color.colorLightTextMain))
+                .backgroundColor(getResources().getColor(R.color.colorLightWindowBackground))
+                .progress(true, 0)
+                .autoDismiss(false)
+                .cancelable(false)
+                .build();
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+    public long getLastUpdate() {
+        SharedPreferences prefs = getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        return prefs.getLong("lastUpdate", 0);
+    }
+
+    public void setLastUpdate(long time) {
+        SharedPreferences prefs = getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putLong("lastUpdate", time);
+        edit.commit();
     }
 }
