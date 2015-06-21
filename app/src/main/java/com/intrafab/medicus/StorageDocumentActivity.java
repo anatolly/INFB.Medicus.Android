@@ -34,6 +34,11 @@ public class StorageDocumentActivity extends BaseActivity implements View.OnClic
     public static final String EXTRA_OPEN_STORAGE_DOCUMENT = "openStorageDocument";
     public static final String ITEM_STORAGE_INFO = "item_storage_info";
 
+    private static final int MAX_WIDTH = 1024;
+    private static final int MAX_HEIGHT = 768;
+
+    int size = (int) Math.ceil(Math.sqrt(MAX_WIDTH * MAX_HEIGHT));
+
     private ImageView mIconSync;
     private ImageView mIconView;
     private ImageView mIconRemove;
@@ -105,6 +110,9 @@ public class StorageDocumentActivity extends BaseActivity implements View.OnClic
                         .load(item.getImagePath())
 //                    .placeholder(R.mipmap.ic_document_default)
                         .error(R.mipmap.ic_document_error)
+                        .resize(size, size)
+                        .centerInside()
+                        .tag(this)
                         .into(mImageThumbnail, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -168,6 +176,12 @@ public class StorageDocumentActivity extends BaseActivity implements View.OnClic
         }
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(this).cancelTag(this);
     }
 
     @Override
