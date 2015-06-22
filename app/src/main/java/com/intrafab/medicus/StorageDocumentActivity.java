@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.intrafab.medicus.data.StorageInfo;
+import com.intrafab.medicus.utils.BitmapTransform;
 import com.intrafab.medicus.utils.Logger;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
@@ -110,6 +111,7 @@ public class StorageDocumentActivity extends BaseActivity implements View.OnClic
                         .load(item.getImagePath())
 //                    .placeholder(R.mipmap.ic_document_default)
                         .error(R.mipmap.ic_document_error)
+                        .transform(new BitmapTransform(MAX_WIDTH, MAX_HEIGHT))
                         .resize(size, size)
                         .centerInside()
                         .tag(this)
