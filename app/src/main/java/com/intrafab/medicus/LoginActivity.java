@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public static void launch(BaseActivity activity, View transitionView) {
-        Intent intent = new Intent(activity, PaymentActivity.class);
+        Intent intent = new Intent(activity, LoginActivity.class);
 
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
