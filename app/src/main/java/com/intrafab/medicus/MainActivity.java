@@ -215,6 +215,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             SettingsActivity.launch(this, REQUEST_CODE_SETTINGS);
             return true;
         }
+        if (id == R.id.action_medical_journal){
+            MedicalJournalActivity.launch(this, null);
+        }
 
         return super.onOptionsItemSelected(item);
     }

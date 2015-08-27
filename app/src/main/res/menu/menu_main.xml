@@ -9,4 +9,9 @@
         android:orderInCategory="1"
         android:menuCategory="container"/>
 
+    <item android:id="@+id/action_medical_journal"
+        android:title="@string/medical_journal_header"
+        app:showAsAction="never"
+        android:orderInCategory="2"
+        android:menuCategory="container"/>
 </menu>

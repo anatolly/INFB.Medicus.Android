@@ -106,7 +106,8 @@
         app:mrl_rippleAlpha="0.5"
         app:mrl_rippleColor="@color/colorLightPrimary"
         app:mrl_rippleHover="true"
-        app:mrl_rippleOverlay="true">
+        app:mrl_rippleOverlay="true"
+        android:id="@+id/view2">
 
         <TextView
             android:id="@+id/btnLogin"

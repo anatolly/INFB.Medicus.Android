@@ -17,6 +17,7 @@ public class Constants {
         public static final String PREF_PARAM_STATE_ENTRIES = "pref_param_state_entries";
         public static final String PREF_PARAM_ME = "pref_param_me";
         public static final String PREF_PARAM_ORDER = "pref_param_order";
+        public static final String PREF_PARAM_MENS_CAL_ENTRIES = "pref_param_mens_cal_entries";
     }
 
     public static class Extras {

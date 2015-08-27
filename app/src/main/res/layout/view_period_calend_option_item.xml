@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    app:mrl_rippleAlpha="0.5"
+    app:mrl_rippleColor="@color/colorLightPrimary"
+    app:mrl_rippleHover="true"
+    app:mrl_rippleOverlay="true">
+
+    <RelativeLayout
+        android:id="@+id/rlItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/icOption"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription=""
+            android:src="@mipmap/ic1" />
+
+        <LinearLayout
+            android:id="@+id/textview_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@+id/checkBoxContainer"
+            android:layout_toRightOf="@+id/icOption"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="OptionName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#273849"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#273849"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/checkBoxContainer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/check_box"
+                android:button="@drawable/check_box_circle"
+                android:checked="false" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/ivRightArrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription=""
+            android:src="@mipmap/ic_arrow_right" />
+
+        <!--
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textview_container"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/ivThumbnail"
+            android:background="@color/colorLightPrimary" />
+            -->
+    </RelativeLayout>
+
+</com.balysv.materialripple.MaterialRippleLayout>

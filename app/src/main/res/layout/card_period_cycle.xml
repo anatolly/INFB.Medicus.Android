@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/text_view_layout">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menstrual_cycle_title"
+            android:id="@+id/tvTitle"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="10dp"
+            android:layout_alignTop="@+id/tvInformation"
+            android:layout_alignLeft="@+id/tvInformation"
+            android:layout_alignStart="@+id/tvInformation" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:id="@+id/tvDate"
+            android:layout_below="@+id/tvTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="10dp"
+            android:textSize="15sp" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/tvInformation"
+            android:layout_alignLeft="@+id/tvInformation"
+            android:layout_alignStart="@+id/tvInformation" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Information About Your Menstrual Cycle"
+            android:id="@+id/tvInformation"
+            android:layout_below="@+id/tvDate"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view"
+            android:layout_above="@+id/tvInformation"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
