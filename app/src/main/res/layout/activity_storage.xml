@@ -60,7 +60,7 @@
             app:fab_colorPressed="@color/colorLightButtonYellowPressed"
             app:fab_icon="@mipmap/ic_screenshot"
             app:fab_size="mini"
-            app:fab_title="Camera" />
+            app:fab_title="@string/camera_button" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabGallery"
@@ -70,7 +70,7 @@
             app:fab_colorPressed="@color/colorLightButtonGreenPressed"
             app:fab_icon="@mipmap/ic_add_file"
             app:fab_size="mini"
-            app:fab_title="Gallery" />
+            app:fab_title="@string/gallery_button" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     <!--<RelativeLayout-->

@@ -173,7 +173,7 @@ public class CalendarActivity extends BaseActivity
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle("Calendar");
+        getSupportActionBar().setTitle(getString(R.string.calendar_screen_header));
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

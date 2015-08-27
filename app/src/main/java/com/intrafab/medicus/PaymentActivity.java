@@ -84,7 +84,7 @@ public class PaymentActivity extends BaseActivity {
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle("Account");
+        getSupportActionBar().setTitle(R.string.menu_account);
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

@@ -2,18 +2,20 @@
     <string name="app_name">Medicus</string>
 
     <!-- Storage screen -->
-    <string name="strorage_screen_header">Файловое хранилище</string>
+    <string name="storage_screen_header">Файловое хранилище</string>
     <string name="tab_storage_all">Все</string>
     <string name="tab_storage_trip">Путешествие</string>
     <string name="document_name_unknown">Имя неизвестно</string>
     <string name="empty_storage_list">Список пуст.\nНажмите + для добавления файла</string>
     <string name="empty_state_entry_list">Список пуст.</string>
+    <string name="camera_button">Камера</string>
+    <string name="gallery_button">Галерея</string>
 
     <string name="dialog_upload_header">Загрузка файла на сервер</string>
     <string name="dialog_upload_content">Вы подтверждаете загрузку файла %s?</string>
-    <string name="dialog_upload_button_success">Upload</string>
+    <string name="dialog_upload_button_success">Загрузить</string>
     <string name="dialog_upload_button_cancel">Отмена</string>
-    <string name="dialog_progress_upload_file">Файл выгружается</string>
+    <string name="dialog_progress_upload_file">Файл загружается</string>
     <string name="please_wait">Пожалуйста, подождите&#8230;</string>
     <string name="dialog_progress_login">Проверка аккаунта</string>
     <string name="dialog_progress_update_status">Обновление статуса</string>
@@ -26,12 +28,17 @@
     <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
     <string name="error_login">Ошибка. Не удалось авторизоваться. Проверьте правильность введенных данных.</string>
     <string name="error_empty_login">Необходимо ввести Имя пользователя или Email</string>
+    <string name="username_textview">Имя пользователя</string>
+    <string name="login_screen">Логин</string>
+    <string name="login_button">Войти</string>
+    <string name="textview_password">Пароль</string>
+    <string name="account_existence_notification">Если Вы еще не имеете аккаунта,то Вы можете\nсоздать его на сайте проекта</string>
     <string name="error_file_not_selected">Ошибка при выборе файла</string>
-    <string name="error_empty_phone">Нужно ввести номер телефона</string>
+    <string name="error_empty_phone">Необходимо ввести номер телефона</string>
 
-    <string name="success_file_uploding">Файл был успешно загружен</string>
-    <string name="success_update_status">Статус был успешно обновлен</string>
-    <string name="success_update_all_statuses">Все статусы были успешно обновлены</string>
+    <string name="success_file_uploding">Файл успешно загружен</string>
+    <string name="success_update_status">Статус успешно обновлен</string>
+    <string name="success_update_all_statuses">Все статусы успешно обновлены</string>
 
     <string name="buttonAccept">Принять</string>
     <string name="buttonChange">Запросить изменение</string>
@@ -54,13 +61,26 @@
     <string name="menu_calendar">Календарь</string>
     <string name="menu_feedback">Отзывы</string>
     <string name="menu_account">Аккаунт</string>
+    <string name="menu_settings_title">Настройки</string>
+
+    <string name="category_language_settings">Настройка языка</string>
+
+    <!-- Feedback screen -->
+    <string name="textview_hospital">Госпиталь</string>
+    <string name="textview_med_service">Медецинские услуги</string>
+    <string name="description_med_service">Пожалуйста, оцените качество\nмедицинских услуг</string>
+    <string name="description_hospital">Пожалуйста, оцените госпиталь</string>
+    <string name="textview_impressions">Опишите Ваши впечатления</string>
+    <string name="feedback_send_message">Спасибо\nВаш отзыв\nуспешно отправлен</string>
+
+    <string name="sync_button">Синхронизировать с хранилищем</string>
 
     <string name="settings_screen_header">Настройки</string>
 
     <string name="dialog_progress_sos">Запрос информации</string>
 
     <string name="sos_request_callback">Запросить\nзвонок</string>
-    <string name="sos_callback_requested">Звонок был запрошен</string>
+    <string name="sos_callback_requested">Звонок запрошен</string>
     <string name="sos_call_manager">Позвонить\nменеджеру</string>
 
     <string name="select_phone">Выберите номер телефона</string>
@@ -68,4 +88,29 @@
     <string name="your_phone">Ваш номер телефона</string>
     <string name="dialog_sos_button_request">Запросить</string>
     <string name="dialog_sos_button_cancel">Отмена</string>
+    <string name="calendar_screen_header">Календарь</string>
+
+    <!-- Медицинский журнал -->
+    <string name="medical_journal_header">Медицинский Журнал</string>
+    <string name="sync_journal_button">Синхронизировать с Web Кабинетом</string>
+
+    <string-array name="tabs_headers">
+        <item>Менструальный календарь</item>
+        <item>Индекс массы тела</item>
+        <item>Артериальное давление</item>
+    </string-array>
+
+    <string name="menstrual_calendar_title">Календарь</string>
+    <string name="day_of_cycle">день цикла</string>
+    <string name="menstrual_cycle_title">Менструальный цикл</string>
+
+    <!-- Period Calendar Options -->
+    <string name="option_menses_start">Начало периода</string>
+    <string name="option_menstrual_flow">Менструация</string>
+    <string name="option_ovulation">Овуляция</string>
+    <string name="option_intercourse">Половая связь</string>
+    <string name="option_note">Заметка</string>
+    <string name="option_symptoms">Симптомы</string>
+    <string name="option_moods">Настроения</string>
+
 </resources>

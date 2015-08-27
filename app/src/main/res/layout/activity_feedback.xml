@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:singleLine="true"
-                android:text="Med Service"
+                android:text="@string/textview_med_service"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp" />
@@ -60,7 +60,7 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:singleLine="false"
-                android:text="Пожалуйста, оцените качество\nмедицинских услуг"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="18sp" />
@@ -118,7 +118,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:gravity="bottom|left"
-                android:hint="Опишите Ваши впечатления"
+                android:hint="@string/textview_impressions"
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:singleLine="false"
@@ -142,7 +142,7 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:singleLine="true"
-                android:text="Hospital"
+                android:text="@string/textview_hospital"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp" />
@@ -166,7 +166,7 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:singleLine="false"
-                android:text="Пожалуйста, оцените госпиталь"
+                android:text="@string/description_hospital"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="18sp" />
@@ -224,7 +224,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:gravity="bottom|left"
-                android:hint="Опишите Ваши впечатления"
+                android:hint="@string/textview_impressions"
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:singleLine="false"
@@ -278,7 +278,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
             android:singleLine="false"
-            android:text="Спасибо\nВаш отзыв\nуспешно отправлен"
+            android:text="@string/feedback_send_message"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorLightTextMain"
             android:textSize="20sp" />

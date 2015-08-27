@@ -3,6 +3,7 @@ package com.intrafab.medicus;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -17,6 +18,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.intrafab.medicus.actions.ActionRequestLoginTask;
 import com.intrafab.medicus.actions.ActionSaveMeTask;
 import com.intrafab.medicus.data.Account;
+import com.intrafab.medicus.http.RestApiConfig;
+import com.intrafab.medicus.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -37,6 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public static final String EXTRA_OPEN_LOGIN = "openLogin";
 
     private TextView mButtonLogin;
+    private TextView mButtonRegistration;
     private MaterialEditText mEditUserName;
     private MaterialEditText mEditUserPassword;
 
@@ -61,6 +65,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         mButtonLogin = (TextView) findViewById(R.id.btnLogin);
         mButtonLogin.setOnClickListener(this);
+
+        mButtonRegistration = (TextView) findViewById(R.id.tvCreateNewAccount);
+        mButtonRegistration.setOnClickListener(this);
 
         mEditUserName = (MaterialEditText) findViewById(R.id.etEmail);
         mEditUserPassword = (MaterialEditText) findViewById(R.id.etPassword);
@@ -140,6 +147,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 String userPassword = mEditUserPassword.getText().toString();
                 startLogin(userName, userPassword);
+                break;
+            case R.id.tvCreateNewAccount:
+                Logger.d(TAG, "create new account");
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(RestApiConfig.BASE_HOST_URL)));
                 break;
         }
     }

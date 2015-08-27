@@ -461,7 +461,7 @@ public class StorageActivity extends BaseActivity
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle(getString(R.string.strorage_screen_header));
+        getSupportActionBar().setTitle(getString(R.string.storage_screen_header));
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

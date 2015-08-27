@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.jenzz.materialpreference.PreferenceCategory android:title="Language Settings">
+    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/category_language_settings">
         <com.jenzz.materialpreference.Preference
             android:key="prefLanguage"
             android:summary="English"

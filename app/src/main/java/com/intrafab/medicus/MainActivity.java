@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mButtonCalendar;
 
     private TextView mViewUserName;
+    private boolean isAnyActivityLaunching;
 
     private android.app.LoaderManager.LoaderCallbacks<Account> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<Account>() {
         @Override
@@ -149,6 +150,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
+        isAnyActivityLaunching = false;
     }
 
     @Override
@@ -219,6 +221,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        // boolean variable indicate whether any activity have been started previously or not
+        if (isAnyActivityLaunching)
+            return;
+        else
+            isAnyActivityLaunching = true;
         switch (view.getId()) {
             case R.id.llStorage:
                 StorageActivity.launch(MainActivity.this, view);

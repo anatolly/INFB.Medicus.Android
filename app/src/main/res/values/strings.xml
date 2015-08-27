@@ -2,15 +2,17 @@
     <string name="app_name">Medicus</string>
 
     <!-- Storage screen -->
-    <string name="strorage_screen_header">Personal Storage</string>
+    <string name="storage_screen_header">Personal Storage</string>
     <string name="tab_storage_all">All</string>
     <string name="tab_storage_trip">Trip</string>
     <string name="document_name_unknown">Unknown name</string>
     <string name="empty_storage_list">Empty list.\nTap + to add items</string>
     <string name="empty_state_entry_list">Empty list.</string>
+    <string name="camera_button">Camera</string>
+    <string name="gallery_button">Gallery</string>
 
     <string name="dialog_upload_header">Upload file to server</string>
-    <string name="dialog_upload_content">You confirm uploading of the %s file?</string>
+    <string name="dialog_upload_content">Do you confirm uploading of the %s file?</string>
     <string name="dialog_upload_button_success">Upload</string>
     <string name="dialog_upload_button_cancel">Cancel</string>
     <string name="dialog_progress_upload_file">File uploading</string>
@@ -18,20 +20,25 @@
     <string name="dialog_progress_login">Check Account</string>
     <string name="dialog_progress_update_status">Update status</string>
 
-    <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
-    <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
-    <string name="error_file_not_found">Ошибка. Не удалось найти выбранный файл</string>
-    <string name="error_supported_file_format">Ошибка. Выбран не поддерживаемый формат файла. Поддерживаются: JPG, PDF, DOC, DOCX, DCM, DICOM, ZIP</string>
-    <string name="error_email_format">Введенный email имеет неправильный формат</string>
-    <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
-    <string name="error_login">Ошибка. Не удалось авторизоваться. Проверьте правильность введенных данных.</string>
-    <string name="error_empty_login">Необходимо ввести Имя пользователя или Email</string>
-    <string name="error_file_not_selected">Ошибка при выборе файла</string>
-    <string name="error_empty_phone">Нужно ввести номер телефона</string>
+    <string name="error_internet_not_available">No Internet access. Check the Internet connection or try later.</string>
+    <string name="error_occurred">Error. Failed to connect to the server</string>
+    <string name="error_file_not_found">Error. Can not find the chosen file</string>
+    <string name="error_supported_file_format">Error. The unsupported format of the file is chosen. Supported format: JPG, PDF, DOC, DOCX, DCM, DICOM, ZIP</string>
+    <string name="error_email_format">The entered email has wrong format</string>
+    <string name="error_password_format">It can contain lower and upper case letters, numbers. From 6 to 20 symbols.</string>
+    <string name="error_login">Error. Authorization failed. Check the accuracy of the entered data.</string>
+    <string name="error_empty_login">Enter the username or Email</string>
+    <string name="username_textview">Username</string>
+    <string name="login_screen">Login</string>
+    <string name="login_button">Log in</string>
+    <string name="textview_password">Password</string>
+    <string name="account_existence_notification">If you do not have an account,\nyou can create it on project\'s website</string>
+    <string name="error_file_not_selected">Failed to choose the file</string>
+    <string name="error_empty_phone">Enter the telephone number</string>
 
-    <string name="success_file_uploding">Файл был успешно загружен</string>
-    <string name="success_update_status">Статус был успешно обновлен</string>
-    <string name="success_update_all_statuses">Все статусы были успешно обновлены</string>
+    <string name="success_file_uploding">The file was successfully uploaded</string>
+    <string name="success_update_status">Status was successfully updated</string>
+    <string name="success_update_all_statuses">All stuteses were successfully updated</string>
 
     <string name="buttonAccept">Accept</string>
     <string name="buttonChange">Request change</string>
@@ -58,6 +65,19 @@
     <string name="menu_calendar">Calendar</string>
     <string name="menu_feedback">Feedback</string>
     <string name="menu_account">Account</string>
+    <string name="menu_settings_title">Settings</string>
+    
+    <string name="category_language_settings">Language Settings</string>
+
+    <!-- Feedback screen -->
+    <string name="textview_hospital">Hospital</string>
+    <string name="textview_med_service">Med Service</string>
+    <string name="description_med_service">Please, evaluate the quality of\nmedical services</string>
+    <string name="description_hospital">Please, evaluate the hospital </string>
+    <string name="textview_impressions">Describe your impressions</string>
+    <string name="feedback_send_message">Thank you!\nYour feedback/nwas successfully sent</string>
+
+    <string name="sync_button">Sync with cloud</string>
 
     <string name="settings_screen_header">Settings</string>
 
@@ -68,8 +88,31 @@
     <string name="sos_call_manager">Call Manager</string>
 
     <string name="select_phone">Select phone number</string>
-    <string name="select_phone_help">Если номера нет в списке,\nто Вы можете\nввести свой в поле ниже</string>
+    <string name="select_phone_help">If there is no number,\nenter your own\nin the field below</string>
     <string name="your_phone">Your phone number</string>
     <string name="dialog_sos_button_request">Request</string>
     <string name="dialog_sos_button_cancel">Cancel</string>
+    <string name="calendar_screen_header">Calendar</string>
+
+    <!-- Medical Journal -->
+    <string name="medical_journal_header">Medical Journal</string>
+    <string name="sync_journal_button">Sync with my webCabinet</string>
+    <string-array name="tabs_headers">
+        <item>Menstrual Calendar</item>
+        <item>Body Index</item>
+        <item>Blood pressure</item>
+    </string-array>
+    <string name="menstrual_calendar_title">Calendar</string>
+    <string name="day_of_cycle">day of cycle</string>
+    <string name="menstrual_cycle_title">Menstrual Cycle</string>
+
+    <!-- Period Calendar Options -->
+    <string name="option_menses_start">Period Started</string>
+    <string name="option_menstrual_flow">Flow</string>
+    <string name="option_ovulation">Ovulation</string>
+    <string name="option_intercourse">Intercourse</string>
+    <string name="option_note">Note</string>
+    <string name="option_symptoms">Symptoms</string>
+    <string name="option_moods">Moods</string>
+
 </resources>

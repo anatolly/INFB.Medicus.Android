@@ -16,6 +16,7 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
@@ -23,9 +24,10 @@ import retrofit.mime.TypedString;
  * Created by Artemiy Terekhov on 10.04.2015.
  */
 public interface HttpRestService {
-
-    @GET("/api/v1.0/medicusdocument")
-    public List<StorageInfo> loadStorage();
+///increaseв the limit to see all files in storage
+// (fix it as soon as possible)
+    @GET("/api/v1.0/medicusdocument/")
+    public List<StorageInfo> loadStorage(@Query("belongsToUser") String id);
 
 //    @GET("/storage_trip.json")
 //    public RequestStorageInfo loadStorageTrip();

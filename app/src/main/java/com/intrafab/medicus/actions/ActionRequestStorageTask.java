@@ -38,7 +38,7 @@ public class ActionRequestStorageTask extends GroundyTask {
 
         try {
             HttpRestService service = RestApiConfig.getFilestorageRestService();
-            List<StorageInfo> storageList = service.loadStorage();
+            List<StorageInfo> storageList = service.loadStorage(userUid);
 
 //            Thread.sleep(5000);
 //
