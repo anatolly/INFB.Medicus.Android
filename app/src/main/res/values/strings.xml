@@ -107,12 +107,22 @@
     <string name="menstrual_cycle_title">Menstrual Cycle</string>
 
     <!-- Period Calendar Options -->
-    <string name="option_menses_start">Period Started</string>
-    <string name="option_menstrual_flow">Flow</string>
-    <string name="option_ovulation">Ovulation</string>
+
     <string name="option_intercourse">Intercourse</string>
     <string name="option_note">Note</string>
     <string name="option_symptoms">Symptoms</string>
     <string name="option_moods">Moods</string>
+
+    <string name="option_menses_start">Have Period Started?</string>
+    <string name="option_menstrual_flow">Flow</string>
+    <string name="option_ovulation">Ovulation</string>
+    <string name="tip_period_start">Tap to write down</string>
+
+    <string name="estimated_duration">Estimated duration</string>
+    <string name="expected_ovulation">The expected date of ovulation</string>
+
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="period_setting">Period Settings</string>
 
 </resources>

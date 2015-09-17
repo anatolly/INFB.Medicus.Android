@@ -17,7 +17,8 @@ public class Constants {
         public static final String PREF_PARAM_STATE_ENTRIES = "pref_param_state_entries";
         public static final String PREF_PARAM_ME = "pref_param_me";
         public static final String PREF_PARAM_ORDER = "pref_param_order";
-        public static final String PREF_PARAM_MENS_CAL_ENTRIES = "pref_param_mens_cal_entries";
+        public static final String PREF_PARAM_PERIOD_CAL_ENTRIES = "pref_param_mens_cal_entries";
+        public static final String PREF_PARAM_PERIOD_CYCLE_ENTRIES = "pref_param_per_cycle_entries";
     }
 
     public static class Extras {
@@ -27,6 +28,12 @@ public class Constants {
         public static final String PARAM_UNKNOWN_ERROR = "param_unknown_error";
         public static final String PARAM_TOKEN = "param_token";
         public static final String PARAM_USER_DATA = "param_user_data";
+        public static final String PARAM_SESSID = "param_sessid";
         public static final String PARAM_ACTIVE_ORDER = "param_active_order";
+    }
+
+    public static class Numeric {
+        public static final int dayToMillis = 86400000;
+        public static final int dayToSec = 86400;
     }
 }

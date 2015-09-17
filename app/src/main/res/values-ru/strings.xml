@@ -105,12 +105,21 @@
     <string name="menstrual_cycle_title">Менструальный цикл</string>
 
     <!-- Period Calendar Options -->
-    <string name="option_menses_start">Начало периода</string>
-    <string name="option_menstrual_flow">Менструация</string>
-    <string name="option_ovulation">Овуляция</string>
     <string name="option_intercourse">Половая связь</string>
     <string name="option_note">Заметка</string>
     <string name="option_symptoms">Симптомы</string>
     <string name="option_moods">Настроения</string>
+
+    <string name="option_menses_start">Начало периода?</string>
+    <string name="option_menstrual_flow">Менструация</string>
+    <string name="option_ovulation">Овуляция</string>
+    <string name="tip_period_start">Коснитесь, чтобы записать</string>
+
+    <string name="estimated_duration">Предполагаемая продолжительность</string>
+    <string name="expected_ovulation">Предполагаемая дата овуляцию</string>
+
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
+    <string name="period_setting">Настройки цикла</string>
 
 </resources>

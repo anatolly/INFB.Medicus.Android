@@ -72,13 +72,16 @@
             android:theme="@style/AppLightPreferenceTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
-            android:name=".MedicalJournalActivity"
+            android:name=".medJournal.activities.MedicalJournalActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
-        android:name=".PeriodCalendarActivity"
+        android:name=".medJournal.activities.PeriodCalendarActivity"
         android:screenOrientation="sensorPortrait"></activity>
         <activity
-            android:name=".PeriodCalendarDayOptionsActivity"
+        android:name=".medJournal.activities.PeriodCalendarDayOptionsActivity"
+        android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".medJournal.activities.ChartActivity"
             android:screenOrientation="sensorPortrait"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />

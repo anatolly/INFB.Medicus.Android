@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.intrafab.medicus.data.Account;
 import com.intrafab.medicus.loaders.MeLoader;
+import com.intrafab.medicus.medJournal.activities.MedicalJournalActivity;
 import com.intrafab.medicus.utils.Logger;
 
 /**

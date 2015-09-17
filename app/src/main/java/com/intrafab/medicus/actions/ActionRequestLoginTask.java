@@ -48,7 +48,7 @@ public class ActionRequestLoginTask extends GroundyTask {
         login.setPassword(userPassword);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService();
+            HttpRestService service = RestApiConfig.getMedicusRestService();
             Response result = service.login(login);
 
             if (result != null) {

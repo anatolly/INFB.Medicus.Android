@@ -53,7 +53,7 @@ public class ActionRequestStateEntryTask extends GroundyTask {
         String userUid = inputBundle.getString(ARG_USER_OWNER_ID);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService();
+            HttpRestService service = RestApiConfig.getMedicusRestService();
             Response orders = service.getAllOrders();
 
             List<StateEntry> list = new ArrayList<StateEntry>();

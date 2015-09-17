@@ -21,9 +21,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class ExtendedCalendarView extends RelativeLayout implements OnItemClickListener,OnCreateContextMenuListener,
@@ -373,13 +373,18 @@ public class ExtendedCalendarView extends RelativeLayout implements OnItemClickL
 		this.gestureType = gestureType;
 	}
 
-	public void setEvents (List<Calendar> dates, List<Integer> events){
-		mAdapter.setEvents(dates, events);
+	public void addEvents (HashMap<Long, Event> events){
+		mAdapter.addEvents (events);
 		refreshCalendar();
 	}
-
-	public void addEvent (Calendar date, int color){
-		mAdapter.addEvent(date, color);
+/*
+	public void addEvent (Event event){
+		mAdapter.addEvent(event);
 		refreshCalendar();
 	}
+	public void addNewPeriod (ArrayList<Event> events){
+		mAdapter.addNewPeriod(events);
+		refreshCalendar();
+	}
+	*/
 }

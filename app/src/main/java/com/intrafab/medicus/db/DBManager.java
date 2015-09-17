@@ -309,8 +309,7 @@ public class DBManager {
         }
         if (mSnappyDB != null) {
             try {
-                String json = new Gson().toJson(listObjects, new TypeToken<List<T>>() {
-                }.getType());
+                String json = new Gson().toJson(listObjects,clazz);
                 mSnappyDB.put(key, json);
                 Logger.d(TAG, "Insert data to database key: " + key);
 

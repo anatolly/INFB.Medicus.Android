@@ -28,31 +28,5 @@
         android:layout_below="@+id/tabHost"
         android:visibility="visible" />
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/fam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        app:fab_addButtonColorNormal="@color/colorLightPrimary"
-        app:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
-        app:fab_addButtonPlusIconColor="#fff"
-        app:fab_expandDirection="up"
-        app:fab_labelStyle="@style/menu_labels_style">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabSync"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/colorLightButtonYellow"
-            app:fab_colorPressed="@color/colorLightButtonYellowPressed"
-            app:fab_icon="@mipmap/ic_cloud_sync"
-            app:fab_size="mini"
-            app:fab_title="@string/sync_journal_button" />
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
 
 </RelativeLayout>

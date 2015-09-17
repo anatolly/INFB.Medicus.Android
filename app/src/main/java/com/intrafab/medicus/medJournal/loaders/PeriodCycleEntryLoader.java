@@ -1,42 +1,45 @@
-package com.intrafab.medicus.loaders;
+package com.intrafab.medicus.medJournal.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import com.intrafab.medicus.Constants;
-import com.intrafab.medicus.data.PeriodCalendarEntry;
 import com.intrafab.medicus.db.DBManager;
+import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Анна on 24.08.2015.
+ * Created by 1 on 08.09.2015.
  */
-public class MenstrualCalendarEntryListLoader extends AsyncTaskLoader<List<PeriodCalendarEntry>> {
+public class PeriodCycleEntryLoader extends AsyncTaskLoader<List<PeriodCycleEntry>> {
 
-    public static final String TAG = MenstrualCalendarEntryListLoader.class.getName();
 
-    private List<PeriodCalendarEntry> mData;
+    public static final String TAG = PeriodCycleEntryLoader.class.getName();
 
-    public MenstrualCalendarEntryListLoader(Context context) {
+    private List<PeriodCycleEntry> mData;
+
+    public PeriodCycleEntryLoader(Context context) {
         super(context);
     }
 
     @Override
-    public void onCanceled(List<PeriodCalendarEntry> data) {
+    public void onCanceled(List<PeriodCycleEntry> data) {
         super.onCanceled(data);
 
         releaseResources(data);
     }
 
     @Override
-    public void deliverResult(List<PeriodCalendarEntry> data) {
+    public void deliverResult(List<PeriodCycleEntry> data) {
         if (isReset()) {
             releaseResources(data);
             return;
         }
 
-        List<PeriodCalendarEntry> oldData = mData;
+        List<PeriodCycleEntry> oldData = mData;
         mData = data;
 
         if (isStarted()) {
@@ -54,7 +57,7 @@ public class MenstrualCalendarEntryListLoader extends AsyncTaskLoader<List<Perio
             deliverResult(mData);
         }
 
-        DBManager.getInstance().registerObserver(getContext(), this, MenstrualCalendarEntryListLoader.class);
+        DBManager.getInstance().registerObserver(getContext(), this, PeriodCycleEntryLoader.class);
 
         if (takeContentChanged() || mData == null) {
             forceLoad();
@@ -82,10 +85,10 @@ public class MenstrualCalendarEntryListLoader extends AsyncTaskLoader<List<Perio
         }
 
         // The Loader is being reset, so we should stop monitoring for changes.
-        DBManager.getInstance().unregisterObserver(this, MenstrualCalendarEntryListLoader.class);
+        DBManager.getInstance().unregisterObserver(this, PeriodCycleEntryLoader.class);
     }
 
-    private void releaseResources(List<PeriodCalendarEntry> data) {
+    private void releaseResources(List<PeriodCycleEntry> data) {
         // For a simple List, there is nothing to do. For something like a Cursor,
         // we would close it in this method. All resources associated with the
         // Loader should be released here.
@@ -96,9 +99,9 @@ public class MenstrualCalendarEntryListLoader extends AsyncTaskLoader<List<Perio
     {
         boolean isEqual= false;
 
-        if (object != null && object instanceof MenstrualCalendarEntryListLoader)
+        if (object != null && object instanceof PeriodCycleEntryLoader)
         {
-            isEqual = this.TAG.equals( ((MenstrualCalendarEntryListLoader) object).TAG );
+            isEqual = this.TAG.equals( ((PeriodCycleEntryLoader) object).TAG );
         }
 
         return isEqual;
@@ -110,7 +113,18 @@ public class MenstrualCalendarEntryListLoader extends AsyncTaskLoader<List<Perio
     }
 
     @Override
-    public List<PeriodCalendarEntry> loadInBackground() {
-        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_MENS_CAL_ENTRIES, PeriodCalendarEntry[].class);
+    public List<PeriodCycleEntry> loadInBackground() {
+        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_PERIOD_CYCLE_ENTRIES, PeriodCycleEntry[].class,
+                new Comparator<PeriodCycleEntry>() {
+            @Override
+            public int compare(PeriodCycleEntry o, PeriodCycleEntry o1) {
+                Date date = new Date(o.getFirstDay());
+                Date date1 = new Date(o1.getFirstDay());
+                if (date == null || date1 == null)
+                    return 0;
+                return date.compareTo(date1);
+            }
+        }, false);
+
     }
 }

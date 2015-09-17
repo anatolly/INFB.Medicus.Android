@@ -25,26 +25,35 @@
         android:layout_alignParentBottom="false"
         android:layout_alignWithParentIfMissing="false"
         android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false">
+        android:layout_alignParentLeft="false"
+        android:weightSum="1">
 
         <com.tyczj.extendedcalendarview.ExtendedCalendarView
             android:id="@+id/calendar"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_below="@+id/toolbar"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_weight="1" />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="Заметки:"
-            android:id="@+id/textView3" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Заметки"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:longClickable="false"
+            android:textSize="22sp"
+            android:textColor="#383838"
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/famAddFiles"
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/famAddEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -55,7 +64,8 @@
         app:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
         app:fab_addButtonPlusIconColor="#fff"
         app:fab_expandDirection="up"
-        app:fab_labelStyle="@style/menu_labels_style">
+        app:fab_labelStyle="@style/menu_labels_style"
+        android:background="@color/colorLightPrimary">
 
         <!--<com.intrafab.medicus.widgets.FloatingActionButton-->
         <!--android:id="@+id/fabSyncCloud"-->
@@ -66,27 +76,7 @@
         <!--app:fab_icon="@mipmap/ic_cloud_sync"-->
         <!--app:fab_size="mini"-->
         <!--app:fab_title="Sync with cloud" />-->
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/colorLightButtonYellow"
-            app:fab_colorPressed="@color/colorLightButtonYellowPressed"
-            app:fab_icon="@mipmap/ic_screenshot"
-            app:fab_size="mini"
-            app:fab_title="@string/camera_button" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/colorLightButtonGreen"
-            app:fab_colorPressed="@color/colorLightButtonGreenPressed"
-            app:fab_icon="@mipmap/ic_add_file"
-            app:fab_size="mini"
-            app:fab_title="@string/gallery_button" />
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </com.getbase.floatingactionbutton.FloatingActionButton>
 
 
 

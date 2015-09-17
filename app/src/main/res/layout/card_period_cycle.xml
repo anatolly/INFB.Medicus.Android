@@ -5,68 +5,187 @@
     android:layout_height="wrap_content"
     android:id="@+id/cv">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:id="@+id/text_view_layout">
+        android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menstrual_cycle_title"
-            android:id="@+id/tvTitle"
-            android:textSize="18sp" />
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="10dp"
-            android:layout_alignTop="@+id/tvInformation"
-            android:layout_alignLeft="@+id/tvInformation"
-            android:layout_alignStart="@+id/tvInformation" />
+            <LinearLayout
+                android:id="@+id/textview_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:id="@+id/tvDate"
-            android:layout_below="@+id/tvTitle"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:paddingLeft="10dp"
-            android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Ovulation "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#273849"
+                    android:textSize="20sp" />
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="20dp"
-            android:layout_alignTop="@+id/tvInformation"
-            android:layout_alignLeft="@+id/tvInformation"
-            android:layout_alignStart="@+id/tvInformation" />
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Wednesday, September 19th"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#273849"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="5dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Information About Your Menstrual Cycle"
-            android:id="@+id/tvInformation"
-            android:layout_below="@+id/tvDate"
-            android:layout_centerHorizontal="true"
-            android:paddingLeft="10dp" />
+            </LinearLayout>
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="20px" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/iv_settingButton"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_more_vert_purple"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/textview_container" />
+
+        </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
+            android:background="@android:color/holo_purple"
             android:id="@+id/view"
-            android:layout_above="@+id/tvInformation"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="6dp" />
 
+        <RelativeLayout
+            android:id="@+id/rlBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/menstFlowIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription=""
+                android:src="@mipmap/infertile_period" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/menstFlowIcon"
+                android:layout_toEndOf="@+id/menstFlowIcon"
+                android:layout_marginLeft="14dp">
+
+                <TextView
+                    android:id="@+id/tvPeriodDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="10 days before ovulation"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#273849"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvPhase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#273849"
+                    android:textSize="14sp"
+                    android:text="infertile period" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/holo_purple"
+            android:id="@+id/view2"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:visibility="visible" >
+
+            <ImageView
+                android:id="@+id/im_icHelp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="25dp"
+                android:contentDescription=""
+                android:src="@mipmap/ic_importance"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/im_icHelp"
+                android:layout_toEndOf="@+id/im_icHelp"
+                android:layout_marginLeft="14dp" >
+
+                <TextView
+                    android:id="@+id/tvTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Fertile period: September 12th  to September 20th "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#273849"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
+
+
+
 
 </android.support.v7.widget.CardView>

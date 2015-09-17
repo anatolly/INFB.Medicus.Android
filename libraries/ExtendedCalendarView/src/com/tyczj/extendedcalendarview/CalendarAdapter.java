@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 
 import android.content.Context;
@@ -33,7 +34,7 @@ public class CalendarAdapter extends BaseAdapter{
 //	OnAddNewEventClick mAddEvent;
 	
 	protected ArrayList<Day> dayList = new ArrayList<Day>();
-	protected HashMap<String,Event> eventHashMap = new HashMap<String, Event>();
+	protected HashMap<Long,Event> eventHashMap = new HashMap<Long, Event>();
 	
 	public CalendarAdapter(Context context, Calendar cal){
 		this.cal = cal;
@@ -115,35 +116,46 @@ public class CalendarAdapter extends BaseAdapter{
 			TextView dayTV = (TextView)v.findViewById(R.id.textView1);
 			
 			RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.rl);
-			ImageView text = (ImageView)v.findViewById(R.id.imageView3);
-			ImageView pain = (ImageView)v.findViewById(R.id.imageView5);
-			ImageView intimacy = (ImageView)v.findViewById(R.id.imageView6);
+			ImageView period = (ImageView)v.findViewById(R.id.period);
+			ImageView expectedPeriod = (ImageView)v.findViewById(R.id.expected_period);
+			ImageView ovulation = (ImageView)v.findViewById(R.id.ovulation);
+			ImageView fertilePeriod = (ImageView)v.findViewById(R.id.fertile_period);
+			ImageView pain = (ImageView)v.findViewById(R.id.pain);
+			ImageView intercourse = (ImageView)v.findViewById(R.id.intercourse);
+			ImageView text = (ImageView)v.findViewById(R.id.text);
 
+			period.setVisibility(View.INVISIBLE);
+			expectedPeriod.setVisibility(View.INVISIBLE);
+			ovulation.setVisibility(View.INVISIBLE);
+			fertilePeriod.setVisibility(View.INVISIBLE);
 			text.setVisibility(View.INVISIBLE);
 			pain.setVisibility(View.INVISIBLE);
-			intimacy.setVisibility(View.INVISIBLE);
-			//dayTV.setVisibility(View.INVISIBLE);
-			//rl.setVisibility(View.INVISIBLE);
+			intercourse.setVisibility(View.INVISIBLE);
 
-			if (!eventHashMap.isEmpty())
+			if (eventHashMap != null && !eventHashMap.isEmpty())
 			{
-				//for (int i=1; i<= cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH); i++){
-					//DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-					//Date today = Calendar.getInstance().getTime();
-					//String reportDate = df.format(today);
-					String key = d.getDay() + "." + d.getMonth() + "." + d.getYear();
-					Log.d("key for events: ", key);
-					Event event = eventHashMap.get(key);
-					if (event != null){
-						if (event.isIntimateRelEvent())
-							intimacy.setVisibility(View.VISIBLE);
-						if (event.isPainEvent())
-							pain.setVisibility(View.VISIBLE);
-						if (event.isTextEvent())
-							text.setVisibility(View.VISIBLE);
-					}
-				//}
+				Event event = eventHashMap.get(d.getTimeInSec());
+				//Log.d("CalendarAdapter", "eventHashMap.size(): " + eventHashMap.size());
+				//Log.d("CalendarAdapter", "event: " + d.getDateToString());
+				if (event != null){
+					if (event.isPeriod())
+						period.setVisibility(View.VISIBLE);
+					if (event.isExpectedPeriod())
+						expectedPeriod.setVisibility(View.VISIBLE);
+					if (event.isOvulation())
+						ovulation.setVisibility(View.VISIBLE);
+					if (event.isFertilePeriod())
+						fertilePeriod.setVisibility(View.VISIBLE);
+					if (event.isPain())
+						pain.setVisibility(View.VISIBLE);
+					if (event.isTextNote())
+						text.setVisibility(View.VISIBLE);
+					if (event.isIntercourse())
+						intercourse.setVisibility(View.VISIBLE);
+				}
 			}
+			//else
+				//Log.d("CalendarAdapter", "eventHashMap is empty");
 
 			Day day = dayList.get(position);
 
@@ -154,7 +166,7 @@ public class CalendarAdapter extends BaseAdapter{
 				dayTV.setText(String.valueOf(day.getDay()));
 			}
 		}
-		
+
 		return v;
 	}
 	
@@ -220,25 +232,56 @@ public class CalendarAdapter extends BaseAdapter{
         }
     }
 
-	public void setEvents (List<Calendar> dates, List<Integer> colors) {
-		if (dates == null || colors == null || dates.size() != colors.size())
+	public void addEvents (HashMap<Long, Event> events) {
+//		if (events == null || events.isEmpty())
+//			return;
+//		for (Event event : events){
+//			if (eventHashMap.containsKey(event.getDateToString())){
+//				Event existEvent = eventHashMap.get(event.getDateToString());
+//				event.setIsFertilePeriod(existEvent.isFertilePeriod());
+//				event.setIsOvulation(existEvent.isOvulation());
+//				event.setIsPeriod(event.isPeriod());
+//				event.setIsExpectedPeriod(event.isExpectedPeriod());
+//			}
+//			eventHashMap.put(event.getDateToString(), event);
+//		}
+		eventHashMap = events;
+		if (eventHashMap == null)
 			return;
-
-		eventHashMap.clear();
-		for (int i = 0; i < dates.size(); i++) {
-			eventHashMap.put(dates.get(i).toString(), new Event(dates.get(i), colors.get(i)));
-			Log.d("setEvents, dates:" , dates.get(i).toString());
-		}
+		/*for (Event event : eventHashMap.values()){
+			Log.d("hashMapEvent: ", event.getDateToString());
+		}*/
 	}
 
-
-	public void addEvent (Calendar date, int color) {
-		if (date == null)
-			return;
-		String key = date.get(Calendar.DAY_OF_MONTH) + "." + (date.get(Calendar.MONTH)-1) + "." + date.get(Calendar.YEAR);
-		Log.d ("key in add event: " , key);
-		eventHashMap.put(key, new Event(date, color));
-	}
+//	public void addEvent (Event event) {
+//		if (event != null){
+//			if (eventHashMap.containsKey(event.getTimeInSec())){
+//				Event existEvent = eventHashMap.get(event.getTimeInSec());
+//				event.setIsFertilePeriod(existEvent.isFertilePeriod());
+//				event.setIsOvulation(existEvent.isOvulation());
+//				event.setIsPeriod(event.isPeriod());
+//				event.setIsExpectedPeriod(event.isExpectedPeriod());
+//			}
+//			eventHashMap.put(event.getTimeInSec(), event);
+//		}
+//	}
+//
+//	public void addNewPeriod (ArrayList<Event> events) {
+//		if (events == null || events.isEmpty())
+//			return;
+//		Log.d("Calendar Adapter", "addNewPeriod arrayList events size: " + events.size());
+//		for (Event event : events){
+//			if (eventHashMap.containsKey(event.getTimeInSec())){
+//				Event existEvent = eventHashMap.get(event.getTimeInSec());
+//				existEvent.setIsOvulation(event.isOvulation());
+//				existEvent.setIsFertilePeriod(event.isFertilePeriod());
+//				existEvent.setIsPeriod(event.isPeriod());
+////				eventHashMap.put(existEvent.getDateToString(), existEvent);
+//			} else{
+//				eventHashMap.put(event.getTimeInSec(), event);
+//			}
+//		}
+//	}
 
 //	public abstract static class OnAddNewEventClick{
 //		public abstract void onAddNewEventClick();

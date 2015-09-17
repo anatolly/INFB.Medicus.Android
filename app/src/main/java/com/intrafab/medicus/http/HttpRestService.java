@@ -1,5 +1,7 @@
 package com.intrafab.medicus.http;
 
+import com.intrafab.medicus.AppApplication;
+import com.intrafab.medicus.medJournal.data.PeriodCalendarEntry;
 import com.intrafab.medicus.data.StorageInfo;
 import com.intrafab.medicus.data.WrapperCallback;
 import com.intrafab.medicus.data.WrapperLogin;
@@ -9,7 +11,9 @@ import java.util.List;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -71,4 +75,23 @@ public interface HttpRestService {
     @PUT("/serviceuse/csu/{id}")
     @Headers({"Content-Type: application/json"})
     public Response requestCallback(@Path("id") String id, @Body WrapperCallback callbackJson);
+
+
+    @GET("/serviceuse/pcentry.json")
+    @Headers({"Content-Type: application/json"})
+    public List<PeriodCalendarEntry> getEntry(@Query("parameters[uid]") String id);
+
+    @POST("/serviceuse/pcentry")
+    @Headers({"Content-Type: application/json"})
+    public Response uploadPCEntry(@Header("X-CSRF-Token") String token, @Body PeriodCalendarEntry pcEntry);
+
+    @PUT("/serviceuse/pcentry")
+    @Headers({"Content-Type: application/json","Host: prod.medicus.intrafab"})
+    public Response refreshPCEntry( @Body PeriodCalendarEntry pcEntry);
+
+
+    @DELETE("/serviceuse/pcentry/{id}.json")
+    @Headers({"Content-Type: application/json","Host: prod.medicus.intrafab"})
+    public Response deletePCEntry( /*String uid*/ @Path("id") String id);
+
 }

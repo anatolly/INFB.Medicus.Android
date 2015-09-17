@@ -22,6 +22,7 @@ public class Day{
 	int month;
 	Context context;
 	BaseAdapter adapter;
+	long timeInSec;
 
 	public Day(Context context,int day, int year, int month){
 		this.day = day;
@@ -29,13 +30,22 @@ public class Day{
 		this.month = month;
 		this.context = context;
 		Calendar cal = Calendar.getInstance();
-		cal.set(year, month-1, day);
+		// cal.set(year, month-1, day);
+		cal.set(year, month, day, 12, 0, 0);
+		timeInSec = cal.getTimeInMillis()/1000;
 		int end = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		cal.set(year, month, end);
+		cal.set(year, month, end, 12, 0, 0);
 		TimeZone tz = TimeZone.getDefault();
 		monthEndDay = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
 	}
-	
+
+	public long getTimeInSec(){
+		return timeInSec;
+	}
+
+	public String getDateToString (){
+		return day+"."+month+"."+year;
+	}
 //	public long getStartTime(){
 //		return startTime;
 //	}

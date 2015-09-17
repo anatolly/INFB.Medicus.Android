@@ -7,14 +7,16 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/optionList" />
+        android:layout_height="wrap_content"
+        android:id="@+id/optionList"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_weight="0">
 
         <Button
             android:layout_width="wrap_content"

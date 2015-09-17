@@ -10,53 +10,83 @@ import java.util.GregorianCalendar;
  */
 public class Event {
 
-    public static final int AMOUNT_OF_EVENTS = 3;
-    private final int INTIMATE_RELATIONSHIP = 0;
-    private final int PAIN = 1;
-    private final int TEXT = 2;
+    private Calendar date;
+    private boolean isPeriod;
+    private boolean isOvulation;
+    private boolean isExpectedPeriod;
+    private boolean isFertilePeriod;
+    private boolean isIntercourse;
+    private boolean isPain;
+    private boolean isTextNote;
 
-    private int year;
-    private int month;
-    private int day;
-    private boolean[] colors = new boolean[3];
-
-
-    public Event(Calendar date, int colors) {
-        Log.d("Event", "constructor");
-        this.year = date.get(GregorianCalendar.YEAR);
-        this.month = date.get(GregorianCalendar.MONTH);
-        this.day = date.get(GregorianCalendar.DAY_OF_MONTH);
-        for (int i = AMOUNT_OF_EVENTS-1; i >= 0; i--) {
-            this.colors[i] = (colors % 10 == 1);
-            colors = colors / 10;
-            Log.d("Event color " + i,": " + String.valueOf(this.colors[i]));
-        }
+    public Event(long date) {
+        this.date = Calendar.getInstance();
+        this.date.setTimeInMillis(date);
+    }
+    public String getDateToString (){
+        return date.get(Calendar.DAY_OF_MONTH)+"."+date.get(Calendar.MONTH)+"."+date.get(Calendar.YEAR);
     }
 
-    public int getYear() {
-        return this.year;
-    }
-    public int getMonth() {
-        return this.month;
-    }
-    public int getDayr() {
-        return this.day;
+    public long getTimeInSec(){
+        return date.getTimeInMillis()/1000;
     }
 
-    public boolean isIntimateRelEvent(){
-        return colors[INTIMATE_RELATIONSHIP];
+    public boolean isPeriod() {
+        return isPeriod;
     }
 
-    public boolean isPainEvent(){
-        return colors[PAIN];
+    public void setIsPeriod(boolean isPeriod) {
+        this.isPeriod = isPeriod;
     }
 
-    public boolean isTextEvent(){
-        return colors[TEXT];
+    public boolean isOvulation() {
+        return isOvulation;
     }
 
-    public boolean[] getEvents(){
-        return colors;
+    public void setIsOvulation(boolean isOvulation) {
+        this.isOvulation = isOvulation;
     }
+
+    public boolean isExpectedPeriod() {
+        return isExpectedPeriod;
+    }
+
+    public void setIsExpectedPeriod(boolean isExpectedPeriod) {
+        this.isExpectedPeriod = isExpectedPeriod;
+    }
+
+    public boolean isFertilePeriod() {
+        return isFertilePeriod;
+    }
+
+    public void setIsFertilePeriod(boolean isFertilePeriod) {
+        this.isFertilePeriod = isFertilePeriod;
+    }
+
+    public boolean isIntercourse() {
+        return isIntercourse;
+    }
+
+    public void setIsIntercourse(boolean isIntercourse) {
+        this.isIntercourse = isIntercourse;
+    }
+
+    public boolean isPain() {
+        return isPain;
+    }
+
+    public void setIsPain(boolean isPain) {
+        this.isPain = isPain;
+    }
+
+    public boolean isTextNote() {
+        return isTextNote;
+    }
+
+    public void setIsTextNote(boolean isTextNote) {
+        this.isTextNote = isTextNote;
+    }
+
+
 
 }

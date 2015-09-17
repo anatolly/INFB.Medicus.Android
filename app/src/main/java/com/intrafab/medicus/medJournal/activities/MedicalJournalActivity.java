@@ -1,4 +1,4 @@
-package com.intrafab.medicus;
+package com.intrafab.medicus.medJournal.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.intrafab.medicus.adapters.MedJournalPagerAdapter;
-import com.intrafab.medicus.adapters.PeriodCycleAdapter;
-import com.intrafab.medicus.data.Account;
+import com.intrafab.medicus.BaseActivity;
+import com.intrafab.medicus.R;
+import com.intrafab.medicus.medJournal.adapters.MedJournalPagerAdapter;
 import com.intrafab.medicus.utils.Logger;
 
 import it.neokree.materialtabs.MaterialTab;
@@ -24,13 +24,10 @@ import it.neokree.materialtabs.MaterialTabListener;
  * Created by Anna Anfilova on 18.08.2015.
  */
 public class MedicalJournalActivity extends BaseActivity
-implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
+implements View.OnClickListener {
 
     public static final String TAG = MedicalJournalActivity.class.getName();
     public static final String EXTRA_MEDICAL_JOURNAL = "openMedicalJournal";
-
-    private FloatingActionsMenu mActionsMenu;
-    private FloatingActionButton mBtnSync;
 
     private MaterialTabHost mTabHost;
     private ViewPager mPager;
@@ -38,34 +35,25 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
 
     private final int MAX_TAB_NUMBER = 3;
     /// в этом числе всегда MAX_TAB_NUMBER знаков - 1 - таб есть, 0 - таба нет
-    private short mActiveTabs = 0b111;
+    //private short mActiveTabs = 0b111;
 
-    @Override
-    public void onClickItem(int itemPosition, View view) {
-        //Intent intent = new Intent (getApplicationContext(), MenstrualCalendarActivity.class);
-        //startActivity(intent);
-        PeriodCalendarActivity.launch(this, view);
-    }
+
 
     private MaterialTabListener mTabListener = new MaterialTabListener() {
         @Override
         public void onTabSelected(MaterialTab materialTab) {
             int tabPosition = materialTab.getPosition();
             mPager.setCurrentItem(tabPosition);
-            mActionsMenu.collapse();
 
-            switch (getTabNumber(tabPosition)) {
+            switch (tabPosition) {
                 case 0:
                     Logger.d(TAG, "startMenstrualCycleLoading()");
-                    //startMenstrualCycleLoading();
                     break;
                 case 1:
                     Logger.d(TAG, "startBodyIndexLoading()");
-                    //startBodyIndexLoading();
                     break;
                 case 2:
                     Logger.d(TAG, "startBloodPressureLoading()");
-                    //startBloodPressureLoading();
                     break;
             }
         }
@@ -98,10 +86,6 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
         mTabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
         mPager = (ViewPager) this.findViewById(R.id.tabPager);
         //setup Actions menu
-        mActionsMenu = (FloatingActionsMenu) this.findViewById(R.id.fam);   /// CHANGE  BUTTON  NAME
-        mBtnSync = (FloatingActionButton) this.findViewById(R.id.fabSync);
-        mBtnSync.setOnClickListener(this);
-
 
         // init view pager
         mAdapter = new MedJournalPagerAdapter(getSupportFragmentManager());
@@ -116,7 +100,6 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
             public void onPageSelected(int position) {
                 // when user do a swipe the selected tab change
                 mTabHost.setSelectedNavigationItem(position);
-                mActionsMenu.collapse();
             }
 
             @Override
@@ -127,7 +110,6 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
                     int position = mPager.getCurrentItem();
                     mTabHost.setSelectedNavigationItem(position);
                     mPager.setCurrentItem(position);
-                    mActionsMenu.collapse();
 
                     switch (position) {
                         case 0:
@@ -138,6 +120,9 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
                             Logger.d(TAG, "SCROLL VIEW PAGER ON POSITION 1");
                             //startStorageTripLoading();
                             break;
+                        case 2:
+                            Logger.d(TAG, "SCROLL VIEW PAGER ON POSITION 2");
+                            break;
                     }
                 }
             }
@@ -145,31 +130,25 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
         /// add necessary tabs
         String[] headerString  = getResources().getStringArray(R.array.tabs_headers);
         for (int i=0; i<MAX_TAB_NUMBER; i++){
-            if(isSuchTabActive(i))
+            //if(isSuchTabActive(i))
                 //Logger.d(TAG, "add tab!");
-                mTabHost.addTab(
-                        mTabHost.newTab()
-                                .setText(headerString[i])
-                                .setTabListener(mTabListener)
-                );
+            mTabHost.addTab(
+                    mTabHost.newTab()
+                            .setText(headerString[i])
+                            .setTabListener(mTabListener)
+            );
         }
 
-        mTabHost.post(new Runnable() {
+        /*mTabHost.post(new Runnable() {
             @Override
             public void run() {
                 if (mPager.getCurrentItem() == 0) {
                     mTabHost.setSelectedNavigationItem(0);
-                    //startStorageLoading();
                 } else {
                     mTabHost.setSelectedNavigationItem(1);
-                    //startStorageTripLoading();
                 }
             }
-        });
-        /*Account userAccount = AppApplication.getApplication(this).getUserAccount();
-        if (userAccount == null) {
-            getLoaderManager().initLoader(LOADER_ME_ID, null, mLoaderMeCallback);
-        }*/
+        });*/
     }
 
 
@@ -196,33 +175,25 @@ implements View.OnClickListener, PeriodCycleAdapter.OnClickListener{
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.fabSync:
-                Logger.d(TAG, "button sync with cloud pressed");
-                break;
+
         }
     }
-/// неправильно работает
-    private int getTabNumber (int position) {
 
-        for (int i=MAX_TAB_NUMBER; i>0; i--){
-            if ((mActiveTabs & (short)Math.pow(2,i)) == 1)
-                position--;
-            if (position == -1)
-                return MAX_TAB_NUMBER - i;
-        }
-        return 0;
-    }
-
-    private boolean isSuchTabActive(int tabNumber){
-        short aShort =  (short)Math.pow(2,MAX_TAB_NUMBER-tabNumber-1);
-        return ((mActiveTabs & aShort) == aShort);
-    }
-/*
-    @Override
-    public void onClickItem(CardForMenstrualCycleCalendar itemStorageInfo) {
-        Logger.d(TAG, "onClickItem");
-    }*/
-
+//    private int getTabNumber (int position) {
+//
+//        for (int i=MAX_TAB_NUMBER; i>0; i--){
+//            if ((mActiveTabs & (short)Math.pow(2,i)) == 1)
+//                position--;
+//            if (position == -1)
+//                return MAX_TAB_NUMBER - i;
+//        }
+//        return 0;
+//    }
+//
+//    private boolean isSuchTabActive(int tabNumber){
+//        short aShort =  (short)Math.pow(2,MAX_TAB_NUMBER-tabNumber-1);
+//        return ((mActiveTabs & aShort) == aShort);
+//    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

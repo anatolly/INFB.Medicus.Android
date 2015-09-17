@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    app:mrl_rippleAlpha="0.5"
+    app:mrl_rippleColor="@color/colorLightPrimary"
+    app:mrl_rippleHover="true"
+    app:mrl_rippleOverlay="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/icOption"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription=""
+                android:src="@mipmap/ic1" />
+
+            <LinearLayout
+                android:id="@+id/textview_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/icOption"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Начало цикла?"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#273849"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Нажмите, чтобы записать новый цикл"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#273849"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/settingButton"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_more_vert_purple"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/textview_container" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/menstFlowIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription=""
+                android:src="@mipmap/ic1" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/menstFlowIcon"
+                android:layout_toEndOf="@+id/menstFlowIcon"
+                android:layout_marginLeft="14dp">
+
+                <TextView
+                    android:id="@+id/tvMenstFlow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Менструация"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#273849"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#273849"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dropletContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="16dp"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical" >
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/droplet1"
+                    android:button="@drawable/check_box_droplet"
+                    android:checked="false" />
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/droplet2"
+                    android:button="@drawable/check_box_droplet"
+                    android:checked="false" />
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/droplet3"
+                    android:button="@drawable/check_box_droplet"
+                    android:checked="false" />
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/droplet4"
+                    android:button="@drawable/check_box_droplet"
+                    android:checked="false" />
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/droplet5"
+                    android:button="@drawable/check_box_droplet"
+                    android:checked="false" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+
+</com.balysv.materialripple.MaterialRippleLayout>
