@@ -29,6 +29,7 @@ public class Constants {
         public static final String PARAM_TOKEN = "param_token";
         public static final String PARAM_USER_DATA = "param_user_data";
         public static final String PARAM_SESSID = "param_sessid";
+        public static final String PARAM_SESSNAME = "param_sessname";
         public static final String PARAM_ACTIVE_ORDER = "param_active_order";
     }
 

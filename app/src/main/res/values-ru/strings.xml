@@ -91,13 +91,12 @@
     <string name="calendar_screen_header">Календарь</string>
 
     <!-- Медицинский журнал -->
-    <string name="medical_journal_header">Медицинский Журнал</string>
+    <string name="medical_journal_header">Календарь</string>
     <string name="sync_journal_button">Синхронизировать с Web Кабинетом</string>
 
     <string-array name="tabs_headers">
-        <item>Менструальный календарь</item>
-        <item>Индекс массы тела</item>
-        <item>Артериальное давление</item>
+        <item>Мой календарь</item>
+        <item>Сегодня</item>
     </string-array>
 
     <string name="menstrual_calendar_title">Календарь</string>

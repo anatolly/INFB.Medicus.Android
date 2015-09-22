@@ -33,7 +33,7 @@ implements View.OnClickListener {
     private ViewPager mPager;
     private MedJournalPagerAdapter mAdapter;
 
-    private final int MAX_TAB_NUMBER = 3;
+    private final int MAX_TAB_NUMBER = 2;
     /// в этом числе всегда MAX_TAB_NUMBER знаков - 1 - таб есть, 0 - таба нет
     //private short mActiveTabs = 0b111;
 
@@ -51,9 +51,6 @@ implements View.OnClickListener {
                     break;
                 case 1:
                     Logger.d(TAG, "startBodyIndexLoading()");
-                    break;
-                case 2:
-                    Logger.d(TAG, "startBloodPressureLoading()");
                     break;
             }
         }

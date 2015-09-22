@@ -127,33 +127,7 @@ public class PeriodCalendarDayOptionsActivity extends BaseActivity implements Pe
             Intent intent = new Intent();
 
             if (isNewPeriod){
-                Logger.d (TAG, "create new period");
-                /// create new PeriodCycleEntry
-                PeriodCycleEntry newPeriod = new PeriodCycleEntry(mEntry.getTimeInSec()*1000);
-                newPeriod.setMentsrualDuration(PeriodDataKeeper.menstrualDuration);
-                newPeriod.setFertileFirstDay(PeriodDataKeeper.periodDuration / 2 - 5);
-                newPeriod.setPeriodDuration(PeriodDataKeeper.periodDuration);
-                newPeriod.setOvulationDay(PeriodDataKeeper.periodDuration / 2);
-
-                int periodIndex = PeriodDataKeeper.getInstance().addPeriodToList(newPeriod);
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(newPeriod.getFirstDay());
-                for (int i = 2; i<= newPeriod.getMentsrualDuration(); i++) {
-                    calendar.add(Calendar.DATE, 1);
-                    Long timeInSec = calendar.getTimeInMillis()/1000;
-                    if (PeriodDataKeeper.getInstance().getCalendarData().containsKey(timeInSec)){
-                        PeriodCalendarEntry existEntry = PeriodDataKeeper.getInstance().getCalendarData().get(timeInSec);
-                        existEntry.setMenstrualPeriod(i);
-                        Logger.d(TAG, "period entry exist");
-                    } else {
-                        Logger.d(TAG, "new period entry: " + calendar.get(Calendar.DAY_OF_MONTH)+"."+calendar.get(Calendar.MONTH)+"."+calendar.get(Calendar.YEAR));
-                        PeriodCalendarEntry newEntry = new PeriodCalendarEntry(calendar);
-                        newEntry.setMenstrualPeriod(i);
-                        PeriodDataKeeper.getInstance().getCalendarData().put(timeInSec, newEntry);
-                        Logger.d (TAG, "mCalendarData.size(): + " + PeriodDataKeeper.getInstance().getCalendarData().size());
-                    }
-                }
-                // put it to intent
+                int periodIndex = PeriodDataKeeper.getInstance().createPeriod(mEntry.getTimeInSec()*1000);
                 intent.putExtra(PeriodCalendarActivity.NEW_PERIOD_INDEX, periodIndex);
             }
             /// отправим в intent timeInMillis для измененной записи

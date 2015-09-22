@@ -179,10 +179,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @OnSuccess(ActionRequestLoginTask.class)
     public void onSuccessRequestLogin(
             @Param(Constants.Extras.PARAM_TOKEN) String token,
+            @Param(Constants.Extras.PARAM_SESSID) String sessid,
+            @Param(Constants.Extras.PARAM_SESSNAME) String sessName,
             @Param(Constants.Extras.PARAM_USER_DATA) Account userAccount) {
         mButtonLogin.setEnabled(true);
         hideProgress();
         AppApplication.setLogin(this, token);
+        AppApplication.setSessid(this, sessid);
+        AppApplication.setSessName(this, sessName);
         AppApplication.getApplication(this).setUserAccount(this, mCallbacksManager, userAccount);
     }
 

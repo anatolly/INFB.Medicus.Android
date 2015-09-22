@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.intrafab.medicus.AppApplication;
 import com.intrafab.medicus.BaseActivity;
 import com.intrafab.medicus.Constants;
@@ -22,6 +20,7 @@ import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
 import com.intrafab.medicus.medJournal.actions.ActionGetPCEntry;
 import com.intrafab.medicus.medJournal.actions.ActionSaveCalendarEntry;
+import com.intrafab.medicus.medJournal.fragments.AllCyclesFragment;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.nispok.snackbar.Snackbar;
@@ -225,8 +224,11 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
         mActionsMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
-                startActivity(intent);
+                AllCyclesFragment fragment = new AllCyclesFragment();
+                fragment.show(getFragmentManager(), "allCycles");
+
+                // /Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
+                //startActivity(intent);
             }
         });
 

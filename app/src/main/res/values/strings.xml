@@ -95,12 +95,11 @@
     <string name="calendar_screen_header">Calendar</string>
 
     <!-- Medical Journal -->
-    <string name="medical_journal_header">Medical Journal</string>
+    <string name="medical_journal_header">Calendar</string>
     <string name="sync_journal_button">Sync with my webCabinet</string>
     <string-array name="tabs_headers">
-        <item>Menstrual Calendar</item>
-        <item>Body Index</item>
-        <item>Blood pressure</item>
+        <item>My Calendar</item>
+        <item>Today</item>
     </string-array>
     <string name="menstrual_calendar_title">Calendar</string>
     <string name="day_of_cycle">day of cycle</string>

@@ -9,11 +9,13 @@ import com.intrafab.medicus.medJournal.data.PeriodCalendarEntry;
 import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.http.HttpRestService;
 import com.intrafab.medicus.http.RestApiConfig;
+import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.telly.groundy.GroundyTask;
 import com.telly.groundy.TaskResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,53 +39,66 @@ public class ActionSaveCalendarEntry extends GroundyTask
                 DBManager.getInstance().onContentChanged();
                 return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, false);
             }
+
+            List<PeriodCalendarEntry> listServerData;
+            HttpRestService service;
+            HashMap <String, PeriodCalendarEntry> hashMapServerData;
+
+            // try to get MedicusRestService
             try {
-                HttpRestService service = RestApiConfig.getMedicusRestService();
+                service = RestApiConfig.getMedicusRestService();
+            }catch (Exception e) {
+                e.printStackTrace();
+                DBManager.getInstance().onContentChanged();
+                return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
+            }
+
+            //try to get data from server
+            try {
                 // get data from server
-                List<PeriodCalendarEntry> listServerData = service.getEntry(userUid);
+                listServerData = service.getEntry(AppApplication.getToken(), AppApplication.getSessName() + "=" + AppApplication.getSessId(), userUid);
                 // create hash map for server data
-                HashMap <String, PeriodCalendarEntry> hashMapServerData = new HashMap<>(listServerData.size());
+                hashMapServerData = new HashMap<>(listServerData.size());
                 for (PeriodCalendarEntry entry : listServerData) {
                     hashMapServerData.put(entry.getDateString(), entry);
                 }
+                // relese resources
                 listServerData = null;
+            } catch (Exception e){
+                // if we didn't get any data
+                hashMapServerData = new HashMap<>();
+            }
+            try {
                 // get data from database
-                List<PeriodCalendarEntry> dbData = DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_PERIOD_CAL_ENTRIES, PeriodCalendarEntry[].class);
+                HashMap<Long, PeriodCalendarEntry> localData = PeriodDataKeeper.getInstance().getCalendarData();
                 // think that local data is more relevant that server data
-                if (dbData == null || dbData.isEmpty())
+                if (localData == null || localData.isEmpty())
                 {
-                    // get data
-                    // тут нужно получить все данные с сервера
+                    for (PeriodCalendarEntry serverEntry : hashMapServerData.values()) {
+                        service.deletePCEntry(AppApplication.getToken(),AppApplication.getSessName() + "=" + AppApplication.getSessId(), serverEntry.getId());
+                    }
                 }
                 else {
-                    for (PeriodCalendarEntry dbEntry : dbData) {
-                        // если в серверных данных есть запись за одно и то же число
-                        if (hashMapServerData.containsKey(dbEntry.getDateString())) {
-                            PeriodCalendarEntry serverEntry = hashMapServerData.get(dbEntry.getDateString());
-                            // если записи не идентичны, то в localData нужно записывать самую свежую и копировать ее на сервер
-                            if (!serverEntry.equals(dbEntry)) {
-                                service.uploadPCEntry( AppApplication.getToken(),dbEntry);
+                    for (PeriodCalendarEntry localEntry : localData.values()) {
+                        // if server data contains the same item as local
+                        if (hashMapServerData.containsKey(localEntry.getDateString())) {
+                            PeriodCalendarEntry serverEntry = hashMapServerData.get(localEntry.getDateString());
+                            // if item is not equal, then put latest changed item to localData and to the server
+                            if (!serverEntry.equals(localEntry)) {
+                                localEntry.setId(serverEntry.getId());
+                                service.refreshPCEntry(AppApplication.getToken(), AppApplication.getSessName() + "=" + AppApplication.getSessId(), serverEntry.getId(), localEntry);
                             } else {
-                                // если записи идентичны,то ничего делать не нужно
+                                // if item is equal
                             }
                         } else {
-                            // если в серверных данных нет записи за это число
-                            //service.refreshPCEntry(dbEntry);
-                            service.uploadPCEntry( AppApplication.getToken(),dbEntry);
+                            // if there is no such item in server data, put it to server
+                            service.uploadPCEntry(AppApplication.getToken(), AppApplication.getSessName() + "=" + AppApplication.getSessId(), localEntry);
                         }
                     }
-                    boolean isNeedToDelete = false;
-                    int lastIndexInDB = dbData.size() - 1;
                     for (PeriodCalendarEntry serverEntry : hashMapServerData.values()) {
-                        for (int i=0; i< dbData.size(); i++) {
-                            if (serverEntry.getDateString().equals(dbData.get(i).getDateString()))
-                                break;
-                            if (i == lastIndexInDB)
-                                isNeedToDelete = true;
-                        }
-                        if(isNeedToDelete){
-                            //service.deletePCEntry(serverEntry.getId());
-                        }
+                        Logger.d (TAG, "find unnecessary item in server");
+                        if (!localData.containsKey(serverEntry.getTimeInSec()))
+                            service.deletePCEntry(AppApplication.getToken(),AppApplication.getSessName() + "=" + AppApplication.getSessId(),serverEntry.getId());
                     }
                 }
             } catch (Exception e) {

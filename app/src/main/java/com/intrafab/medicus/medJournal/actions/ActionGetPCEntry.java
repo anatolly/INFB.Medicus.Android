@@ -2,6 +2,7 @@ package com.intrafab.medicus.medJournal.actions;
 
 import android.os.Bundle;
 
+import com.intrafab.medicus.AppApplication;
 import com.intrafab.medicus.Constants;
 import com.intrafab.medicus.actions.ActionRequestStorageTask;
 import com.intrafab.medicus.db.DBManager;
@@ -37,7 +38,7 @@ public class ActionGetPCEntry extends GroundyTask {
 
         try {
             HttpRestService service = RestApiConfig.getMedicusRestService();
-            List<PeriodCalendarEntry> entryList = service.getEntry(userUid);
+            List<PeriodCalendarEntry> entryList = service.getEntry(AppApplication.getToken(), AppApplication.getSessName() + "=" + AppApplication.getSessId(), userUid);
 
             if (entryList.size() > 0)
                 DBManager.getInstance().insertArrayObject(getContext(), PeriodCalendarEntryListLoader.class, Constants.Prefs.PREF_PARAM_PERIOD_CAL_ENTRIES, entryList, PeriodCalendarEntry.class);

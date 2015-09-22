@@ -83,6 +83,8 @@ public class ActionRequestLoginTask extends GroundyTask {
                         if (userAccount != null && !TextUtils.isEmpty(token)) {
                             return succeeded()
                                     .add(Constants.Extras.PARAM_TOKEN, token)
+                                    .add(Constants.Extras.PARAM_SESSID, sessid)
+                                    .add(Constants.Extras.PARAM_SESSNAME, sessionName)
                                     .add(Constants.Extras.PARAM_USER_DATA, userAccount);
                         }
                     }

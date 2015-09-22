@@ -20,6 +20,8 @@ public class AppApplication extends MultiDexApplication {
 
     private Account userAccount;
     private static String token;
+    private static String sessId;
+    private static String sessName;
 
     public Account getUserAccount() {
         return userAccount;
@@ -51,6 +53,22 @@ public class AppApplication extends MultiDexApplication {
         AppApplication.token = token;
     }
 
+    public static String getSessId (){
+        return AppApplication.sessId;
+    }
+
+    public static void setSessId (String sessId){
+        AppApplication.sessId = sessId;
+    }
+
+    public static String getSessName (){
+        return AppApplication.sessName;
+    }
+
+    public static void setSessName (String sessName){
+        AppApplication.sessName = sessName;
+    }
+
     @Override
     public void onCreate() {
         initCalligraphy();
@@ -76,6 +94,8 @@ public class AppApplication extends MultiDexApplication {
     public static boolean isLoggedIn(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
         token = prefs.getString("isLogin", "");
+        sessId = prefs.getString("isSessid", "");
+        sessName = prefs.getString("isSessName", "");
         return !TextUtils.isEmpty(token);
     }
 
@@ -86,4 +106,20 @@ public class AppApplication extends MultiDexApplication {
         edit.putString("isLogin", token);
         edit.commit();
     }
+
+    public static void setSessid(Context context, String sessid) {
+        setSessId(sessid);
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("isSessid", sessid);
+        edit.commit();
+    }
+    public static void setSessName(Context context, String sessName) {
+        setSessName(sessName);
+        SharedPreferences prefs = context.getSharedPreferences("MEDICUS_APP", MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("isSessName", sessName);
+        edit.commit();
+    }
+
 }

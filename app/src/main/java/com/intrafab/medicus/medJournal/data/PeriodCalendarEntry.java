@@ -121,9 +121,12 @@ public class PeriodCalendarEntry implements Parcelable {
         parcel.writeString(symptoms);
         parcel.writeInt(changed);
     }
+    public void setId(int id){
+        this.id = id;
+    }
 
-    public String getId(){
-        return String.valueOf(id);
+    public int getId(){
+        return id;
     }
 
     public long getTimeInSec() {

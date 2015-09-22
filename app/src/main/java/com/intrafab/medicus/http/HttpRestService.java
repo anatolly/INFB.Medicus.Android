@@ -79,19 +79,20 @@ public interface HttpRestService {
 
     @GET("/serviceuse/pcentry.json")
     @Headers({"Content-Type: application/json"})
-    public List<PeriodCalendarEntry> getEntry(@Query("parameters[uid]") String id);
+    public List<PeriodCalendarEntry> getEntry(@Header("X-CSRF-Token") String token, @Header("Cookie") String sesionNameEqSessionId, @Query("parameters[uid]") String id);
 
     @POST("/serviceuse/pcentry")
     @Headers({"Content-Type: application/json"})
-    public Response uploadPCEntry(@Header("X-CSRF-Token") String token, @Body PeriodCalendarEntry pcEntry);
 
-    @PUT("/serviceuse/pcentry")
-    @Headers({"Content-Type: application/json","Host: prod.medicus.intrafab"})
-    public Response refreshPCEntry( @Body PeriodCalendarEntry pcEntry);
+    public Response uploadPCEntry(@Header("X-CSRF-Token") String token,@Header("Cookie") String sesionNameEqSessionId, @Body PeriodCalendarEntry pcEntry);
+
+    @PUT("/serviceuse/pcentry/{id}.json")
+    @Headers({"Content-Type: application/json"})
+    public Response refreshPCEntry(@Header("X-CSRF-Token") String token,@Header("Cookie") String sesionNameEqSessionId,@Path("id") int id, @Body PeriodCalendarEntry pcEntry);
 
 
     @DELETE("/serviceuse/pcentry/{id}.json")
-    @Headers({"Content-Type: application/json","Host: prod.medicus.intrafab"})
-    public Response deletePCEntry( /*String uid*/ @Path("id") String id);
+    @Headers({"Content-Type: application/json"})
+    public Response deletePCEntry( @Header("X-CSRF-Token") String token, @Header("Cookie") String sesionNameEqSessionId,@Path("id") int id);
 
 }

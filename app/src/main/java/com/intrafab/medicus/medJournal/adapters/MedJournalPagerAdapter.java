@@ -26,7 +26,6 @@ public class MedJournalPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int MENSTRUAL_CYCLE_TAB = 0;
     private static final int BODY_INDEX_TAB = 1;
-    private static final int BLOOD_PRESSURE_TAB = 2;
 
     public Fragment getItem(int position) {
         Logger.d(TAG, "getItem position: " + String.valueOf(position));
@@ -35,7 +34,6 @@ public class MedJournalPagerAdapter extends FragmentStatePagerAdapter {
                 return new PlaceHolderMenstrualCycleFragment();
             case BODY_INDEX_TAB:
                 return new TestFragment();
-            case BLOOD_PRESSURE_TAB:
             default:
                 return new TestFragment();
         }
@@ -43,7 +41,7 @@ public class MedJournalPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 1;
     }
 
     @Override

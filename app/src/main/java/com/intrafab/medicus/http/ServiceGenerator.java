@@ -34,7 +34,6 @@ public class ServiceGenerator {
                 public void intercept(RequestFacade request) {
                     request.addHeader("Accept", "application/json");
                     request.addHeader("Authorization", token);
-                    request.addHeader("X-CSRF-Token", token);
                 }
             });
         }
