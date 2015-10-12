@@ -879,32 +879,12 @@ public class StorageActivity extends BaseActivity
             allIntents.add(intent);
         }
 
-        // collect all gallery intents
-//        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//        galleryIntent.setType("file/*");
-//        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
-//        for (ResolveInfo res : listGallery) {
-//            Intent intent = new Intent(galleryIntent);
-//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//            intent.setPackage(res.activityInfo.packageName);
-//            allIntents.add(intent);
-//        }
-
-        // the main intent is the last in the list (fucking android) so pickup the useless one
-        Intent mainIntent = allIntents.get(allIntents.size() - 1);
-        for (Intent intent : allIntents) {
-            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
-                mainIntent = intent;
-                break;
-            }
-        }
-        allIntents.remove(mainIntent);
-
-        // Create a chooser from the main intent
-        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
-
+        // Create a chooser
+        Intent chooserIntent = Intent.createChooser(allIntents.get(0), getResources().getString(R.string.chooser_header));
+        allIntents.remove(0);
         // Add all other intents
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+        if (!allIntents.isEmpty())
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
 
         return chooserIntent;
     }

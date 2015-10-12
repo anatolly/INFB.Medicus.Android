@@ -18,19 +18,19 @@ import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
  */
 public class PeriodEndSettingFragment extends DialogFragment implements View.OnClickListener{
 
-    private Integer expected_dutation;
+    //private Integer expected_dutation;
     private NumberPicker duration;
-    private NumberPicker ovulation;
+    //private NumberPicker ovulation;
 
     public PeriodEndSettingFragment() {
 
     }
 
-    public void setSetting (Integer duration) {
+    /*public void setSetting (Integer duration) {
         //save reference
         expected_dutation = duration;
     }
-
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.period_end_setting, container, false);
@@ -49,8 +49,8 @@ public class PeriodEndSettingFragment extends DialogFragment implements View.OnC
 
 
         duration.setMinValue(1);
-        duration.setMaxValue(PeriodDataKeeper.periodDuration);
-        duration.setValue(expected_dutation);
+        duration.setMaxValue(PeriodDataKeeper.menstrualDurationMax);
+        duration.setValue(PeriodDataKeeper.periodDuration);
 
         Button okButton = (Button)view.findViewById(R.id.ok_button);
         Button cancelButton = (Button)view.findViewById(R.id.cancel_button);

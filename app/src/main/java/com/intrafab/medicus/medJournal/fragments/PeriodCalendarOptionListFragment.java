@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public class PeriodCalendarOptionListFragment  extends DialogFragment{
 
-    public static final String TAG = PeriodCalendarNoteFragment.class.getName();
+    public static final String TAG = PeriodCalendarOptionListFragment.class.getName();
     private ListView listOption;
     private int[] userData;
     private ArrayList<Pair<String, Integer>> listOptions;
@@ -115,10 +115,10 @@ public class PeriodCalendarOptionListFragment  extends DialogFragment{
         View rootView = inflater.inflate(R.layout.fragment_option_list, container, false);
         switch (type){
             case ItemPeriodCycleOptionView.MOODS:
-                getDialog().setTitle("Настроение");
+                getDialog().setTitle(getResources().getString(R.string.header_moods));
                 break;
             case ItemPeriodCycleOptionView.SYMPTOMS:
-                getDialog().setTitle("Симптомы");
+                getDialog().setTitle(getResources().getString(R.string.header_symptoms));
                 break;
         }
         return rootView;

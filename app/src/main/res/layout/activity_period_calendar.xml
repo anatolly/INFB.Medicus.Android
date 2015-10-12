@@ -53,19 +53,19 @@
     </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/famAddEntry"
+        android:id="@+id/famEditPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        app:fab_addButtonColorNormal="@color/colorLightPrimary"
-        app:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
+        app:fab_colorNormal="@color/colorLightPrimary"
+        app:fab_colorPressed="@color/colorLightPrimaryDark"
+        app:fab_icon="@drawable/abc_btn_rating_star_off_mtrl_alpha"
         app:fab_addButtonPlusIconColor="#fff"
         app:fab_expandDirection="up"
-        app:fab_labelStyle="@style/menu_labels_style"
-        android:background="@color/colorLightPrimary">
+        app:fab_labelStyle="@style/menu_labels_style" >
 
         <!--<com.intrafab.medicus.widgets.FloatingActionButton-->
         <!--android:id="@+id/fabSyncCloud"-->

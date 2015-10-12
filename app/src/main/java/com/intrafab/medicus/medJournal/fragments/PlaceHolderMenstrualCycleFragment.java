@@ -193,17 +193,6 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
     @Override
     public void onDestroy () {
         super.onDestroy();
-        if (mCalendarData != null) {
-            Logger. d(TAG, "SAVE CALENDAR DATA");
-            PeriodCalendarEntrySaver task1 = new PeriodCalendarEntrySaver(getActivity().getApplicationContext(), mCalendarData);
-            task1.execute();
-        }
-        if (mCycleData != null) {
-            Logger. d(TAG, "SAVE CYCLE DATA");
-            PeriodCycleEntrySaver task2 = new PeriodCycleEntrySaver(getActivity().getApplicationContext(), mCycleData);
-            task2.execute();
-        }
-
     }
 
     @Override

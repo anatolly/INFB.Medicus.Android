@@ -33,25 +33,24 @@ public class ItemPeriodOptionView extends RecyclerView.ViewHolder implements Vie
 
         mListener = listener;
         mEntry = entry;
-       /* RelativeLayout topLayout = (RelativeLayout)v.findViewById(R.id.rlTop);
-        topLayout.setClickable(true);
-        topLayout.setFocusable(true);
-        topLayout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ViewGroup viewGroup = (ViewGroup) view;
-                for (int i = 0; i < viewGroup.getChildCount(); i++) {
-
-                    View viewChild = viewGroup.getChildAt(i);
-                    viewChild.setPressed(true);
-                    Logger.d("ItemPeriodOptionView", "OnClick");
-                }
-            }
-        });
-
-        LinearLayout textViewContainer = (LinearLayout)v.findViewById(R.id.textview_container);
-        textViewContainer.setClickable(true);
-        textViewContainer.setOnClickListener(this);
-*/
+//        RelativeLayout topLayout = (RelativeLayout)v.findViewById(R.id.rlTop);
+//        topLayout.setClickable(true);
+//        topLayout.setFocusable(true);
+//        topLayout.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                ViewGroup viewGroup = (ViewGroup) view;
+//                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+//
+//                    View viewChild = viewGroup.getChildAt(i);
+//                    viewChild.setPressed(true);
+//                    Logger.d("ItemPeriodOptionView", "OnClick");
+//                }
+//            }
+//        });
+//
+//        LinearLayout textViewContainer = (LinearLayout)v.findViewById(R.id.textview_container);
+//        textViewContainer.setClickable(true);
+//        textViewContainer.setOnClickListener(this);
         TextView tvTitle = (TextView)v.findViewById(R.id.textViewTitle);
         TextView tvDescription = (TextView)v.findViewById(R.id.textViewDescription);
 
@@ -158,7 +157,7 @@ public class ItemPeriodOptionView extends RecyclerView.ViewHolder implements Vie
     };
 
     private void deletePeriod(){
-        PeriodDataKeeper.getInstance().deletePeriod(mEntry);
+        PeriodDataKeeper.getInstance().deletePeriod(mEntry, true);
     }
 
 }

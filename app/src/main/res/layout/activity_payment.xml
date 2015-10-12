@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--android:adjustViewBounds="true" -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userPhoto"
+        android:scaleType="centerCrop"
+        android:layout_gravity="top"
+        android:background="#6f686b"
+        android:src="@mipmap/ic_action_new"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/famEditPhoto"
+        android:layout_alignEnd="@+id/famEditPhoto" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,40 +23,208 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/unknown_contact2"
-        android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="32dp"
-        app:border_width="2dp"
-        app:border_color="#000"/>
-
-    <TextView
-        android:id="@+id/tvUserName"
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_below="@+id/profile_image"
-        android:text="Username"
-        android:textSize="24sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorLightTextMain" />
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/userPhoto"
+        android:layout_alignRight="@+id/famEditPhoto"
+        android:layout_alignEnd="@+id/famEditPhoto">
 
-    <TextView
-        android:id="@+id/tvUserEmail"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llInformationContainer"
+            android:layout_below="@+id/userPhoto"
+            android:layout_alignRight="@+id/famEditPhoto"
+            android:layout_alignEnd="@+id/famEditPhoto"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llUserName"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="bottom">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivPerson"
+                    android:src="@mipmap/ic_person" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="18sp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorLightTextMain"
+
+                    android:textStyle="bold"
+                    android:layout_marginLeft="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvAboutMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Занимаюсь травами и преподаю основы травничества, пишу статьи. Считаю, что цель человека - обрести внутренний баланс, чтобы иметь возможность передать это дальше."
+                    android:textSize="16sp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorLightTextMain"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="15dp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:id="@+id/ivEditAboutMe"
+                    android:src="@mipmap/ic_edit"
+                    android:layout_marginTop="5dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorLightTextExtra"
+                android:id="@+id/divider2" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llBirthday"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivCalendar"
+                    android:src="@mipmap/ic_date" />
+
+                <TextView
+                    android:id="@+id/tvBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="23 декабря 1990"
+                    android:textSize="16sp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorLightTextMain"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:id="@+id/ivEditBirthday"
+                    android:src="@mipmap/ic_edit"
+                    android:baselineAlignBottom="false"
+                    android:layout_marginTop="5dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorLightTextExtra"
+                android:id="@+id/divider3" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/llMail"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivMail"
+                    android:src="@mipmap/ic_mail" />
+
+                <TextView
+                    android:id="@+id/tvUserEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="user@mail.com"
+                    android:textSize="16sp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorLightTextMain"
+                    android:layout_marginLeft="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+    <!--  красный app:fab_addButtonColorNormal="#f44336"   #F46C61  #F4978F  #F4C1BA -->
+    <!--  фиолетовый app:fab_addButtonColorNormal="#f44336"   #FFF46C61  #FFF4978F  #FFF4C1BA -->
+    <!--  фиолетовый с картинки app:fab_addButtonColorNormal="#7c4dff"   #8a60ff  #9a76ff  #ac8eff -->
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/famEditPhoto"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:layout_below="@+id/tvUserName"
-        android:text="user@mail.com"
-        android:textSize="16sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorLightTextMain" />
+        app:fab_addButtonColorNormal="#7c4dff"
+        app:fab_addButtonColorPressed="@color/colorLightPrimaryDark"
+        app:fab_expandDirection="up"
+        app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_collapsedIcon="@mipmap/ic_more_vert_white"
+        android:layout_above="@+id/scrollView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#ac8eff"
+            app:fab_colorPressed="#9a76ff"
+            app:fab_icon="@mipmap/ic_screenshot"
+            app:fab_size="mini"
+            app:fab_title="Сделать фото" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#9a76ff"
+            app:fab_colorPressed="#8a60ff"
+            app:fab_icon="@mipmap/ic_add_file"
+            app:fab_size="mini"
+            app:fab_title="Добавить из галереи"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#8a60ff"
+            app:fab_colorPressed="#7c4dff"
+            app:fab_icon="@mipmap/ic_action_delete"
+            app:fab_size="mini"
+            app:fab_title="Удалить фото" />
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 
 </RelativeLayout>

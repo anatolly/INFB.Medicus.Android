@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.intrafab.medicus.AppApplication;
@@ -20,7 +21,8 @@ import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
 import com.intrafab.medicus.medJournal.actions.ActionGetPCEntry;
 import com.intrafab.medicus.medJournal.actions.ActionSaveCalendarEntry;
-import com.intrafab.medicus.medJournal.fragments.AllCyclesFragment;
+import com.intrafab.medicus.medJournal.loaders.PeriodCalendarEntrySaver;
+import com.intrafab.medicus.medJournal.loaders.PeriodCycleEntrySaver;
 import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.nispok.snackbar.Snackbar;
@@ -32,15 +34,12 @@ import com.telly.groundy.annotations.OnFailure;
 import com.telly.groundy.annotations.OnSuccess;
 import com.telly.groundy.annotations.Param;
 import com.tyczj.extendedcalendarview.Day;
-import com.tyczj.extendedcalendarview.Event;
 import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by Анна on 19.08.2015.
@@ -218,17 +217,16 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
         //    mCalendarData.put(entry.getDateString(), entry);
         //}
 
-
-        mActionsMenu = (FloatingActionButton) this.findViewById(R.id.famAddEntry);
+        mActionsMenu = (FloatingActionButton) this.findViewById(R.id.famEditPhoto);
         mActionsMenu.setClickable(true);
         mActionsMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AllCyclesFragment fragment = new AllCyclesFragment();
-                fragment.show(getFragmentManager(), "allCycles");
+//                AllCyclesFragment fragment = new AllCyclesFragment();
+//                fragment.show(getFragmentManager(), "allCycles");
 
-                // /Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
-                //startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
+            startActivity(intent);
             }
         });
 
@@ -278,7 +276,12 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
     @Override
     public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
         Calendar cal = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
         cal.set(day.getYear(), day.getMonth(), day.getDay(), 12, 0,0);
+        if (today.getTimeInMillis() < cal.getTimeInMillis()) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_time_error), Toast.LENGTH_LONG).show();
+            return;
+        }
         // search for entry for this date
         Long dateInSec = cal.getTimeInMillis()/1000;
         PeriodCalendarDayOptionsActivity.launch(this, view, dateInSec);
@@ -303,6 +306,21 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
                     addNewPeriodEvent(newPeriodIndex);
                 }
             }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mCalendarData != null) {
+            Logger. d(TAG, "SAVE CALENDAR DATA FROM ACTIVITY");
+            PeriodCalendarEntrySaver task1 = new PeriodCalendarEntrySaver(getApplicationContext(), mCalendarData);
+            task1.execute();
+        }
+        if (mCycleData != null) {
+            Logger. d(TAG, "SAVE CYCLE DATA FROM ACTIVITY");
+            PeriodCycleEntrySaver task2 = new PeriodCycleEntrySaver(getApplicationContext(), mCycleData);
+            task2.execute();
         }
     }
 

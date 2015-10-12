@@ -12,11 +12,10 @@ import android.view.View;
 
 import com.intrafab.medicus.BaseActivity;
 import com.intrafab.medicus.R;
-import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
+import com.intrafab.medicus.medJournal.fragments.PeriodCalendarEditFragment;
 import com.intrafab.medicus.medJournal.views.ItemPeriodCycleOptionView;
 import com.intrafab.medicus.medJournal.data.PeriodCalendarEntry;
-import com.intrafab.medicus.medJournal.fragments.PeriodCalendarNoteFragment;
 import com.intrafab.medicus.medJournal.fragments.PeriodCalendarOptionListFragment;
 import com.intrafab.medicus.medJournal.adapters.PeriodCalendarOptionsAdapter;
 import com.intrafab.medicus.medJournal.fragments.PeriodEndSettingFragment;
@@ -43,7 +42,6 @@ public class PeriodCalendarDayOptionsActivity extends BaseActivity implements Pe
 
         long dateInSec = getIntent().getLongExtra(PeriodCalendarActivity.PERIOD_CALENDAR_ENTRY_DATE,0);
         mEntry = PeriodDataKeeper.getInstance().getCalendarData().get(dateInSec);
-        Logger. d(TAG, "dateInSec in OnDayCick Listener" + dateInSec);
         PeriodDataKeeper.getInstance().showAllEntries();
 
         if (dateInSec == 0){
@@ -85,21 +83,25 @@ public class PeriodCalendarDayOptionsActivity extends BaseActivity implements Pe
     @Override
     public void onItemClick(int optionType) {
         if (optionType == ItemPeriodCycleOptionView.PERIOD) {
-            if (mEntry.isPeriod()){
-                endPeriod();
-            }
-            else {
-                PeriodEndSettingFragment fragment = new PeriodEndSettingFragment();
-                fragment.setSetting(PeriodDataKeeper.menstrualDuration);
-                fragment.show(getFragmentManager(), "period_setting");
+            if (!mEntry.isPeriod()){
+                PeriodEndSettingFragment fragmentSettingCycle = new PeriodEndSettingFragment();
+                //fragmentSettingCycle.setSetting(PeriodDataKeeper.menstrualDuration);
+                fragmentSettingCycle.show(getFragmentManager(), "period_setting");
             }
         }
         else if (optionType == ItemPeriodCycleOptionView.INTERCOURSE)
             mEntry.setIntercourse(!mEntry.isIntercourse());
-        else if (optionType == ItemPeriodCycleOptionView.TEXT){
-            PeriodCalendarNoteFragment fragment = new PeriodCalendarNoteFragment();
+        else if (optionType == ItemPeriodCycleOptionView.NOTE){
+            PeriodCalendarEditFragment fragment = new PeriodCalendarEditFragment();
+            fragment.setType(ItemPeriodCycleOptionView.NOTE);
             fragment.setData(mEntry);
             fragment.show(getFragmentManager(), "note_dialog");
+        }
+        else if (optionType == ItemPeriodCycleOptionView.TEMPERATURE){
+            PeriodCalendarEditFragment fragmentTemperature = new PeriodCalendarEditFragment();
+            fragmentTemperature.setType(ItemPeriodCycleOptionView.TEMPERATURE);
+            fragmentTemperature.setData(mEntry);
+            fragmentTemperature.show(getFragmentManager(), "temperature_options_dialog");
         }
         else if (optionType == ItemPeriodCycleOptionView.MOODS){
             PeriodCalendarOptionListFragment moodFragment = new PeriodCalendarOptionListFragment();
@@ -119,18 +121,16 @@ public class PeriodCalendarDayOptionsActivity extends BaseActivity implements Pe
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == android.R.id.home) {
-
             if (!mEntry.isEmpty())
                 PeriodDataKeeper.getInstance().getCalendarData().put(mEntry.getTimeInSec(), mEntry);
             Intent intent = new Intent();
 
             if (isNewPeriod){
-                int periodIndex = PeriodDataKeeper.getInstance().createPeriod(mEntry.getTimeInSec()*1000);
+                int periodIndex = PeriodDataKeeper.getInstance().createPeriod(mEntry.getTimeInSec()*1000, true);
                 intent.putExtra(PeriodCalendarActivity.NEW_PERIOD_INDEX, periodIndex);
             }
-            /// отправим в intent timeInMillis для измененной записи
+            // put to intent timeInMillis for entry
             intent.putExtra(PeriodCalendarActivity.PERIOD_CALENDAR_ENTRY_DATE, mEntry.getTimeInSec());
             setResult(1, intent);
             finish();
@@ -146,9 +146,12 @@ public class PeriodCalendarDayOptionsActivity extends BaseActivity implements Pe
         mAdapter.notifyItemChanged(ItemPeriodCycleOptionView.PERIOD);
     }
 
-    public void endPeriod() {
+   /* public void endPeriod() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(mEntry.getTimeInSec() * 1000);
+        calendar.add(Calendar.DATE, 1);
         mEntry.setMenstrualPeriod(0);
         mAdapter.notifyItemChanged(ItemPeriodCycleOptionView.PERIOD);
-    }
+    }*/
 
 }

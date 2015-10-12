@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1"
     android:gravity="center_horizontal"
     style="@style/AppLightTheme"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    android:paddingRight="20dp">
 
-
-    <Space
-        android:layout_width="20px"
-        android:layout_height="30px" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editText"
-        android:layout_gravity="center_horizontal"
-        android:maxHeight="200dp"
-        android:minWidth="200dp"
-        android:longClickable="false" />
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="67dp"

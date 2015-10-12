@@ -59,32 +59,49 @@
         </activity>
         <activity
             android:name=".PaymentActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait">
+
+        </activity>
         <activity
             android:name=".StorageDocumentActivity"
-            android:screenOrientation="sensor"></activity>
+            android:screenOrientation="sensor">
+
+        </activity>
         <activity
             android:name=".EventDetailActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:configChanges="locale"
             android:theme="@style/AppLightPreferenceTheme"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
             android:name=".medJournal.activities.MedicalJournalActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
         android:name=".medJournal.activities.PeriodCalendarActivity"
-        android:screenOrientation="sensorPortrait"></activity>
+        android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
         android:name=".medJournal.activities.PeriodCalendarDayOptionsActivity"
-        android:screenOrientation="sensorPortrait"></activity>
+        android:screenOrientation="sensorPortrait">
+
+        </activity>
         <activity
             android:name=".medJournal.activities.ChartActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait">
+        </activity>
 
         <service android:name="com.telly.groundy.GroundyService" />
+
+        <service
+            android:name="com.intrafab.medicus.service.NotificationService"/>
+        <service
+            android:name="com.intrafab.medicus.service.NotificationIntentService"/>
+
 
     </application>
 

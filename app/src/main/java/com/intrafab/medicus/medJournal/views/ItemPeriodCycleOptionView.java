@@ -21,10 +21,11 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
     //public static final int MENSTRUAL_FLOW = 1;
     //public static final int OVULATION = 2;
     public static final int INTERCOURSE = 1;
-    public static final int TEXT = 2;
+    public static final int NOTE = 2;
     public static final int SYMPTOMS = 3;
     public static final int MOODS = 4;
-    public static final int AMOUNT_OF_OPTIONS = 5;
+    public static final int TEMPERATURE = 5;
+    public static final int AMOUNT_OF_OPTIONS = 6;
 
     PeriodCalendarOptionsAdapter.OnItemClickListener mListener;
 
@@ -35,7 +36,7 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
     private LinearLayout checkBoxLayout;
     private CheckBox checkBox;
 
-    public ItemPeriodCycleOptionView(View v, int viewType, PeriodCalendarOptionsAdapter.OnItemClickListener listener, boolean checkBoxFlag) {
+    public ItemPeriodCycleOptionView(View v, int viewType, PeriodCalendarOptionsAdapter.OnItemClickListener listener, int argument) {
         super(v);
         mListener = listener;
 
@@ -46,8 +47,8 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
         checkBoxLayout = (LinearLayout)v.findViewById(R.id.checkBoxContainer);
         checkBox = (CheckBox)v.findViewById(R.id.check_box);
 
-        checkBox.setChecked(checkBoxFlag);
-        Logger.d("checkboxFlag", String.valueOf(checkBoxFlag));
+        checkBox.setChecked(argument == 1);
+        Logger.d("checkboxFlag", String.valueOf(argument == 1));
         RelativeLayout layout = (RelativeLayout) itemView.findViewById(R.id.rlItemLayout);
         layout.setOnClickListener(this);
         //ivRightArrow.setOnClickListener(this);
@@ -64,18 +65,13 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
                 tvName.setText(R.string.option_menstrual_flow);
                 ivRightArrow.setVisibility(View.INVISIBLE);
                 ivIcon.setImageResource(R.mipmap.ic2);
-                break;
-            case OVULATION:
-                tvName.setText(R.string.option_ovulation);
-                ivRightArrow.setVisibility(View.INVISIBLE);
-                ivIcon.setImageResource(R.mipmap.ic3);
                 break;*/
             case INTERCOURSE:
                 tvName.setText(R.string.option_intercourse);
                 ivRightArrow.setVisibility(View.INVISIBLE);
                 ivIcon.setImageResource(R.mipmap.ic4);
                 break;
-            case TEXT:
+            case NOTE:
                 tvName.setText(R.string.option_note);
                 checkBox.setVisibility(View.INVISIBLE);
                 ivIcon.setImageResource(R.mipmap.ic5);
@@ -90,6 +86,12 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
                 checkBox.setVisibility(View.INVISIBLE);
                 ivIcon.setImageResource(R.mipmap.ic7);
                 break;
+            case TEMPERATURE:
+                tvName.setText(R.string.option_temperature);
+                ivRightArrow.setVisibility(View.INVISIBLE);
+                checkBox.setVisibility(View.INVISIBLE);
+                ivIcon.setImageResource(R.mipmap.ic3);
+                break;
         }
     }
 
@@ -98,7 +100,7 @@ public class ItemPeriodCycleOptionView extends RecyclerView.ViewHolder implement
     public void onClick(View view) {
         if (getItemViewType() == INTERCOURSE)
             checkBox.setChecked(!checkBox.isChecked());
-                /// function getViewItem returns a view's position in list
+        // getViewItem() returns a view's position in list
         mListener.onItemClick(getItemViewType());
     }
 

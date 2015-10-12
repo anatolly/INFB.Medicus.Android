@@ -76,7 +76,7 @@ public class ExtendedCalendarView extends RelativeLayout implements OnItemClickL
 	private void init(){
 		cal = Calendar.getInstance();
 		base = new RelativeLayout(context);
-		base.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+		base.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		base.setMinimumHeight(50);
 		
 		base.setId(4);
@@ -100,7 +100,7 @@ public class ExtendedCalendarView extends RelativeLayout implements OnItemClickL
 		month.setId(2);
 		month.setLayoutParams(params);
 		month.setTextAppearance(context, android.R.attr.textAppearanceLarge);
-		month.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())+" "+cal.get(Calendar.YEAR));
+		month.setText(getResources().getStringArray(R.array.months)[cal.get(Calendar.MONTH)]+" "+cal.get(Calendar.YEAR));
 		month.setTextSize(25);
 		
 		base.addView(month);
@@ -254,7 +254,7 @@ public class ExtendedCalendarView extends RelativeLayout implements OnItemClickL
 	
 	private void rebuildCalendar(){
 		if(month != null){
-			month.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())+" "+cal.get(Calendar.YEAR));
+			month.setText(getResources().getStringArray(R.array.months)[cal.get(Calendar.MONTH)]+" "+cal.get(Calendar.YEAR));
 			refreshCalendar();
 		}
 	}

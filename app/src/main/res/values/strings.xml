@@ -32,7 +32,7 @@
     <string name="login_screen">Login</string>
     <string name="login_button">Log in</string>
     <string name="textview_password">Password</string>
-    <string name="account_existence_notification">If you do not have an account,\nyou can create it on project\'s website</string>
+    <string name="account_existence_notification">If you do not have an account,\nyou can create it on the website www.prod.inmedicus.ru</string>
     <string name="error_file_not_selected">Failed to choose the file</string>
     <string name="error_empty_phone">Enter the telephone number</string>
 
@@ -104,6 +104,7 @@
     <string name="menstrual_calendar_title">Calendar</string>
     <string name="day_of_cycle">day of cycle</string>
     <string name="menstrual_cycle_title">Menstrual Cycle</string>
+    <string name="date_time_error">You can not edit day in future</string>
 
     <!-- Period Calendar Options -->
 
@@ -115,13 +116,50 @@
     <string name="option_menses_start">Have Period Started?</string>
     <string name="option_menstrual_flow">Flow</string>
     <string name="option_ovulation">Ovulation</string>
+    <string name="option_temperature">Basal body temperature</string>
     <string name="tip_period_start">Tap to write down</string>
 
     <string name="estimated_duration">Estimated duration</string>
     <string name="expected_ovulation">The expected date of ovulation</string>
 
+    <string name="header_note">Note</string>
+    <string name="header_temperature">Basal body temperature</string>
+    <string name="header_moods">Mood</string>
+    <string name="header_symptoms">Symptoms</string>
+
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="period_setting">Period Settings</string>
+
+    <!-- Chart -->
+    <string name="chart_title_temperature">Basal body temperature</string>
+    <string name="chart_scale">Scale</string>
+    <string name="chart_no_data">No entries for %1$s year</string>
+
+    <string-array name="chart_period">
+        <item>15 days</item>
+        <item>30 days</item>
+        <item>45 days</item>
+    </string-array>
+
+    <!-- Account -->
+    <string name="header_aboutme">About me</string>
+    <string name="chooser_header">Select application</string>
+
+    <!-- Months -->
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 
 </resources>

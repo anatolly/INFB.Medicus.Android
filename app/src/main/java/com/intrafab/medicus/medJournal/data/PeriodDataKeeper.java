@@ -26,6 +26,7 @@ public class PeriodDataKeeper {
     public static Integer menstrualDuration = 4;
     public static Integer periodDuration = 28;
     public static Integer folicularPhaseDuration = 14;
+    public static Integer menstrualDurationMax = 12;
 
     private static PeriodDataKeeper instance;
     private HashMap<Long, PeriodCalendarEntry> mCalendarData;
@@ -145,6 +146,8 @@ public class PeriodDataKeeper {
             offset += entry.getPeriod();
         else if (entry.isOvulationDay())
             offset += entry.getOvulationDay();
+        else
+            offset = 0;
         offset *= Constants.Numeric.dayToMillis;
         long firstDayInMillis = entry.getTimeInSec()*1000;
         firstDayInMillis -= offset;
@@ -152,33 +155,43 @@ public class PeriodDataKeeper {
     }
 
     public int addPeriodToList (PeriodCycleEntry period){
+		Logger.d (TAG, "addPeriodToList");
+        Logger.d (TAG, "before adding");
+        showAllPeriod();
         Calendar firstDay = Calendar.getInstance();
         firstDay.setTimeInMillis(period.getFirstDay());
         Calendar lastDay = Calendar.getInstance();
+		Logger.d (TAG, "firstDay: " + firstDay.get(Calendar.DAY_OF_MONTH) + "." + firstDay.get(Calendar.MONTH));
         int i;
         if (mCycleData.isEmpty()) {
             mCycleData.add(period);
             return 0;
         }
         for (i=0; i<mCycleData.size(); i++){
-            lastDay.setTimeInMillis(mCycleData.get(i).getFirstDay() + mCycleData.get(i).getPeriodDuration() * Constants.Numeric.dayToMillis);
+            //Logger.d (TAG, "firstDay " + i + " : " + mCycleData.get(i).getFirstDay());
+            lastDay.setTimeInMillis(mCycleData.get(i).getFirstDay());
+            //lastDay.add(Calendar.DATE, mCycleData.get(i).getPeriodDuration());
+            Logger.d(TAG, "lastDay: " + lastDay.getTimeInMillis()+ " date: " + lastDay.get(Calendar.DAY_OF_MONTH) + "." + lastDay.get(Calendar.MONTH) + "." + lastDay.get(Calendar.YEAR) + "  firstDay: " + mCycleData.get(i).getFirstDay() + " periodDuration: " + mCycleData.get(i).getPeriodDuration());
             if (lastDay.after(firstDay)){
                 mCycleData.add(i, period);
-                Logger.d(TAG, "Find period place!!! " + i);
                 break;
             }
             if (i == mCycleData.size()-1) {
                 mCycleData.add(period);
+                i++;
                 break;
             }
         }
-        // if previous period exists -> decrease its duration
-        if (i > 0 && mCycleData.get(i-1) != null) {
+		Logger.d(TAG, "Find period place!!! " + i);
+        Logger.d (TAG, "after adding");
+        showAllPeriod();
+        /*// if previous period exists -> decrease its duration
+        if (i > 0 && mCycleData.get(i-1) != null && isNewPeriod) {
             long firstDayInPreviousPeriod = mCycleData.get(i - 1).getFirstDay();
             long firstDayInCurrentPeriod = mCycleData.get(i).getFirstDay();
             long diffInDays = TimeUnit.DAYS.convert(firstDayInCurrentPeriod - firstDayInPreviousPeriod, TimeUnit.MILLISECONDS);
             mCycleData.get(i - 1).setPeriodDuration((int) diffInDays);
-            updatePeriod(i - 1);
+            updatePeriod2(i - 1);
         }
         // if next period exists -> set period duration in current period
         if (i+1<mCycleData.size() && mCycleData.get(i + 1) != null){
@@ -187,20 +200,27 @@ public class PeriodDataKeeper {
             long diffInDays = TimeUnit.DAYS.convert(firstDayInNextPeriod - firstDayInCurrentPeriod, TimeUnit.MILLISECONDS);
             Logger.d (TAG,"set current period's duration: " + diffInDays);
             mCycleData.get(i).setPeriodDuration((int) diffInDays);
-        }
+        }*/
         return i;
     }
 
-    public void deletePeriod(PeriodCalendarEntry entry){
+    public void deletePeriod(PeriodCalendarEntry entry, boolean isDeletedPeriod){
         int index = findPeriod(getFirstDayInMillis(entry));
-        if (index < 0)
+        if (index < 0){
+            Logger.d (TAG, "NOT DELETE");
+            Logger.d (TAG, "entry date: " + entry.getDateString());
+            Logger.d (TAG, "getFirstDayInMillis(entry): " + getFirstDayInMillis(entry));
+            for (PeriodCycleEntry period : mCycleData)
+            Logger.d(TAG, "period get First Day: " + period.getFirstDay());
             return;
+        }
         Logger.d (TAG, "deletePeriod: index" + index);
         PeriodCycleEntry period = mCycleData.get(index);
         Logger.d (TAG, "menstrual duration" + period.getMentsrualDuration());
         Logger.d (TAG, "FertileFirstDay" + period.getFertileFirstDay());
         Logger.d (TAG, "date in Sec: " + period.getFirstDay()/1000);
 
+        // delete menstruation
         long dateInSec = period.getFirstDay()/1000;
         for (int i=0; i<period.getMentsrualDuration(); i++){
             if(mCalendarData.containsKey(dateInSec)) {
@@ -219,7 +239,7 @@ public class PeriodDataKeeper {
                 mCalendarEvents.get(dateInSec).setIsFertilePeriod(false);
             dateInSec += Constants.Numeric.dayToSec;
         }
-
+        // delete ovulation
         dateInSec = period.getFirstDay()/1000;
         dateInSec += period.getOvulationDay() * Constants.Numeric.dayToSec;
         if (mCalendarData.containsKey(dateInSec))
@@ -228,14 +248,23 @@ public class PeriodDataKeeper {
             mCalendarEvents.get(dateInSec).setIsOvulation(false);
         // after deleting all event and pcentry, we should correct previous month
         mCycleData.remove(index);
-        updatePeriod(index-1);
+        if (isDeletedPeriod && index > 0){
+            updatePeriod2(index - 1);
+        }
+       // else
+        //updatePeriod(index-1);
 
     }
 
     public void showAllEntries (){
-        Logger.d (TAG, "showAllEntries");
         for (long entryKey : mCalendarData.keySet()){
             Logger.d(TAG, "key: " + entryKey + " date:" + mCalendarData.get(entryKey).getDateString() + "  " + mCalendarData.get(entryKey).getTimeInSec());
+        }
+    }
+
+	public void showAllPeriod (){
+        for (PeriodCycleEntry period : mCycleData){
+            Logger.d(TAG, "period.getFirstDay(): " + period.getFirstDay()+ "firstDayDate" + period.getFirstDayCalendar().get(Calendar.DAY_OF_MONTH) + "." +  period.getFirstDayCalendar().get(Calendar.MONTH) + " periodDuration" + period.getPeriodDuration());
         }
     }
 
@@ -282,9 +311,7 @@ public class PeriodDataKeeper {
     }
 
     // call when one period was udeleted
-    public HashMap<Long, Event> deletePeriod (){
-        return mCalendarEvents;
-    }
+   // public HashMap<Long, Event> deletePeriod (){ return mCalendarEvents;  }
 
     // call when a lot of/all period was updated/created
     public HashMap<Long, Event> setPeriods (){
@@ -337,7 +364,6 @@ public class PeriodDataKeeper {
         if (period.getMentsrualDuration() > period.getPeriodDuration()){
             period.setMentsrualDuration(period.getPeriodDuration());
         }
-
         if (period.getPeriodDuration() / 2 > period.getMentsrualDuration()){
             period.setFertileFirstDay(period.getPeriodDuration() / 2 - 5);
             period.setOvulationDay(period.getPeriodDuration() / 2);
@@ -367,16 +393,75 @@ public class PeriodDataKeeper {
         refreshEvents();
     }
 
-    public int createPeriod (long firstEntryDateInMillis){
-        Logger.d(TAG, "create new period");
+
+    public void updatePeriod2 (int index){
+        Logger.d(TAG, "updatePeriod2");
+        // find period
+        PeriodCycleEntry period = mCycleData.get(index);
+        Calendar calendar = period.getFirstDayCalendar();
+        Logger.d (TAG, "firstDayDeleted period: " + calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH));
+
+		Logger.d(TAG, "before deleting");
+        showAllPeriod();
+
+        // delete period
+        PeriodCalendarEntry entry = mCalendarData.get(period.getFirstDay()/1000);
+        Logger. d(TAG, "entry in deleted period date: " + entry.getDateString());
+        deletePeriod(entry, false);
+
+		Logger.d(TAG, "after deleting");
+        showAllPeriod();
+
+        // create period
+        createPeriod(period.getFirstDay(), false);
+        int newIndex = findPeriod(period.getFirstDay());
+        Logger.d (TAG, "last index:" + index + " new index: " + newIndex);
+        Logger.d(TAG, "after recreating");
+        showAllPeriod();
+
+        // add period events
+        addPeriod(newIndex);
+
+    }
+
+    public int createPeriod (long firstEntryDateInMillis, boolean isNewPeriod){
+        Calendar calendar1  = Calendar.getInstance();
+        calendar1.setTimeInMillis(firstEntryDateInMillis);
+        Logger.d(TAG, "create new period: " + calendar1.get(Calendar.DAY_OF_MONTH) + "." + calendar1.get(Calendar.MONTH));
         /// create new PeriodCycleEntry
         PeriodCycleEntry newPeriod = new PeriodCycleEntry(firstEntryDateInMillis);
-        newPeriod.setPeriodDuration(PeriodDataKeeper.periodDuration);
+        int periodIndex = addPeriodToList(newPeriod);
+        // if next period exists
+        if (periodIndex < mCycleData.size()-1) {
+            long firstDayInNextPeriod = mCycleData.get(periodIndex+1).getFirstDay();
+            long diffInDays = TimeUnit.DAYS.convert(firstDayInNextPeriod - firstEntryDateInMillis, TimeUnit.MILLISECONDS);
+            mCycleData.get(periodIndex).setPeriodDuration((int) diffInDays);
+            Logger.d (TAG, "setPeriodDuration: " + diffInDays);
+        }
+        // if next period doesn't exist
+        else
+            newPeriod.setPeriodDuration(PeriodDataKeeper.periodDuration);
+
         newPeriod.setMentsrualDuration(PeriodDataKeeper.menstrualDuration);
         newPeriod.setFertileFirstDay(newPeriod.getPeriodDuration() / 2 - 5);
         newPeriod.setOvulationDay(newPeriod.getPeriodDuration() / 2);
 
-        int periodIndex = addPeriodToList(newPeriod);
+        // if period is less longer than menstruation
+        if (newPeriod.getMentsrualDuration() > newPeriod.getPeriodDuration()){
+            Logger.d (TAG, "period is less longer than menstruation");
+            newPeriod.setMentsrualDuration(newPeriod.getPeriodDuration());
+        }
+        // if half of period duration is longer than menstrual duration
+        if (newPeriod.getPeriodDuration() / 2 > newPeriod.getMentsrualDuration() + 5){
+            Logger.d (TAG, "half of period duration is longer than menstrual duration");
+            newPeriod.setFertileFirstDay(newPeriod.getPeriodDuration() / 2 - 5);
+            newPeriod.setOvulationDay(newPeriod.getPeriodDuration() / 2);
+        } // if period is not enough long to contains fertile days
+        else {
+            Logger.d (TAG, "if period is not enough long to contains fertile days");
+            newPeriod.setFertileFirstDay(0);
+            newPeriod.setOvulationDay(0);
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(newPeriod.getFirstDay());
@@ -406,6 +491,10 @@ public class PeriodDataKeeper {
             newEntry.setOvulationDay(newPeriod.getFertileFirstDay());
             mCalendarData.put(newEntry.getTimeInSec(), newEntry);
         }
+
+        // update previous period
+        if (isNewPeriod && periodIndex > 0)
+            updatePeriod2(periodIndex - 1);
         return periodIndex;
     }
 
@@ -415,8 +504,7 @@ public class PeriodDataKeeper {
         setPeriods();
     }
 
-public String getPeriodInformation(){
-
+	public String getPeriodInformation(){
         String resultString = null;
         for (PeriodCycleEntry period : mCycleData){
             Calendar calendar = period.getFirstDayCalendar();
@@ -430,6 +518,15 @@ public String getPeriodInformation(){
             resultString += period.getPeriodDuration() + "\n";
         }
         return resultString;
+	}
+
+    public void endPeriod(long timeInSec){
+        PeriodCalendarEntry lastMenstrualEntry = mCalendarData.get(timeInSec);
+        if (lastMenstrualEntry == null)
+            return;
+
+
+
     }
 
 }

@@ -46,11 +46,13 @@ public class PeriodCalendarOptionsAdapter extends RecyclerView.Adapter<RecyclerV
         else {
             View v = LayoutInflater.from(context).inflate(R.layout.view_period_calend_option_item, parent, false);
             ItemPeriodCycleOptionView view;
-            /// before creating view elements we should checked checkboxes if it necessary
+            // the 4th parameter is argument (chechbox flag for intercourse option / body temperatute for temperature option / 0 for others)
             if (viewType == ItemPeriodCycleOptionView.INTERCOURSE)
-                view = new ItemPeriodCycleOptionView(v, viewType, mListener, mEntry.isIntercourse());
+                view = new ItemPeriodCycleOptionView(v, viewType, mListener, mEntry.isIntercourse() ? 1 : 0);
+            else if (viewType == ItemPeriodCycleOptionView.TEMPERATURE)
+                view = new ItemPeriodCycleOptionView(v, viewType, mListener, mEntry.getBodyTemperature());
             else
-                view = new ItemPeriodCycleOptionView(v, viewType, mListener, false);
+                view = new ItemPeriodCycleOptionView(v, viewType, mListener, 0);
             return view;
         }
     }

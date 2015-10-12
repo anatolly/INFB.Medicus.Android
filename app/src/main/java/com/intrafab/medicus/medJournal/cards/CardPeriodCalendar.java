@@ -45,30 +45,7 @@ public class CardPeriodCalendar extends RecyclerView.ViewHolder implements View.
         tvPhase = (TextView) itemView.findViewById(R.id.tvPhase);
         tvTip = (TextView) itemView.findViewById(R.id.tvTip);
 
-        if (period != null) {
-            Logger.d("PERIODCARD", "period is not null");
-            /// set today Date
-            Calendar cal = new GregorianCalendar();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
-            dateFormat.setTimeZone(cal.getTimeZone());
-            String strDate = dateFormat.format(cal.getTime()) + "th";
-
-            tvDate.setText(strDate);
-            Logger.d("PERIODCARD", strDate);
-            /// set day of the period
-            long diff = cal.getTimeInMillis() - period.getFirstDay();
-            long diffInDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            tvPeriodDay.setText(String.valueOf(diffInDays) + "th day of cycle");
-            Logger.d("CARD PERIOD CALENDAR", String.valueOf(diffInDays) + "th day of cycle");
-
-            tvPhase.setText("folicular phase");
-            Logger.d("PERIODCARD", "folicular phase");
-
-            tvTip.setText("Tap to go to the calendar");
-            Logger.d("PERIODCARD", "Tap to go to the calendar");
-
-        }else {
-        }
+        fillCard(period);
         //cv.setRadius(0);
         //cv.setCardBackgroundColor(R.color.material_blue_grey_800);
         //cv.setPadding(30,30,30,30);
@@ -83,15 +60,13 @@ public class CardPeriodCalendar extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.cv && mListener!=null)
-            mListener.onClickItem(PeriodCardAdapter.CALENDAR_CARD_TYPE, view);
+            mListener.onClickItem(PeriodCardAdapter.CYCLE_CARD_TYPE, view);
         if (view.getId() == R.id.iv_settingButton)
             Logger.d("CardPeriodCalendar", "setting button clicked");
     }
 
     public void fillCard(PeriodCycleEntry period){
-        Logger. d("PERIODCARD" , "FILL CARD!!!!");
         if (period != null) {
-            Logger.d("PERIODCARD", "period is not null");
             /// set today Date
             Calendar cal = new GregorianCalendar();
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault());
@@ -99,23 +74,16 @@ public class CardPeriodCalendar extends RecyclerView.ViewHolder implements View.
             String strDate = dateFormat.format(cal.getTime()) + "th";
 
             tvDate.setText(strDate);
-            Logger.d("PERIODCARD", strDate);
             /// set day of the period
             long diff = cal.getTimeInMillis() - period.getFirstDay();
             long diffInDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
             tvPeriodDay.setText(String.valueOf(diffInDays) + "th day of cycle");
-            Logger.d ("CARD PERIOD CALENDAR", String.valueOf(diffInDays) + "th day of cycle");
-
             tvPhase.setText("folicular phase");
-            Logger.d("PERIODCARD", "folicular phase");
-
             tvTip.setText("Tap to go to the calendar");
-            Logger.d("PERIODCARD", "Tap to go to the calendar");
         }
         else {
             Logger.d("PERIODCARD", "period is null");
         }
     }
-
 
 }

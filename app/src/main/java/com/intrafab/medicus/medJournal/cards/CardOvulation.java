@@ -47,46 +47,7 @@ public class CardOvulation extends RecyclerView.ViewHolder{
         tvPhase = (TextView) itemView.findViewById(R.id.tvPhase);
         tvTip = (TextView) itemView.findViewById(R.id.tvTip);
 
-        Logger.d("OVULATIONCARD", "before");
-        if (period != null) {
-            Logger.d("OVULATIONCARD", "period is not null");
-            /// set ovulation Date
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTimeInMillis(period.getFirstDay());
-            calendar.add(Calendar.DATE, period.getOvulationDay());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
-            dateFormat.setTimeZone(calendar.getTimeZone());
-            String strDate = dateFormat.format(calendar.getTime()) + "th";
-            tvDate.setText(strDate);
-            /// set day of the period
-            calendar = Calendar.getInstance();
-            long diff = calendar.getTimeInMillis() - (period.getFirstDay() + period.getOvulationDay() * Constants.Numeric.dayToMillis);
-            String ovulationDate;
-            if (diff < 0) {
-                ovulationDate = " d before ovulation";
-                diff *= (-1);
-            } else
-                ovulationDate = " d after ovulation";
-            long diffInDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            tvPeriodDay.setText(String.valueOf(diffInDays) + ovulationDate);
-
-            Calendar fertileFirstDay = Calendar.getInstance();
-            fertileFirstDay.setTimeInMillis(period.getFirstDay() + period.getFertileFirstDay() * Constants.Numeric.dayToMillis);
-            Calendar fertileLastDay = Calendar.getInstance();
-            fertileLastDay.setTimeInMillis(period.getFirstDay() + (period.getOvulationDay() + 1) * Constants.Numeric.dayToMillis);
-            if (calendar.after(fertileFirstDay) && calendar.before(fertileLastDay))
-                tvPhase.setText("fertile day");
-            else
-                tvPhase.setText("infertile day");
-
-            dateFormat = new SimpleDateFormat("MMMM dd", Locale.getDefault());
-            String firstFertileDay = dateFormat.format(fertileFirstDay.getTime()) + "th";
-            String lastFertileDay = dateFormat.format(fertileLastDay.getTime()) + "th";
-
-            tvTip.setText("Fertile period: " + firstFertileDay + " to " + lastFertileDay);
-        }
-
-
+        fillCard(period);
         }
     public void fillCard (PeriodCycleEntry period){
         if (period != null) {

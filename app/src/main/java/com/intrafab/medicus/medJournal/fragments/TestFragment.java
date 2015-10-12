@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
-import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,8 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.intrafab.medicus.AppApplication;
@@ -23,14 +20,11 @@ import com.intrafab.medicus.Constants;
 import com.intrafab.medicus.R;
 import com.intrafab.medicus.medJournal.actions.ActionGetPCEntry;
 import com.intrafab.medicus.medJournal.actions.ActionSaveCalendarEntry;
-import com.intrafab.medicus.medJournal.activities.ChartActivity;
-import com.intrafab.medicus.medJournal.activities.MedicalJournalActivity;
 import com.intrafab.medicus.medJournal.activities.PeriodCalendarActivity;
 import com.intrafab.medicus.medJournal.activities.PeriodCalendarDayOptionsActivity;
 import com.intrafab.medicus.medJournal.data.PeriodCalendarEntry;
 import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
-import com.intrafab.medicus.utils.Connectivity;
 import com.intrafab.medicus.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -421,7 +415,7 @@ public class TestFragment extends Fragment implements ExtendedCalendarView.OnDay
         calendar = (ExtendedCalendarView)v.findViewById(R.id.calendar);
         calendar.setOnDayClickListener(this);
 
-        mActionsMenu = (FloatingActionButton) v.findViewById(R.id.famAddEntry);
+        mActionsMenu = (FloatingActionButton) v.findViewById(R.id.famEditPhoto);
         mActionsMenu.setClickable(true);
 
         return v;

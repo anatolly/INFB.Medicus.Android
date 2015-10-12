@@ -38,7 +38,7 @@ public class DBManager {
         return DBManagerHolder.instance;
     }
 
-    private String getDBPath(Context context) {
+    public String getDBPath(Context context) {
         String result = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String packageName = context.getPackageName();
