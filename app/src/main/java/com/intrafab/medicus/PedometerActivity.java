@@ -29,7 +29,7 @@ import com.intrafab.medicus.pedometer.OnEventUpdateCalories;
 import com.intrafab.medicus.pedometer.OnEventUpdateDistance;
 import com.intrafab.medicus.pedometer.OnEventUpdatePace;
 import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
-import com.intrafab.medicus.pedometer.OnEventUpdateSteps;
+import com.intrafab.medicus.pedometer.OnEventUpdateStep;
 import com.intrafab.medicus.pedometer.Settings;
 import com.intrafab.medicus.pedometer.StepService;
 import com.intrafab.medicus.utils.EventBus;
@@ -83,7 +83,7 @@ public class PedometerActivity extends BaseActivity
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_STEPS:
-                    EventBus.getInstance().post(new OnEventUpdateSteps(msg.arg1));
+                    EventBus.getInstance().post(new OnEventUpdateStep(msg.arg1));
                     break;
                 case MESSAGE_PACE:
                     EventBus.getInstance().post(new OnEventUpdatePace(msg.arg1));

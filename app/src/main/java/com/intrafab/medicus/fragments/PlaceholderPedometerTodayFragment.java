@@ -18,7 +18,7 @@ import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
 import com.intrafab.medicus.R;
 import com.intrafab.medicus.pedometer.OnEventUpdateCalories;
 import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
-import com.intrafab.medicus.pedometer.OnEventUpdateSteps;
+import com.intrafab.medicus.pedometer.OnEventUpdateStep;
 import com.intrafab.medicus.pedometer.OnEventUpdateStepsGoal;
 import com.intrafab.medicus.pedometer.OnEventUpdateTime;
 import com.intrafab.medicus.utils.EventBus;
@@ -207,7 +207,7 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     }
 
     @Subscribe
-    public void onStepsChanged(OnEventUpdateSteps event) {
+    public void onStepsChanged(OnEventUpdateStep event) {
         long value = event.steps < 0 ? 0 : event.steps;
         mTextViewSteps.setText(String.format("%1$,d", value));
     }
