@@ -178,7 +178,8 @@ public class StepService extends Service {
 
         mSpeedNotifier = new SpeedNotifier(mPedometerSettings);
         mSpeedNotifier.setSpeed(mSpeed = mState.getFloat("speed", 0));
-        mSpeedNotifier.addListener(mPaceListener);
+        mPaceNotifier.addListener(mSpeedNotifier);
+        mSpeedNotifier.addListener(mSpeedListener);
 
         mStepDetector.addListener(mSpeedNotifier);
 

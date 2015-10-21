@@ -18,6 +18,7 @@ import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
 import com.intrafab.medicus.R;
 import com.intrafab.medicus.pedometer.OnEventUpdateCalories;
 import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
+import com.intrafab.medicus.pedometer.OnEventUpdateSteps;
 import com.intrafab.medicus.pedometer.OnEventUpdateStepsGoal;
 import com.intrafab.medicus.pedometer.OnEventUpdateTime;
 import com.intrafab.medicus.utils.EventBus;

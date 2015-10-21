@@ -29,6 +29,7 @@ import com.intrafab.medicus.pedometer.OnEventUpdateCalories;
 import com.intrafab.medicus.pedometer.OnEventUpdateDistance;
 import com.intrafab.medicus.pedometer.OnEventUpdatePace;
 import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
+import com.intrafab.medicus.pedometer.OnEventUpdateSteps;
 import com.intrafab.medicus.pedometer.Settings;
 import com.intrafab.medicus.pedometer.StepService;
 import com.intrafab.medicus.utils.EventBus;
