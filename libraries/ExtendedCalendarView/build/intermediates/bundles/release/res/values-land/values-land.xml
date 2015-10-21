@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-land/dimen.xml -->
+    <!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-land/dimen.xml -->
     <eat-comment/>
     <dimen name="day_margin">58dp</dimen>
     <dimen name="first_day_margin">15dp</dimen>

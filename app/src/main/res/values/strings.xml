@@ -66,7 +66,7 @@
     <string name="menu_feedback">Feedback</string>
     <string name="menu_account">Account</string>
     <string name="menu_settings_title">Settings</string>
-    
+
     <string name="category_language_settings">Language Settings</string>
 
     <!-- Feedback screen -->
@@ -161,5 +161,14 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
+    <string name="header_pedometer">Pedometer</string>
+    <string name="header_pedometer_settings">Pedometer Settings</string>
+
+    <string name="tab_today">TODAY</string>
+    <string name="tab_week">WEEK</string>
+    <string name="tab_month">MONTH</string>
+    <string name="tab_year">YEAR</string>
+
 
 </resources>

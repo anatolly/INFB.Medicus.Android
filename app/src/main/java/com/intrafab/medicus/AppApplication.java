@@ -71,6 +71,7 @@ public class AppApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         initCalligraphy();
 
         Logger.setApplicationTag("Medicus");

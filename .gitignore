@@ -6,6 +6,7 @@
 /build
 /captures
 .idea/
-libraries/PhotoView/build
-libraries/ExtendedCalendarView/build
+/libraries/PhotoView/build
+/libraries/ExtendedCalendarView/build/
+/libraries/ExtendedCalendarView/bin/
 *.iml

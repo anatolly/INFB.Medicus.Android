@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "com.intrafab.medicus"
@@ -46,10 +46,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.google.android.gms:play-services:7.0.0'
-    compile 'com.android.support:recyclerview-v7:22.0.0'
-    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
     compile 'com.telly:groundy:1.5'
     provided 'com.telly:groundy-compiler:1.5'
     compile 'com.nispok:snackbar:2.10.1'
@@ -82,4 +83,5 @@ dependencies {
     }
     compile project(':libraries:ExtendedCalendarView')
     compile files('libs/mpandroidchartlibrary-2-1-3.jar')
+    compile 'com.dlazaro66.wheelindicatorview:WheelIndicatorView:1.0.0'
 }

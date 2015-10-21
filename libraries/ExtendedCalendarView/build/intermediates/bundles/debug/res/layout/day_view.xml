@@ -4,18 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="@dimen/min_cell_height"
-    android:minWidth="@dimen/min_cell_width" >
+    android:minWidth="@dimen/min_cell_width"
+    android:background="#696a69">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="#fcfcfc"
+        android:layout_marginBottom="1dp"
+        android:layout_marginRight="1dp">
 
         <FrameLayout
-            android:layout_width="@dimen/text_height_width"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/text_height_width"
             android:layout_centerInParent="true"
             android:id="@+id/today_frame"
-            android:background="@drawable/today" />
+            android:background="@drawable/today" >
+
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_width"
+            android:id="@+id/fertile_period"
+            android:layout_centerInParent="true"
+            android:src="@drawable/fertile_period"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ovulation"
+            android:layout_width="@dimen/text_height_width"
+            android:layout_height="@dimen/text_height_width"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ovulation" />
+
+        <ImageView
+            android:id="@+id/expected_period"
+            android:layout_width="@dimen/text_height_width"
+            android:layout_height="@dimen/text_height_width"
+            android:layout_gravity="right|top"
+            android:layout_centerInParent="true"
+            android:src="@drawable/expected_period"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/period"
+            android:layout_width="@dimen/text_height_width"
+            android:layout_height="@dimen/text_height_width"
+            android:layout_gravity="right|top"
+            android:layout_centerInParent="true"
+            android:src="@drawable/period"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_width"
+            android:id="@+id/intercourse"
+            android:layout_centerInParent="true"
+            android:src="@drawable/intercourse"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_width"
+            android:id="@+id/text"
+            android:layout_centerInParent="true"
+            android:src="@drawable/text"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="@dimen/text_height_width"
+            android:layout_height="@dimen/text_height_width"
+            android:id="@+id/pain"
+            android:layout_centerInParent="true"
+            android:src="@drawable/pain"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/textView1"
@@ -29,32 +93,6 @@
             android:textSize="@dimen/text_size"
             android:typeface="sans" />
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/orange"
-            android:layout_alignTop="@+id/today_frame"
-            android:paddingLeft="@dimen/text_height_width_half"
-            android:layout_marginLeft="3dp" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/red"
-            android:layout_alignTop="@+id/today_frame"
-            android:paddingLeft="@dimen/text_height_width"
-            android:layout_marginTop="5dp" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/purple"
-            android:layout_alignTop="@+id/today_frame"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="5dp" />
     </RelativeLayout>
 
-</RelativeLayout><!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/layout/day_view.xml -->
+</RelativeLayout><!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/layout/day_view.xml -->
