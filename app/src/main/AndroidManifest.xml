@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -18,11 +19,11 @@
             android:name=".LaunchActivity"
             android:theme="@android:style/Theme.NoDisplay"
             android:screenOrientation="sensorPortrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".MainActivity"
@@ -94,6 +95,19 @@
             android:name=".medJournal.activities.ChartActivity"
             android:screenOrientation="sensorPortrait">
         </activity>
+        <activity
+            android:name=".PedometerActivity"
+            android:screenOrientation="sensorPortrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PedometerSettingsActivity"
+            android:screenOrientation="sensorPortrait">
+        </activity>
 
         <service android:name="com.telly.groundy.GroundyService" />
 
@@ -101,6 +115,8 @@
             android:name="com.intrafab.medicus.service.NotificationService"/>
         <service
             android:name="com.intrafab.medicus.service.NotificationIntentService"/>
+
+        <service android:name=".pedometer.StepService"/>
 
 
     </application>

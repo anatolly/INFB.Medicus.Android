@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-ru/strings.xml -->
+    <!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-ru/strings.xml -->
     <eat-comment/>
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
     <string name="app_name">ExtendedCalendarView</string>
     <string name="friday">ПТ</string>
     <string name="monday">ПН</string>

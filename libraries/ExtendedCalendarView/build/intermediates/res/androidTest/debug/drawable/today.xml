@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
     <solid android:color="#cbcbcb"/>
 
 </shape>
-<!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/drawable/today.xml --><!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/build/intermediates/bundles/debug/res/drawable/today.xml -->
+<!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/drawable/today.xml --><!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/build/intermediates/bundles/debug/res/drawable/today.xml -->

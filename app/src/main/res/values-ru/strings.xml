@@ -159,4 +159,12 @@
         <item>Декабрь</item>
     </string-array>
 
+    <string name="header_pedometer">Шагомер</string>
+    <string name="header_pedometer_settings">Шагомер Настройки</string>
+
+    <string name="tab_today">СЕГОДНЯ</string>
+    <string name="tab_week">НЕДЕЛЯ</string>
+    <string name="tab_month">МЕСЯЦ</string>
+    <string name="tab_year">ГОД</string>
+
 </resources>

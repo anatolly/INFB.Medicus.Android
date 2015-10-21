@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-sw600dp/dimen.xml -->
+    <!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/values-sw600dp/dimen.xml -->
     <eat-comment/>
     <dimen name="day_margin">59dp</dimen>
     <dimen name="min_cell_height">50dp</dimen>

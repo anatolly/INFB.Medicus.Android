@@ -6,4 +6,4 @@
     <item android:state_selected="true" android:color="#f3f3f3"/>
     <item android:color="#403838"/>
 </selector>
-<!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/color/date_number_text_color.xml --><!-- From: file:/C:/Users/Анна/Documents/INFB.Medicus.Android/libraries/ExtendedCalendarView/build/intermediates/bundles/debug/res/color/date_number_text_color.xml -->
+<!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/res/color/date_number_text_color.xml --><!-- From: file:/C:/dev/android/INFB.Medicus.Android/libraries/ExtendedCalendarView/build/intermediates/bundles/debug/res/color/date_number_text_color.xml -->
