@@ -159,7 +159,7 @@ public class StepService extends Service {
         registerReceiver(mReceiver, filter);
 
         mStepNotifier = new StepNotifier(mPedometerSettings);
-        mStepNotifier.setStepsCount(mSteps = mState.getLong("steps", 0));
+        mStepNotifier.setStepsCount(mSteps = mState.getLong("steps", 5000));
         mStepNotifier.addListener(mStepListener);
 
         mStepDetector.addListener(mStepNotifier);

@@ -91,7 +91,7 @@
                 android:layout_above="@+id/tvCurrentSteps"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="ЦЕЛЬ - 1,000,000"
+                android:text="ЦЕЛЬ - 10 000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

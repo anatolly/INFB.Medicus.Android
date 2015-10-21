@@ -1,6 +1,7 @@
 package com.intrafab.medicus.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -132,12 +133,15 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
         WheelIndicatorItem item = new WheelIndicatorItem(1.8f, Color.parseColor("#ff9000"));
 
         wheelIndicatorView.addWheelIndicatorItem(item);
-        wheelIndicatorView.setFilledPercent(65);
+        SharedPreferences mState = getActivity().getSharedPreferences("state", 0);
+        long steps = mState.getLong("steps", 5000);
+        wheelIndicatorView.setFilledPercent((int) ((steps/10000f)*100f));
         wheelIndicatorView.startItemsAnimation();
-        //wheelIndicatorView.notifyDataSetChanged();
+        wheelIndicatorView.notifyDataSetChanged();
 
         mButtonPlayPause.setColorFilter(Color.parseColor("#fbc02d"), PorterDuff.Mode.MULTIPLY);
-        mButtonPlayPause.setTag("pause");
+        mButtonPlayPause.setTag("play");
+        mButtonPlayPause.setImageResource(R.drawable.ic_pause_white_48dp);
         mButtonPlayPause.setOnClickListener(this);
 
         mButtonStepsMode.setOnClickListener(this);
@@ -162,13 +166,13 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
             case R.id.btnPlayPause:
                 String tag = (String) mButtonPlayPause.getTag();
                 if (tag.equals("pause")) {
-                    mButtonPlayPause.setImageResource(R.drawable.ic_play_arrow_white_48dp);
+                    mButtonPlayPause.setImageResource(R.drawable.ic_pause_white_48dp);
                     mButtonPlayPause.setTag("play");
                     if (mListener != null) {
                         mListener.onPedometerStarted();
                     }
                 } else {
-                    mButtonPlayPause.setImageResource(R.drawable.ic_pause_white_48dp);
+                    mButtonPlayPause.setImageResource(R.drawable.ic_play_arrow_white_48dp);
                     mButtonPlayPause.setTag("pause");
                     if (mListener != null) {
                         mListener.onPedometerPaused();
@@ -210,6 +214,10 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     public void onStepsChanged(OnEventUpdateStep event) {
         long value = event.steps < 0 ? 0 : event.steps;
         mTextViewSteps.setText(String.format("%1$,d", value));
+
+        wheelIndicatorView.setFilledPercent((int) ((value/10000f)*100f));
+        //wheelIndicatorView.startItemsAnimation();
+        wheelIndicatorView.notifyDataSetChanged();
     }
 
     @Subscribe

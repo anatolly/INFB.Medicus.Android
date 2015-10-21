@@ -23,7 +23,7 @@ public class StepNotifier extends BaseNotifier implements NotifyListener {
 
     public StepNotifier(Settings settings) {
         super(settings);
-        mStepsCount = 0;
+        mStepsCount = 5000;
     }
 
     @Override
