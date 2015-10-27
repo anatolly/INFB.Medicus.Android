@@ -59,6 +59,10 @@ public class StepDetector implements SensorEventListener {
         mListeners.clear();
     }
 
+    public void setSensitivity(float sensitivity) {
+        mLimit = sensitivity; // 1.97  2.96  4.44  6.66  10.00  15.00  22.50  33.75  50.62
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
 //        if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) {
@@ -84,10 +88,9 @@ public class StepDetector implements SensorEventListener {
 //        }
 //        mLastZ = z;
         Sensor sensor = event.sensor;
+        Logger.d(TAG, "onSensorChanged: " + sensor.getType());
         synchronized (this) {
-            if (sensor.getType() == Sensor.TYPE_ORIENTATION) {
-            }
-            else {
+            if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 int j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? 1 : 0;
                 if (j == 1) {
                     float vSum = 0;
@@ -112,7 +115,7 @@ public class StepDetector implements SensorEventListener {
                             boolean isNotContra = (mLastMatch != 1 - extType);
 
                             if (isAlmostAsLargeAsPrevious && isPreviousLargeEnough && isNotContra) {
-                                Logger.i(TAG, "step");
+                                Logger.d(TAG, "step");
                                 notifyListeners(0);
                                 mLastMatch = extType;
                             }

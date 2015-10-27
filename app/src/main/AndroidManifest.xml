@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -116,7 +117,27 @@
         <service
             android:name="com.intrafab.medicus.service.NotificationIntentService"/>
 
-        <service android:name=".pedometer.StepService"/>
+        <service android:name=".pedometer.StepService"
+            android:enabled="true"
+            android:process=":stepdetector" />
+
+
+        <service
+            android:name="com.intrafab.medicus.pedometer.SimpleWakefulService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.intrafab.medicus.pedometer.SimpleWakefulService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".pedometer.SimpleWakefulBroadcastReceiver">
+
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.ACTION_SCREEN_OFF" />-->
+                <!--<category android:name="com.intrafab.medicus" />-->
+            <!--</intent-filter>-->
+        </receiver>
 
 
     </application>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
 import com.intrafab.medicus.pedometer.OnEventUpdateStep;
 import com.intrafab.medicus.pedometer.OnEventUpdateStepsGoal;
 import com.intrafab.medicus.pedometer.OnEventUpdateTime;
+import com.intrafab.medicus.pedometer.Settings;
+import com.intrafab.medicus.pedometer.OnEventUpdateStateUi;
 import com.intrafab.medicus.utils.EventBus;
 import com.squareup.otto.Subscribe;
 
@@ -50,6 +53,9 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     private TextView mTextViewSpeed;
     private TextView mTextViewTime;
     private TextView mTextViewCalories;
+
+    private SharedPreferences mSettings;
+    private Settings mPedometerSettings;
 
     public interface OnClickListener {
         void onPedometerStarted();
@@ -135,14 +141,9 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
         wheelIndicatorView.addWheelIndicatorItem(item);
         SharedPreferences mState = getActivity().getSharedPreferences("state", 0);
         long steps = mState.getLong("steps", 5000);
-        wheelIndicatorView.setFilledPercent((int) ((steps/10000f)*100f));
+        wheelIndicatorView.setFilledPercent((int) ((steps / 10000f) * 100f));
         wheelIndicatorView.startItemsAnimation();
         wheelIndicatorView.notifyDataSetChanged();
-
-        mButtonPlayPause.setColorFilter(Color.parseColor("#fbc02d"), PorterDuff.Mode.MULTIPLY);
-        mButtonPlayPause.setTag("play");
-        mButtonPlayPause.setImageResource(R.drawable.ic_pause_white_48dp);
-        mButtonPlayPause.setOnClickListener(this);
 
         mButtonStepsMode.setOnClickListener(this);
         mButtonDistanceMode.setOnClickListener(this);
@@ -156,6 +157,14 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
         mImageViewArrowUp.setColorFilter(Color.parseColor("#999999"), PorterDuff.Mode.MULTIPLY);
 
         mLayoutStatistics.setOnClickListener(this);
+
+        mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mPedometerSettings = new Settings(mSettings);
+
+        mButtonPlayPause.setColorFilter(Color.parseColor("#fbc02d"), PorterDuff.Mode.MULTIPLY);
+        mButtonPlayPause.setTag(false ? "play" : "pause");
+        mButtonPlayPause.setImageResource(false ? R.drawable.ic_pause_white_48dp : R.drawable.ic_play_arrow_white_48dp);
+        mButtonPlayPause.setOnClickListener(this);
     }
 
     @Override
@@ -210,6 +219,27 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
         }
     }
 
+//    @Subscribe
+//    public void handleEvent(ServiceEvent event) {
+//        switch (event.getWhat()) {
+//            case ServiceEvent.START:
+//                onStart(event);
+//                break;
+//
+//            case ServiceEvent.STOP:
+//                onStop();
+//                break;
+//
+//            case ServiceEvent.PAUSE:
+//                onPause();
+//                break;
+//
+//            case ServiceEvent.RESUME:
+//                onResume();
+//                break;
+//        }
+//    }
+
     @Subscribe
     public void onStepsChanged(OnEventUpdateStep event) {
         long value = event.steps < 0 ? 0 : event.steps;
@@ -242,5 +272,16 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     public void onCaloriesChanged(OnEventUpdateCalories event) {
         double value = event.calories < 0.0001f ? 0f : event.calories;
         mTextViewCalories.setText(String.format("%1$,.0f", value));
+    }
+
+    @Subscribe
+    public void onStateChanged(OnEventUpdateStateUi event) {
+        // Read from preferences if the service was running on the last onPause
+        boolean isRunning = event.needUpdate;
+
+        mButtonPlayPause.setColorFilter(Color.parseColor("#fbc02d"), PorterDuff.Mode.MULTIPLY);
+        mButtonPlayPause.setTag(isRunning ? "play" : "pause");
+        mButtonPlayPause.setImageResource(isRunning ? R.drawable.ic_pause_white_48dp : R.drawable.ic_play_arrow_white_48dp);
+        mButtonPlayPause.setOnClickListener(this);
     }
 }
