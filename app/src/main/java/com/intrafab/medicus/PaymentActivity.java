@@ -126,10 +126,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         getSupportActionBar().getThemedContext();
 
         getSupportActionBar().setTitle(R.string.menu_account);
-        showActionBar();
+        showTransparentActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
         ViewCompat.setTransitionName(toolbar, EXTRA_OPEN_PAYMENT);
-        toolbar.getBackground().setAlpha(0);
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -286,16 +285,15 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
    private void deletePhoto(){
-       ivUserPhoto.setBackgroundColor(0x626064);
-       ivUserPhoto.setImageResource(R.mipmap.ic_action_new);
+
        //setup photo
        Display display = getWindowManager().getDefaultDisplay();
        Point size = new Point();
        display.getSize(size);
        int height = size.y;
-       ivUserPhoto = (ImageView) findViewById(R.id.userPhoto);
        ivUserPhoto.setMaxHeight(height / 2);
        ivUserPhoto.setMinimumHeight(height / 2);
+       ivUserPhoto.setImageResource(R.mipmap.nophoto);
 
        File file = new File(DBManager.getInstance().getDBPath(getApplicationContext()),userPhoto);
        if (file.exists())

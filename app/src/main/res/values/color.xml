@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorLightPrimary">#5b2796</color>
-    <color name="colorLightPrimaryDark">@color/material_blue_grey_900</color>
+    <color name="colorLightPrimary">#673ab7</color>
+    <color name="colorLightPrimaryDark">#1d1d1d</color>
+    <color name="colorMainTopBackground">#eaedf2</color>
+    <!--<color name="colorLightPrimaryDark">@color/material_blue_grey_900</color> -->
     <color name="colorLightStatusBarColor">@color/material_blue_grey_900</color>
     <color name="colorLightTextColorPrimary">@android:color/white</color>
     <color name="colorLightTextColor">#999999</color>
@@ -34,6 +36,22 @@
     <color name="colorLightButtonMagentaHover">#AA00BB</color>
     <color name="colorLightButtonMagentaPressed">#AA00BB</color>
 
+    <color name="calendar_back_blue">#FF22A4D4</color>
+    <color name="calendar_back_green">#34bd3b</color>
+    <color name="calendar_back_pink">#e3a19e</color>
+    <color name="calendar_back_red">#fa4442</color>
+
+    <color name="calendar_background_eat">#123123</color>
+    <color name="calendar_background_alco">#123123</color>
+    <color name="calendar_background_diabetes">#123213</color>
+    <color name="calendar_background_cardio">#123123</color>
+    <color name="calendar_background_health">#123123</color>
+    <color name="calendar_background_period">#ef5350</color>
+    <color name="calendar_background_sex">#123123</color>
+
+    <color name="colorCalendarLight">#ffecb3</color>
+    <color name="colorCalendarDark">#ffca28</color>
 
     <color name="accent_color">#FF22A4D4</color>
+
 </resources>

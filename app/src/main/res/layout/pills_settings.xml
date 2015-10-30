@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_date"
+            android:id="@+id/tvDateStartTitle"
+            android:textSize="15sp"
+            android:paddingBottom="10dp"
+            android:gravity="center_vertical" />
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="15 октября 2015"
+                android:id="@+id/tvDateStart"
+                android:layout_weight="1"
+                android:textSize="15sp"
+                android:gravity="center" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/ivEditDate"
+                android:layout_weight="0"
+                android:src="@mipmap/accountdate" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llActiveDays">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/active_days"
+                android:id="@+id/tvActiveDate"
+                android:layout_weight="1"
+                android:textSize="15sp"
+                android:gravity="center_vertical" />
+            <Spinner
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:id="@+id/spActiveDays"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="дн"
+                android:id="@+id/tvDay"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llBreakDays">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/passive_days"
+                android:id="@+id/tvBreakDate"
+                android:layout_weight="1"
+                android:textSize="15sp"
+                android:gravity="center_vertical" />
+
+            <Spinner
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:id="@+id/spBreakDays"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="дн"
+                android:id="@+id/tvDay1"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llPlacebo">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/placebo"
+                    android:id="@+id/tvPlacebo"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switchPlacebo"
+                    android:checked="false" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placebo_description"
+                android:id="@+id/tvPlaceboDesc"
+                android:paddingLeft="10dp"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

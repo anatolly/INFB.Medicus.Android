@@ -63,7 +63,7 @@
     <string name="menu_storage">Storage</string>
     <string name="menu_sos">SOS</string>
     <string name="menu_calendar">Calendar</string>
-    <string name="menu_feedback">Feedback</string>
+    <string name="menu_recommendation">Recommendation</string>
     <string name="menu_account">Account</string>
     <string name="menu_settings_title">Settings</string>
     
@@ -98,11 +98,11 @@
     <string name="medical_journal_header">Calendar</string>
     <string name="sync_journal_button">Sync with my webCabinet</string>
     <string-array name="tabs_headers">
-        <item>My Calendar</item>
         <item>Today</item>
+        <item>My Calendar</item>
     </string-array>
     <string name="menstrual_calendar_title">Calendar</string>
-    <string name="day_of_cycle">day of cycle</string>
+    <string name="day_of_cycle"> day of cycle</string>
     <string name="menstrual_cycle_title">Menstrual Cycle</string>
     <string name="date_time_error">You can not edit day in future</string>
 
@@ -130,6 +130,84 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="period_setting">Period Settings</string>
+
+    <!--Menstrual Cycle Card -->
+
+    <string name="day_after_ovulation"> d after ovulation</string>
+    <string name="day_before_ovulation"> d before ovulation</string>
+    <string name="day_ovulation">Ovulation Day</string>
+
+    <string name="fertile_days">fertile days</string>
+    <string name="infertile_days">infertile days</string>
+    <string name="fertile_period">Fertile period</string>
+
+    <string name="no_cycle">No information about your menstrual cycle</string>
+
+    <!-- Period Calendar Contraception Setting -->
+    <string-array name="contraception">
+        <item>Tablets</item>
+        <item>Vaginal Ring</item>
+        <item>Plaster</item>
+        <item>Injections</item>
+        <item>Emergency contraception</item>
+    </string-array>
+
+    <string-array name="contraception_settings_header">
+        <item>Tablets setting</item>
+        <item>Vaginal Ring setting </item>
+        <item>Plaster setting</item>
+        <item>Injections setting</item>
+        <item>Emergency contraception setting</item>
+    </string-array>
+
+    <string-array name="contraception_settings_subheader">
+        <item>Enter the day when you start taking tablets, active days and break days (or using placebo) </item>
+        <item>Enter the day when you start using the vaginal ring,active days and break days </item>
+        <item>Enter the day when you start using the plaster, active days and break days</item>
+        <item>Enter the day when you start the injections and the time course of one injection</item>
+        <item>Enter the day when you took the emergency contraception pill</item>
+    </string-array>
+
+    <string name="week">w</string>
+    <string name="day">d</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_back">Back</string>
+    <string name="contraception_main_header">Contraception</string>
+    <string name="contraception_subheader">Select type of birth control that you are using</string>
+    <string name="notification_page_header">Notification setting</string>
+    <string name="notification_subheader">Enter the time and the text of the taking contraception notification</string>
+    <string name="start_date">Start date</string>
+    <string name="active_days">Active days</string>
+    <string name="passive_days">Break days</string>
+    <string name="placebo">Placebo</string>
+    <string name="placebo_description">Take placebo during break days,to develop the habit and do not forget about about daily tablets taking </string>
+    <string name="start_time">Notification time</string>
+    <string name="time_frequency">Repeat interval</string>
+    <string name="notification_header">The title of notification</string>
+    <string name="notification_text">The text of notification</string>
+
+    <string-array name="contraception_notification_text">
+        <item>Прими таблетку</item>
+        <item>Поменяй кольцо</item>
+        <item>Поменяй пластырь</item>
+        <item>Сделай инъекцию</item>
+        <item>Прими таблетку</item>
+    </string-array>
+
+    <string name="notification_text_pills">Прими таблетку</string>
+    <string name="notification_text_ring">Поменяй кольцо</string>
+    <string name="notification_text_plaster">Поменяй пластырь</string>
+    <string name="notification_text_injection">Сделай инъекцию</string>
+    <string name="notification_title_contraception">Напоминание о приеме контрацепции</string>
+
+    <string name="cont_ring_day">%1$d д использования кольца. Удалить кольцо через %2$d д</string>
+    <string name="cont_plaster_day">%1$d-й пластырь. Поменять пластырь через %2$d д</string>
+    <string name="cont_pills_day">%1$d таблетка из %2$d</string>
+    <string name="cont_injection_day">%1$d д (%2$d нед) после инъекции. Сделать новую инъекцию через %3$d д (%4$d нед)</string>
+
+    <string name="cont_ring_day_break">Дни перерыва. Введите новое кольцо через %1$d д</string>
+    <string name="cont_plaster_day_break">Дни перерыва. Примените новый пластырь через %1$d д</string>
+    <string name="cont_pills_day_break">Дни перерыва. Начните принимать таблетки через %1$d д</string>
 
     <!-- Chart -->
     <string name="chart_title_temperature">Basal body temperature</string>

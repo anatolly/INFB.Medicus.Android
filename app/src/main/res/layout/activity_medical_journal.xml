@@ -18,7 +18,7 @@
         android:layout_below="@+id/toolbar"
         android:background="?attr/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:materialTabsPrimaryColor="@color/colorLightPrimary"
+        app:materialTabsPrimaryColor="@color/colorCalendarLight"
         app:accentColor="@android:color/white" />
 
     <android.support.v4.view.ViewPager

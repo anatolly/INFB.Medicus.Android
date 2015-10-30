@@ -65,7 +65,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle(R.string.menu_feedback);
+        getSupportActionBar().setTitle(R.string.menu_recommendation);
         showActionBar();
         setActionBarIcon(R.mipmap.ic_action_back);
 

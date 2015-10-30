@@ -2,24 +2,25 @@ package com.intrafab.medicus.medJournal.fragments;
 
 import android.app.Activity;
 import android.content.Loader;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Window;
 
 import com.intrafab.medicus.R;
+import com.intrafab.medicus.medJournal.data.ContraceptionInfo;
 import com.intrafab.medicus.medJournal.data.PeriodCalendarEntry;
 import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.activities.PeriodCalendarActivity;
 import com.intrafab.medicus.medJournal.adapters.PeriodCardAdapter;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
+import com.intrafab.medicus.medJournal.loaders.ContraceptionInfoLoader;
 import com.intrafab.medicus.medJournal.loaders.PeriodCalendarEntryListLoader;
-import com.intrafab.medicus.medJournal.loaders.PeriodCalendarEntrySaver;
 import com.intrafab.medicus.medJournal.loaders.PeriodCycleEntryLoader;
-import com.intrafab.medicus.medJournal.loaders.PeriodCycleEntrySaver;
 import com.intrafab.medicus.utils.Logger;
 
 import java.util.ArrayList;
@@ -35,11 +36,11 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
     public static final String TAG = PlaceHolderMenstrualCycleFragment.class.getName();
     private RecyclerView mRecyclerView;
     private PeriodCardAdapter mAdapter;
+    ContraceptionInfo contraceptionInfo;
 
     private static final int LOADER_P_CALENDAR_ENTRY_ID = 20;
-    private static final int SAVER_P_CALENDAR_ENTRY_ID = 21;
     private static final int LOADER_P_CYCLE_ENTRY_ID = 22;
-    private static final int SAVER_P_CYCLE_ENTRY_ID = 23;
+    private static final int LOADER_CONTRACEPTION_ID = 24;
 
     HashMap<Long, PeriodCalendarEntry> mCalendarData;
     ArrayList<PeriodCycleEntry> mCycleData;
@@ -55,12 +56,9 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
             switch (id) {
                 case LOADER_P_CYCLE_ENTRY_ID:
                     return createPCycleEntryLoader();
-                case SAVER_P_CYCLE_ENTRY_ID:
-                    break;
                 default:
                     return null;
             }
-            return null;
         }
 
         @Override
@@ -95,8 +93,6 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
             switch (id) {
                 case LOADER_P_CALENDAR_ENTRY_ID:
                     return createPCAclendarEntryLoader();
-                case SAVER_P_CALENDAR_ENTRY_ID:
-                    //return createPCEntrySaver();
                 default:
                     return null;
             }
@@ -127,6 +123,44 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
         }
     };
 
+
+    private android.app.LoaderManager.LoaderCallbacks<ContraceptionInfo> mContraceptionInfoCallback = new android.app.LoaderManager.LoaderCallbacks<ContraceptionInfo>() {
+
+        @Override
+        public Loader<ContraceptionInfo> onCreateLoader(int id, Bundle bundle) {
+            switch (id) {
+                case LOADER_CONTRACEPTION_ID:
+                    Logger.d(TAG, "onCreateLoader LOADER_CONTRACEPTION_ID");
+                    return new ContraceptionInfoLoader(getActivity().getApplicationContext());
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public void onLoadFinished(Loader<ContraceptionInfo> loader, ContraceptionInfo contraceptionInfo) {
+            if (loader.getId() == LOADER_CONTRACEPTION_ID) {
+                Logger.d(TAG, "onLoadFinished LOADER_CONTRACEPTION_ID + \n " );
+                if (contraceptionInfo != null)
+                    Logger.d (TAG, contraceptionInfo.toString());
+                PlaceHolderMenstrualCycleFragment.this.contraceptionInfo = contraceptionInfo;
+                if (contraceptionInfo != null)
+                Logger.d("on load finished", contraceptionInfo.toString());
+                mAdapter.setContraceptionInfo(contraceptionInfo);
+                mAdapter.notifyItemChanged(PeriodCardAdapter.PILLS_CARD_TYPE);
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<ContraceptionInfo> loader) {
+            int id = loader.getId();
+            switch (id) {
+                case LOADER_P_CALENDAR_ENTRY_ID:
+                    //resetStateEntryLoader();
+            }
+        }
+    };
+
     private android.content.Loader<List<PeriodCalendarEntry>> createPCAclendarEntryLoader (){
         return new PeriodCalendarEntryListLoader(getActivity().getApplicationContext());
     }
@@ -149,7 +183,6 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
 
     private void finishedCycleEntryLoader (List<PeriodCycleEntry> data){
 
-        // must think about clearing hashMap before adding new items
         isCycleDataLoaded = true;
         mCycleData = PeriodDataKeeper.getInstance().getPeriodData();
         mCycleData.clear();
@@ -162,13 +195,16 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
     }
 
     @Override
-    public void onClickItem(int itemPosition, View view) {
+    public void onClickItem(int itemType, View view) {
         // if this is a calendar card{
-        Logger.d (TAG, "onClickItem");
-        Logger.d (TAG, "isCalendarDataLoaded" + String.valueOf(isCalendarDataLoaded));
-        Logger.d (TAG, "isCycleDataLoaded" + String.valueOf(isCycleDataLoaded));
-        //if (isCalendarDataLoaded && isCycleDataLoaded)
+        if (itemType == PeriodCardAdapter.CYCLE_CARD_TYPE && isCalendarDataLoaded && isCycleDataLoaded)
             PeriodCalendarActivity.launch(getActivity(), view/*, mCalendarData, mCycleData*/);
+        else if (itemType == PeriodCardAdapter.PILLS_CARD_TYPE){
+            PillsSettingFragment pillsSettingFragment = new PillsSettingFragment();
+            pillsSettingFragment.setContraceptionInfo(contraceptionInfo);
+            pillsSettingFragment.show(getActivity().getFragmentManager(),"pills_setting");
+        }
+
     }
 
     @Override
@@ -218,6 +254,7 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
 
         getActivity().getLoaderManager().initLoader(LOADER_P_CALENDAR_ENTRY_ID, null, mCalendarLoaderCallback);
         getActivity().getLoaderManager().initLoader(LOADER_P_CYCLE_ENTRY_ID, null, mCycleLoaderCallback);
+        getActivity().getLoaderManager().initLoader(LOADER_CONTRACEPTION_ID,null,mContraceptionInfoCallback);
 
     }
 

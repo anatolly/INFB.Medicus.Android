@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.intrafab.medicus.data.Account;
 import com.intrafab.medicus.loaders.MeLoader;
 import com.intrafab.medicus.medJournal.activities.MedicalJournalActivity;
+import com.intrafab.medicus.medJournal.activities.PeriodCalendarActivity;
 import com.intrafab.medicus.utils.Logger;
 
 /**
@@ -30,8 +31,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final int REQUEST_CODE_SETTINGS = 1005;
 
     private LinearLayout mButtonStorage;
-    private LinearLayout mButtonSos;
-    private LinearLayout mButtonFeedback;
+    private LinearLayout mButtonRecommendation;
     private LinearLayout mButtonPayment;
     private LinearLayout mButtonCalendar;
 
@@ -100,18 +100,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
         showTransparentActionBar();
+        setActionBarIcon(R.mipmap.medicus);
 
         mButtonStorage = (LinearLayout) findViewById(R.id.llStorage);
-        mButtonSos = (LinearLayout) findViewById(R.id.llSos);
-        mButtonFeedback = (LinearLayout) findViewById(R.id.llFeedback);
-        mButtonPayment = (LinearLayout) findViewById(R.id.llPayment);
         mButtonCalendar = (LinearLayout) findViewById(R.id.llCalendar);
+        mButtonRecommendation = (LinearLayout) findViewById(R.id.llRecommendation);
+        mButtonPayment = (LinearLayout) findViewById(R.id.llPayment);
 
         mButtonStorage.setOnClickListener(this);
-        mButtonSos.setOnClickListener(this);
-        mButtonFeedback.setOnClickListener(this);
+        mButtonRecommendation.setOnClickListener(this);
         mButtonPayment.setOnClickListener(this);
         mButtonCalendar.setOnClickListener(this);
 
@@ -134,7 +133,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private boolean showUserName() {
         Account userAccount = AppApplication.getApplication(this).getUserAccount();
         if (userAccount != null) {
-            mViewUserName.setVisibility(View.VISIBLE);
+            mViewUserName.setVisibility(View.INVISIBLE);
             mViewUserName.setText(userAccount.getName());
             return true;
         } else {
@@ -234,17 +233,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.llStorage:
                 StorageActivity.launch(MainActivity.this, view);
                 break;
-            case R.id.llSos:
-                SosActivity.launch(MainActivity.this, view);
-                break;
-            case R.id.llFeedback:
+            case R.id.llRecommendation:
                 FeedbackActivity.launch(MainActivity.this, view);
                 break;
             case R.id.llPayment:
                 PaymentActivity.launch(MainActivity.this, view);
                 break;
             case R.id.llCalendar:
-                CalendarActivity.launch(MainActivity.this, view);
+                MedicalJournalActivity.launch(MainActivity.this, view);
                 break;
         }
     }

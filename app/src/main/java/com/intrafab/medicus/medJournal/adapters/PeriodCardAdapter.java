@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.intrafab.medicus.R;
+import com.intrafab.medicus.medJournal.cards.CardCycle;
 import com.intrafab.medicus.medJournal.cards.CardPills;
 import com.intrafab.medicus.medJournal.cards.CardTemperature;
+import com.intrafab.medicus.medJournal.data.ContraceptionInfo;
 import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.utils.Logger;
-import com.intrafab.medicus.medJournal.cards.CardPeriodCalendar;
 import com.intrafab.medicus.medJournal.cards.CardOvulation;
 
 /**
@@ -26,12 +27,13 @@ public class PeriodCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static final int PILLS_CARD_TYPE = 3;
     private OnClickListener mListener;
 
-    CardPeriodCalendar caledarCard;
+    CardCycle caledarCard;
     CardOvulation ovulationCard;
     PeriodCycleEntry period;
+    ContraceptionInfo contraceptionInfo;
 
     public interface OnClickListener {
-        void onClickItem(int itemPosition, View view);
+        void onClickItem(int itemType, View view);
     }
 
 
@@ -50,23 +52,23 @@ public class PeriodCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Context context = parent.getContext();
 
         if (viewType == CYCLE_CARD_TYPE) {
-            View v = LayoutInflater.from(context).inflate(R.layout.card_for_period_calendar, parent, false);
-            CardPeriodCalendar holder = new CardPeriodCalendar(v, mListener, period);
+            View v = LayoutInflater.from(context).inflate(R.layout.card_cycle_ovulation, parent, false);
+            CardCycle holder = new CardCycle(v, mListener, period);
             return holder;
         } else if (viewType == OVULATION_CARD_TYPE) {
-            View v = LayoutInflater.from(context).inflate(R.layout.card_period_cycle, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.card_cycle_ovulation, parent, false);
             CardOvulation holder = new CardOvulation(v, period/*, mListener*/);
             return holder;
         } else if (viewType == TEMPERATURE_CARD_TYPE) {
-            View v = LayoutInflater.from(context).inflate(R.layout.card_period_cycle, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.card_temperature, parent, false);
             CardTemperature holder = new CardTemperature(v/*, period, mListener*/);
             return holder;
         } else if (viewType == PILLS_CARD_TYPE){
-            View v = LayoutInflater.from(context).inflate(R.layout.card_period_cycle, parent, false);
-            CardPills holder = new CardPills(v/*, period, mListener*/);
+            View v = LayoutInflater.from(context).inflate(R.layout.card_contraception, parent, false);
+            CardPills holder = new CardPills(v, contraceptionInfo, mListener);
             return holder;
         } else {
-            View v = LayoutInflater.from(context).inflate(R.layout.card_period_cycle, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.card_cycle_ovulation, parent, false);
             CardOvulation holder = new CardOvulation(v, period/*, mListener*/);
             return holder;
         }
@@ -78,7 +80,7 @@ public class PeriodCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Logger.d (TAG, "onBindViewHolder, position: " + position);
         switch (getItemViewType(position)){
             case CYCLE_CARD_TYPE:
-                CardPeriodCalendar holderCycle = (CardPeriodCalendar)holder;
+                CardCycle holderCycle = (CardCycle)holder;
                 holderCycle.fillCard(period);
                 break;
             case OVULATION_CARD_TYPE:
@@ -88,18 +90,27 @@ public class PeriodCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case TEMPERATURE_CARD_TYPE:
                 CardTemperature holderTemp = (CardTemperature)holder;
                 holderTemp.fillCard();
-
+                break;
+            case PILLS_CARD_TYPE:
+                CardPills holderPills = (CardPills)holder;
+                holderPills.setContraceptionInfo(contraceptionInfo );
+                holderPills.fillCard();
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
-        // some logic here
-        return 2;
+        return 4;
     }
 
     public void setPeriod (PeriodCycleEntry period){
         Logger.d(TAG, "fill card in card adapter");
         this.period = period;
+    }
+
+    public void setContraceptionInfo (ContraceptionInfo contraceptionInfo){
+        Logger.d(TAG, "fill card in card adapter");
+        this.contraceptionInfo = contraceptionInfo;
     }
 }

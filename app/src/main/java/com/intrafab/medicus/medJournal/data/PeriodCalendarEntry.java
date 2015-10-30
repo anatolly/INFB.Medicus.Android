@@ -131,13 +131,13 @@ public class PeriodCalendarEntry implements Parcelable {
 
     public long getTimeInSec() {
         Calendar cal = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-        cal.set(year, month, day, 12, 0, 0);
+        cal.set(year, month, day, 0, 0, 0);
         return cal.getTimeInMillis()/1000;
     }
 
     public Calendar getDate(){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, 12, 0, 0);
+        calendar.set(year, month, day, 0, 0, 0);
         return calendar;
     }
 

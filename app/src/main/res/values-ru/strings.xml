@@ -59,7 +59,7 @@
     <string name="menu_storage">Файлы</string>
     <string name="menu_sos">Помощь</string>
     <string name="menu_calendar">Календарь</string>
-    <string name="menu_feedback">Отзывы</string>
+    <string name="menu_recommendation">Рекомендации</string>
     <string name="menu_account">Аккаунт</string>
     <string name="menu_settings_title">Настройки</string>
 
@@ -95,12 +95,12 @@
     <string name="sync_journal_button">Синхронизировать с Web Кабинетом</string>
 
     <string-array name="tabs_headers">
-        <item>Мой календарь</item>
         <item>Сегодня</item>
+        <item>Мой календарь</item>
     </string-array>
 
     <string name="menstrual_calendar_title">Календарь</string>
-    <string name="day_of_cycle">день цикла</string>
+    <string name="day_of_cycle"> день цикла</string>
     <string name="menstrual_cycle_title">Менструальный цикл</string>
     <string name="date_time_error">Вы не можете редактировать день в будущем</string>
 
@@ -125,8 +125,86 @@
     <string name="header_symptoms">Симптомы</string>
 
     <string name="ok">Ок</string>
-    <string name="cancel">Отмена</string>
+     <string name="cancel">Отмена</string>
     <string name="period_setting">Настройки цикла</string>
+
+    <!--Menstrual Cycle Card -->
+
+    <string name="day_after_ovulation"> д после овуляции</string>
+    <string name="day_before_ovulation"> д до овуляции</string>
+    <string name="day_ovulation">День овуляции</string>
+
+    <string name="fertile_days">Фертильные дни</string>
+    <string name="infertile_days">Нефертильные дни</string>
+    <string name="fertile_period">Фертильный период</string>
+
+    <string name="no_cycle">Нет информации о Ваших менструальных циклах</string>
+
+    <!-- Period Calendar Contraception Setting -->
+    <string-array name="contraception">
+        <item>Таблетки</item>
+        <item>Кольцо</item>
+        <item>Пластырь</item>
+        <item>Инъекции</item>
+        <item>Поскоитальная / Экстренная контрацепция</item>
+    </string-array>
+
+    <string-array name="contraception_settings_header">
+        <item>Настройка таблеток</item>
+        <item>Настройка кольца</item>
+        <item>Настройка пластыря</item>
+        <item>Настройка инъекций</item>
+        <item>Настройка Поскоитальной / Экстренной контрацепции</item>
+    </string-array>
+
+    <string-array name="contraception_settings_subheader">
+        <item>Укажите дату начала приема таблеток, активные дни и дни перерыва(приема плацебо)</item>
+        <item>Укажите дату начала использования кольца, активные дни и дни перерыва</item>
+        <item>Укажите дату начала использования пластыря, активные дни и дни перерыва</item>
+        <item>Укажите дату начала инъекций и период действия одной инъекции</item>
+        <item>Укажите дату приема первой таблетки Поскоитальной / Экстренной контрацепции</item>
+    </string-array>
+
+    <string name="week">н</string>
+    <string name="day">д</string>
+    <string name="btn_next">Далее</string>
+    <string name="btn_back">Назад</string>
+    <string name="contraception_main_header">Контрацепция</string>
+    <string name="contraception_subheader">Выберите средство контрацепции, которое будете использовать</string>
+    <string name="notification_page_header">Настройка напоминаний</string>
+    <string name="notification_subheader">Укажите время и текст напоминания о приеме контрацепции</string>
+    <string name="start_date">Дата начала</string>
+    <string name="active_days">Активные дни</string>
+    <string name="passive_days">Дни перерыва</string>
+    <string name="placebo">Плацебо</string>
+    <string name="placebo_description">Принимайте плацебо в дни перерыва, чтобы выработать привычку и не забывать о ежедневном приеме таблеток</string>
+    <string name="start_time">Время напоминания</string>
+    <string name="time_frequency">Интервал повторения напоминания</string>
+    <string name="notification_header">Заголовок напоминания</string>
+    <string name="notification_text">Текст напоминания</string>
+
+    <string-array name="contraception_notification_text">
+        <item>Прими таблетку</item>
+        <item>Поменяй кольцо</item>
+        <item>Поменяй пластырь</item>
+        <item>Сделай инъекцию</item>
+        <item>Прими таблетку</item>
+    </string-array>
+
+    <string name="notification_text_pills">Прими таблетку</string>
+    <string name="notification_text_ring">Поменяй кольцо</string>
+    <string name="notification_text_plaster">Поменяй пластырь</string>
+    <string name="notification_text_injection">Сделай инъекцию</string>
+    <string name="notification_title_contraception">Напоминание о приеме контрацепции</string>
+
+    <string name="cont_ring_day">%1$d д использования кольца. Удалить кольцо через %2$d д</string>
+    <string name="cont_plaster_day">%1$d-й пластырь. Поменять пластырь через %2$d д</string>
+    <string name="cont_pills_day">%1$d таблетка из %2$d</string>
+    <string name="cont_injection_day">%1$d д (%2$d нед) после инъекции. Сделать новую инъекцию через %3$d д (%4$d нед)</string>
+
+    <string name="cont_ring_day_break">Дни перерыва. Введите новое кольцо через %1$d д</string>
+    <string name="cont_plaster_day_break">Дни перерыва. Примените новый пластырь через %1$d д</string>
+    <string name="cont_pills_day_break">Дни перерыва. Начните принимать таблетки через %1$d д</string>
 
     <!-- Chart -->
     <string name="chart_title_temperature">Базальная температура</string>
@@ -137,7 +215,9 @@
         <item>15 дней</item>
         <item>30 дней</item>
         <item>45 дней</item>
-    </string-array>
+    </string-array>\
+
+
 
     <!-- Account -->
     <string name="header_aboutme">Обо мне</string>

@@ -3,13 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightPrimary">
+    android:background="@drawable/main_gradient">
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foreground="?android:windowContentOverlay">
+        android:foreground="?android:windowContentOverlay"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/top_layout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorMainTopBackground"
+            android:layout_marginBottom="225dp" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="35dp"
+                android:src="@drawable/eng_speechbuble" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvUserName"
@@ -20,48 +43,120 @@
             android:layout_margin="16dp"
             android:text="User Name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorLightEditTextHint" />
+            android:textColor="@color/colorLightEditTextHint"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/centerLogo"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:background="@drawable/circle_background"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@mipmap/face1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignBottom="@+id/top_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="-75dp"
+            android:layout_marginRight="16dp">
 
-            <ImageView
-                android:id="@+id/ivLogo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_logo" />
-
-            <TextView
-                android:id="@+id/tvLogoHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Medicus"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorLightEditTextHint" />
         </LinearLayout>
 
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/btnRippleCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+
+            app:mrl_rippleAlpha="0.5"
+            app:mrl_rippleColor="@color/colorLightPrimary"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true"
+            android:layout_marginTop="75dp"
+            android:layout_below="@+id/centerLogo"
+            android:layout_toLeftOf="@+id/centerLogo"
+            android:layout_marginRight="-50dp">
+
+            <LinearLayout
+                android:id="@+id/llCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivCalendar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_calendar" />
+
+                <TextView
+                    android:id="@+id/tvCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="@string/menu_calendar"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorLightEditTextHint" />
+
+
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/btnRipplePayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+
+            app:mrl_rippleAlpha="0.5"
+            app:mrl_rippleColor="@color/colorLightPrimary"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleOverlay="true"
+            android:layout_toRightOf="@+id/centerLogo"
+            android:layout_alignTop="@+id/centerLogo"
+            android:layout_marginTop="35dp">
+
+            <LinearLayout
+                android:id="@+id/llPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivPayment"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/ic_account" />
+
+                <TextView
+                    android:id="@+id/tvPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="@string/menu_account"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorLightEditTextHint" />
+
+
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/btnRippleStorage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/centerLogo"
-            android:layout_toStartOf="@+id/centerLogo"
             android:gravity="center_horizontal"
             app:mrl_rippleAlpha="0.5"
             app:mrl_rippleColor="@color/colorLightPrimary"
             app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
+            app:mrl_rippleOverlay="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignTop="@+id/centerLogo"
+            android:layout_toLeftOf="@+id/centerLogo"
+            android:layout_marginTop="35dp">
 
             <LinearLayout
                 android:id="@+id/llStorage"
@@ -91,163 +186,41 @@
         </com.balysv.materialripple.MaterialRippleLayout>
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/btnRippleSos"
+            android:id="@+id/btnRippleRecommendation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/centerLogo"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="-32dp"
-            android:layout_toLeftOf="@+id/btnRippleCalendar"
-            android:layout_toStartOf="@+id/btnRippleCalendar"
             android:gravity="center_horizontal"
             app:mrl_rippleAlpha="0.5"
             app:mrl_rippleColor="@color/colorLightPrimary"
             app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
-
-            <LinearLayout
-                android:id="@+id/llSos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivSos"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:src="@mipmap/ic_sos2" />
-
-                <TextView
-                    android:id="@+id/tvSos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="@string/menu_sos"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorLightEditTextHint" />
-
-
-            </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/btnRippleFeedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:mrl_rippleOverlay="true"
             android:layout_below="@+id/centerLogo"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="-32dp"
-            android:layout_toEndOf="@+id/btnRippleCalendar"
-            android:layout_toRightOf="@+id/btnRippleCalendar"
-            android:gravity="center_horizontal"
-            app:mrl_rippleAlpha="0.5"
-            app:mrl_rippleColor="@color/colorLightPrimary"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
+            android:layout_toRightOf="@+id/centerLogo"
+            android:layout_toEndOf="@+id/tvUserName"
+            android:layout_marginTop="75dp"
+            android:layout_marginLeft="-60dp">
 
             <LinearLayout
-                android:id="@+id/llFeedback"
+                android:id="@+id/llRecommendation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/ivFeedback"
+                    android:id="@+id/ivRecomendation"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@mipmap/ic_feedback" />
+                    android:src="@mipmap/ic_recomendation" />
 
                 <TextView
                     android:id="@+id/tvFeedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_feedback"
+                    android:text="@string/menu_recommendation"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorLightEditTextHint" />
-
-
-            </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/btnRipplePayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/centerLogo"
-            android:layout_toRightOf="@+id/centerLogo"
-            android:gravity="center_horizontal"
-
-            app:mrl_rippleAlpha="0.5"
-            app:mrl_rippleColor="@color/colorLightPrimary"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
-
-            <LinearLayout
-                android:id="@+id/llPayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivPayment"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:src="@mipmap/ic_account4" />
-
-                <TextView
-                    android:id="@+id/tvPayment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="@string/menu_account"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorLightEditTextHint" />
-
-
-            </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/btnRippleCalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/centerLogo"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            app:mrl_rippleAlpha="0.5"
-            app:mrl_rippleColor="@color/colorLightPrimary"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
-
-            <LinearLayout
-                android:id="@+id/llCalendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivCalendar"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:src="@mipmap/ic_calendar" />
-
-                <TextView
-                    android:id="@+id/tvCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="@string/menu_calendar"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorLightEditTextHint" />
+                    android:textColor="@color/colorLightEditTextHint"
+                    android:layout_marginTop="4dp" />
 
 
             </LinearLayout>
@@ -262,4 +235,5 @@
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/AppLightTheme" />
+
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -191,8 +192,7 @@ public class TestFragment extends Fragment implements ExtendedCalendarView.OnDay
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mEnabledSyncMenu = true;
-
+        //mEnabledSyncMenu = true;
 
 
         mCallbacksManager = CallbacksManager.init(savedInstanceState);
@@ -224,39 +224,38 @@ public class TestFragment extends Fragment implements ExtendedCalendarView.OnDay
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_storage, menu);
+        //inflater.inflate(R.menu.menu_storage, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-
-        MenuItem item = menu.findItem(R.id.action_sync_with_cloud);
-        if (item != null)
-            item.setEnabled(mEnabledSyncMenu);
+//
+//        MenuItem item = menu.findItem(R.id.action_sync_with_cloud);
+//        if (item != null)
+//            item.setEnabled(mEnabledSyncMenu);
         super.onPrepareOptionsMenu(menu);
 
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_sync_with_cloud) {
-            /*if (!Connectivity.isConnected(this)) {
-                showSnackBarError(getResources().getString(R.string.error_internet_not_available));
-                return true;
-            }*/
-            mEnabledSyncMenu = false;
-            startRefreshing();
-        }
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_sync_with_cloud) {
+//            /*if (!Connectivity.isConnected(this)) {
+//                showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+//                return true;
+//            }*/
+//            mEnabledSyncMenu = false;
+//            startRefreshing();
+//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
         Calendar cal = Calendar.getInstance();
-        cal.set(day.getYear(), day.getMonth(), day.getDay(), 12, 0,0);
-        // search for entry for this date
+        cal.set(day.getYear(), day.getMonth(), day.getDay(), 0, 0,0);
         Long dateInSec = cal.getTimeInMillis()/1000;
         PeriodCalendarDayOptionsActivity.launch(getActivity(), view, dateInSec);
     }
@@ -417,6 +416,9 @@ public class TestFragment extends Fragment implements ExtendedCalendarView.OnDay
 
         mActionsMenu = (FloatingActionButton) v.findViewById(R.id.famEditPhoto);
         mActionsMenu.setClickable(true);
+
+        Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
 
         return v;
     }

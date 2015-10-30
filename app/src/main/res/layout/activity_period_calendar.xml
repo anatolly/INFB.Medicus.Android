@@ -41,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Заметки"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0"
@@ -61,11 +60,11 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         app:fab_colorNormal="@color/colorLightPrimary"
+        app:fab_collapsedIcon="@mipmap/ic_more_vert_white"
         app:fab_colorPressed="@color/colorLightPrimaryDark"
-        app:fab_icon="@drawable/abc_btn_rating_star_off_mtrl_alpha"
         app:fab_addButtonPlusIconColor="#fff"
         app:fab_expandDirection="up"
-        app:fab_labelStyle="@style/menu_labels_style" >
+        app:fab_labelStyle="@style/menu_labels_style">
 
         <!--<com.intrafab.medicus.widgets.FloatingActionButton-->
         <!--android:id="@+id/fabSyncCloud"-->

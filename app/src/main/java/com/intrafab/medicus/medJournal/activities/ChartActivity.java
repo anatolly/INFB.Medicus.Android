@@ -175,6 +175,7 @@ public class ChartActivity extends BaseActivity{
         previousDayOfCurrYear.set(Calendar.MONTH, 0);
         previousDayOfCurrYear.set(Calendar.DAY_OF_MONTH, 0);
         previousDayOfCurrYear.set(Calendar.HOUR, 0);
+        previousDayOfCurrYear.set(Calendar.AM_PM, Calendar.AM);
         previousDayOfCurrYear.set(Calendar.MINUTE, 0);
         previousDayOfCurrYear.set(Calendar.SECOND, 0);
         previousDayOfCurrYear.set(Calendar.MILLISECOND, 0);

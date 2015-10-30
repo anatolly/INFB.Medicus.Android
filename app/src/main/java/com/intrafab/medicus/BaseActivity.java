@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.intrafab.medicus.utils.Connectivity;
@@ -206,7 +207,19 @@ public abstract class BaseActivity extends ActionBarActivity implements SharedPr
     protected void showActionBar() {
         if (toolbar != null) {
             toolbar.setVisibility(View.VISIBLE);
-            bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorLightPrimary)));
+
+            int primaryColor = 0;
+            TypedValue a = new TypedValue();
+            getTheme().resolveAttribute(android.R.attr.colorPrimary, a, true);
+            if (a.type >= TypedValue.TYPE_FIRST_COLOR_INT && a.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+                // primaryColor is a color
+                primaryColor = a.data;
+            } else {
+                // primaryColor is not a color ???
+                Logger.e("BaseActivity ", "current theme: primary color is not a color ?");
+                //Drawable d = activity.getResources().getDrawable(a.resourceId);
+            }
+            bar.setBackgroundDrawable(new ColorDrawable(primaryColor));
         }
     }
 

@@ -35,4 +35,25 @@
         <item name="android:textColorPrimary">@color/colorLightTextMain</item>
     </style>
 
+    <style name="CalendarTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorCalendarLight</item>
+        <item name="colorPrimaryDark">@color/colorCalendarDark</item>
+        <item name="android:windowBackground">@color/colorLightWindowBackground</item>
+        <item name="colorAccent">@color/colorLightColorAccent</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/colorLightColorAccent</item>
+        <item name="android:textColorPrimary">@color/colorLightTextColorHint</item>
+        <item name="android:textColorPrimaryInverse">@color/colorLightTextColorHint</item>
+        <item name="android:textColor">@color/colorLightTextColorHint</item>
+        <item name="android:textColorHint">@color/colorLightTextColorHint</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorControlNormal">#000</item>
+        <item name="actionBarStyle">@style/LightToolbarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:textColorSecondary">#000</item>
+        <item name="actionMenuTextColor">@color/colorLightTextColorHint</item>
+        <item name="android:actionMenuTextColor">@color/colorLightTextColorHint</item>
+        <item name="mp_colorAccent">@color/colorCalendarLight</item>
+    </style>
+
 </resources>

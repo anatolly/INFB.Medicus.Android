@@ -10,9 +10,8 @@
         android:id="@+id/userPhoto"
         android:scaleType="centerCrop"
         android:layout_gravity="top"
-        android:background="#6f686b"
-        android:src="@mipmap/ic_action_new"
-
+        android:src="@mipmap/nophoto"
+        android:adjustViewBounds="true"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/famEditPhoto"
         android:layout_alignEnd="@+id/famEditPhoto" />
@@ -56,7 +55,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/ivPerson"
-                    android:src="@mipmap/ic_person" />
+                    android:src="@mipmap/accountuser" />
 
                 <TextView
                     android:id="@+id/tvUserName"
@@ -117,7 +116,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/ivCalendar"
-                    android:src="@mipmap/ic_date" />
+                    android:src="@mipmap/accountdate" />
 
                 <TextView
                     android:id="@+id/tvBirthday"
@@ -159,7 +158,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/ivMail"
-                    android:src="@mipmap/ic_mail" />
+                    android:src="@mipmap/accountmail" />
 
                 <TextView
                     android:id="@+id/tvUserEmail"
@@ -193,7 +192,8 @@
         app:fab_collapsedIcon="@mipmap/ic_more_vert_white"
         android:layout_above="@+id/scrollView"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="-40dp">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabCamera"

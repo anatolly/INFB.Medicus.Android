@@ -19,6 +19,7 @@ public class Constants {
         public static final String PREF_PARAM_ORDER = "pref_param_order";
         public static final String PREF_PARAM_PERIOD_CAL_ENTRIES = "pref_param_mens_cal_entries";
         public static final String PREF_PARAM_PERIOD_CYCLE_ENTRIES = "pref_param_per_cycle_entries";
+        public static final String PREF_PARAM_CONTRACEPTION_INFO = "pref_param_contraception_info";
     }
 
     public static class Extras {
@@ -36,5 +37,9 @@ public class Constants {
     public static class Numeric {
         public static final int dayToMillis = 86400000;
         public static final int dayToSec = 86400;
+        public static final String[] pillsActiveDays = {"21","22","23","24","25","26","28","35","42","63","84"};
+        public static final String[] pillsBreakDays = {"1","2","3","4","5","6","7", "8"};
+        public static final String[] injectionsActiveWeeks = {"8","9","10","11","12","13","14"};
+        public static final String[] intervalNotif = {"5","10","15","20","30","45","60", "90", "120"};
     }
 }

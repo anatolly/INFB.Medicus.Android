@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by 1 on 08.09.2015.
+ * Created by Anna on 08.09.2015.
  */
 public class PeriodCycleEntryLoader extends AsyncTaskLoader<List<PeriodCycleEntry>> {
 
@@ -56,7 +56,6 @@ public class PeriodCycleEntryLoader extends AsyncTaskLoader<List<PeriodCycleEntr
         if (mData != null) {
             deliverResult(mData);
         }
-
         DBManager.getInstance().registerObserver(getContext(), this, PeriodCycleEntryLoader.class);
 
         if (takeContentChanged() || mData == null) {

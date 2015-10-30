@@ -21,6 +21,7 @@ import com.intrafab.medicus.medJournal.data.PeriodCycleEntry;
 import com.intrafab.medicus.medJournal.data.PeriodDataKeeper;
 import com.intrafab.medicus.medJournal.actions.ActionGetPCEntry;
 import com.intrafab.medicus.medJournal.actions.ActionSaveCalendarEntry;
+import com.intrafab.medicus.medJournal.fragments.AllCyclesFragment;
 import com.intrafab.medicus.medJournal.loaders.PeriodCalendarEntrySaver;
 import com.intrafab.medicus.medJournal.loaders.PeriodCycleEntrySaver;
 import com.intrafab.medicus.utils.Connectivity;
@@ -184,10 +185,8 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
         return R.layout.activity_period_calendar;
     }
 
-    public static void launch(Activity activity, View view/*, ArrayList<PeriodCalendarEntry> calendarData, ArrayList<PeriodCycleEntry> cycleData*/){
+    public static void launch(Activity activity, View view){
         Intent intent = new Intent(activity.getApplicationContext(),PeriodCalendarActivity.class );
-        //intent.putParcelableArrayListExtra(PERIOD_CALENDAR_ENTRY, calendarData);
-        //intent.putParcelableArrayListExtra(NEW_PERIOD_INDEX, cycleData);
         ActivityCompat.startActivity(activity, intent, null);
     }
     @Override
@@ -222,11 +221,11 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
         mActionsMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AllCyclesFragment fragment = new AllCyclesFragment();
-//                fragment.show(getFragmentManager(), "allCycles");
+                AllCyclesFragment fragment = new AllCyclesFragment();
+                fragment.show(getFragmentManager(), "allCycles");
 
-            Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(getApplicationContext(), ChartActivity.class);
+            //startActivity(intent);
             }
         });
 
@@ -277,7 +276,7 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
     public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
         Calendar cal = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
-        cal.set(day.getYear(), day.getMonth(), day.getDay(), 12, 0,0);
+        cal.set(day.getYear(), day.getMonth(), day.getDay(), 0, 0,0);
         if (today.getTimeInMillis() < cal.getTimeInMillis()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_time_error), Toast.LENGTH_LONG).show();
             return;

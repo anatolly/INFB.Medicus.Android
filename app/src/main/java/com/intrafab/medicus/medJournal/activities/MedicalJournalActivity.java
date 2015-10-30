@@ -1,6 +1,8 @@
 package com.intrafab.medicus.medJournal.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -71,16 +73,21 @@ implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         Logger.d(TAG, "onCreate()");
         // setup actionbar and toolbar
+
         getSupportActionBar().getThemedContext();
         getSupportActionBar().setTitle(getString(R.string.medical_journal_header));
         showActionBar();
-        setActionBarIcon(R.mipmap.ic_action_back);
+        setActionBarIcon(R.mipmap.returnblack);
         ViewCompat.setTransitionName(toolbar, EXTRA_MEDICAL_JOURNAL);
+        toolbar.setTitleTextColor(Color.BLACK);
+
+
         // setup callbacks
           //mCallbacksManager = CallbacksManager.init(savedInstanceState);
           //mCallbacksManager.linkCallbacks(this);
         // setup viewPager
         mTabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
+        mTabHost.setTextColor(Color.BLACK);
         mPager = (ViewPager) this.findViewById(R.id.tabPager);
         //setup Actions menu
 
