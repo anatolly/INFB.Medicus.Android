@@ -1,12 +1,13 @@
 package com.intrafab.medicus.pedometer;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -14,38 +15,50 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.PowerManager;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.intrafab.medicus.PedometerActivity;
 import com.intrafab.medicus.R;
+import com.intrafab.medicus.actions.ActionSavePedometerTask;
+import com.intrafab.medicus.calendar.pedometer.Data;
+import com.intrafab.medicus.calendar.pedometer.PedometerCalendar;
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+import com.intrafab.medicus.db.DBManager;
+import com.intrafab.medicus.loaders.PedometerLoader;
 import com.intrafab.medicus.utils.Logger;
+import com.intrafab.medicus.utils.SupportVersion;
+import com.telly.groundy.Groundy;
+import com.telly.groundy.GroundyService;
 
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
-public class StepService extends Service implements IServiceActions {
+public class StepService extends GroundyService implements IServiceActions, Loader.OnLoadCompleteListener<PedometerCalendar> {
     private static final String TAG = StepService.class.getName();
 
     private static final int NOTIFICATION_ID = 1001;
+    private static final int BATCH_LATENCY = 1000000; //1sec
+    private static final int LOADER_CALENDAR_ID = 150;
 
-    private SharedPreferences mSettings;
-    private Settings mPedometerSettings;
-    private SharedPreferences mState;
-    private SharedPreferences.Editor mStateEditor;
-    private SensorManager mSensorManager;
+    //private SharedPreferences mSettings;
+    //private Settings mPedometerSettings;
+    //private SharedPreferences mState;
+    //private SharedPreferences.Editor mStateEditor;
+    //private SensorManager mSensorManager;
     private Sensor mSensor;
-    private StepDetector mStepDetector;
+    private BaseStepDetector mStepDetector;
     private BuzzerNotifier mBuzzerNotifier;
     private StepNotifier mStepNotifier;
     private PaceNotifier mPaceNotifier;
     private DistanceNotifier mDistanceNotifier;
     private SpeedNotifier mSpeedNotifier;
     private CaloriesNotifier mCaloriesNotifier;
+    private TimerNotifier mTimerNotifier;
+
+    private PedometerCalendar mCalendar;
 
     private boolean mIsRunning;
 
@@ -54,8 +67,25 @@ public class StepService extends Service implements IServiceActions {
     private float mDistance;
     private float mSpeed;
     private float mCalories;
+    private long mTimerValue;
 
-    private PowerManager.WakeLock mWakeLock;
+//    private PowerManager.WakeLock mWakeLock;
+
+    @Override
+    public void onLoadComplete(Loader<PedometerCalendar> loader, PedometerCalendar pedometerCalendar) {
+        Logger.d(TAG, "onLoadComplete pedometerCalendar = " + (pedometerCalendar == null ? "NULL" : "NOT NULL"));
+        Logger.d(TAG, "onLoadComplete mCalendar = " + (mCalendar == null ? "NULL" : "NOT NULL"));
+        if (pedometerCalendar == null && mCalendar == null) {
+            mCalendar = PedometerCalendar.create();
+        }
+
+        if (pedometerCalendar != null) {
+            mCalendar = pedometerCalendar;
+        }
+
+        runDetector();
+        //pedometerCalendar.setEvents();
+    }
 
     private class CommandHandler extends Handler {
         @Override
@@ -76,6 +106,10 @@ public class StepService extends Service implements IServiceActions {
                 case ServiceEvent.RESUME:
                     onResume(msg);
                     break;
+
+                case ServiceEvent.UPDATE:
+                    onUpdate(msg);
+                    break;
             }
         }
     }
@@ -83,47 +117,83 @@ public class StepService extends Service implements IServiceActions {
     private final Messenger mServiceMessenger = new Messenger(new CommandHandler());
     private Messenger mOutgoingMessenger;
 
-    @Override
-    public void onStart(Message msg) {
-        Logger.d(TAG, "onStart");
-        mOutgoingMessenger = msg.replyTo;
+    private PedometerLoader mCalendarLoader;
+
+    private void createPedometerLoader() {
+        Logger.d(TAG, "createPedometerLoader");
+        mCalendarLoader = new PedometerLoader(this) {
+            @Override
+            protected void onStartLoading() {
+                DBManager.getInstance().registerObserver(getContext(), this, PedometerLoader.class);
+                forceLoad();
+            }
+        };
+    }
+
+    private void resetPedometerLoader() {
+        Logger.d(TAG, "resetPedometerLoader");
+        if (mCalendarLoader != null)
+            mCalendarLoader.reset();
+    }
+
+    private void stopPedometerLoader() {
+        Logger.d(TAG, "stopPedometerLoader");
+        if (mCalendarLoader != null) {
+            mCalendarLoader.stopLoading();
+            mCalendarLoader.unregisterListener(this);
+        }
+    }
+
+    private void startPedometerLoader() {
+        Logger.d(TAG, "startPedometerLoader");
+        if (mCalendarLoader != null) {
+            mCalendarLoader.registerListener(LOADER_CALENDAR_ID, this);
+            mCalendarLoader.startLoading();
+        }
+    }
+
+    private void initDetector() {
         // Start detecting
-        mStepDetector = new StepDetector();
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        registerDetector();
+        mStepDetector = isKitkatWithStepSensor() ? new BatchStepDetector() : new StepDetector();
 
-        // Register our receiver for the ACTION_SCREEN_OFF action. This will make our receiver
-        // code be called whenever the phone enters standby mode.
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(mReceiver, filter);
+        SettingsInfo settings = new SettingsInfo();
+        settings.unitsType = mCalendar.isMetric() ?
+                PedometerCalendar.ARG_UNITS_METRIC : PedometerCalendar.ARG_UNITS_IMPERIAL;
+        settings.bodyWeight = mCalendar.getBodyWeight();
+        settings.desiredPace = mCalendar.getDesiredPace();
+        settings.desiredSpeed = mCalendar.getDesiredSpeed();
+        settings.isRunning = false; // TODO
+        settings.stepLength = mCalendar.getStepLength();
 
-        mStepNotifier = new StepNotifier(mPedometerSettings);
-        mStepNotifier.setStepsCount(mSteps = mState.getLong("steps", 5000));
+        Data data = mCalendar.getData();
+
+        mStepNotifier = new StepNotifier(settings);
+        mStepNotifier.setStepsCount(mSteps = data.steps);
         mStepNotifier.addListener(mStepListener);
 
         mStepDetector.addListener(mStepNotifier);
 
-        mPaceNotifier = new PaceNotifier(mPedometerSettings);
-        mPaceNotifier.setPace(mPace = mState.getLong("pace", 0L));
+        mPaceNotifier = new PaceNotifier(settings);
+        mPaceNotifier.setPace(mPace = data.pace);
         mPaceNotifier.addListener(mPaceListener);
 
         mStepDetector.addListener(mPaceNotifier);
 
-        mDistanceNotifier = new DistanceNotifier(mPedometerSettings);
-        mDistanceNotifier.setDistance(mDistance = mState.getFloat("distance", 0));
+        mDistanceNotifier = new DistanceNotifier(settings);
+        mDistanceNotifier.setDistance(mDistance = data.distance);
         mDistanceNotifier.addListener(mDistanceListener);
 
         mStepDetector.addListener(mDistanceNotifier);
 
-        mSpeedNotifier = new SpeedNotifier(mPedometerSettings);
-        mSpeedNotifier.setSpeed(mSpeed = mState.getFloat("speed", 0));
+        mSpeedNotifier = new SpeedNotifier(settings);
+        mSpeedNotifier.setSpeed(mSpeed = data.speed);
         mPaceNotifier.addListener(mSpeedNotifier);
         mSpeedNotifier.addListener(mSpeedListener);
 
         mStepDetector.addListener(mSpeedNotifier);
 
-        mCaloriesNotifier = new CaloriesNotifier(mPedometerSettings);
-        mCaloriesNotifier.setCalories(mCalories = mState.getFloat("calories", 0));
+        mCaloriesNotifier = new CaloriesNotifier(settings);
+        mCaloriesNotifier.setCalories(mCalories = data.calories);
         mCaloriesNotifier.addListener(mCaloriesListener);
 
         mStepDetector.addListener(mCaloriesNotifier);
@@ -133,12 +203,45 @@ public class StepService extends Service implements IServiceActions {
 
         mStepDetector.addListener(mBuzzerNotifier);
 
+        mTimerNotifier = new TimerNotifier(settings);
+        mTimerNotifier.setTimer(mTimerValue = data.timer);
+        mTimerNotifier.addListener(mTimerListener);
+
+        mStepDetector.addListener(mTimerNotifier);
+
         loadSettings();
+    }
 
+    private String mNotifyMessage;
+
+    @Override
+    public void onStart(Message msg) {
+        Logger.d(TAG, "onStart");
+        mOutgoingMessenger = msg.replyTo;
         Bundle data = msg.getData();
-        String messageNotify = data != null ? data.getString(ServiceEvent.NOTIFY_MESSAGE, "") : "";
+        mNotifyMessage = data != null ? data.getString(ServiceEvent.NOTIFY_MESSAGE, "") : "";
 
-        startInForeground(messageNotify);
+
+        startPedometerLoader();
+
+
+
+        //mStepDetector.notifyListeners();
+    }
+
+    private void runDetector() {
+        initDetector();
+        registerDetector();
+
+        // Register our receiver for the ACTION_SCREEN_OFF action. This will make our receiver
+        // code be called whenever the phone enters standby mode.
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mReceiver, filter);
+
+//        Bundle data = msg.getData();
+//        String messageNotify = data != null ? data.getString(ServiceEvent.NOTIFY_MESSAGE, "") : "";
+
+        startInForeground(mNotifyMessage);
 
         if (mOutgoingMessenger != null) {
             Message msgOutgoing = new Message();
@@ -155,6 +258,16 @@ public class StepService extends Service implements IServiceActions {
             startService(new Intent(this, StepService.class));
             mIsRunning = true;
         }
+
+        if (mStepDetector != null && mIsRunning)
+            mStepDetector.resume();
+    }
+
+    public boolean isKitkatWithStepSensor() {
+        PackageManager packageManager = getPackageManager();
+        return SupportVersion.Kitkat()
+                && packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)
+                && packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR);
     }
 
     @Override
@@ -171,6 +284,9 @@ public class StepService extends Service implements IServiceActions {
                 e.printStackTrace();
             }
         }
+
+        if (mStepDetector != null)
+            mStepDetector.pause();
     }
 
     @Override
@@ -187,6 +303,15 @@ public class StepService extends Service implements IServiceActions {
                 e.printStackTrace();
             }
         }
+
+        if (mStepDetector != null && mIsRunning)
+            mStepDetector.resume();
+    }
+
+    public void onUpdate(Message msg) {
+        Logger.d(TAG, "onUpdate");
+        if (mStepDetector != null)
+            mStepDetector.notifyListeners();
     }
 
     @Override
@@ -197,17 +322,30 @@ public class StepService extends Service implements IServiceActions {
         unregisterReceiver(mReceiver);
         unregisterDetector();
 
-        mStateEditor = mState.edit();
-        mStateEditor.putLong("steps", mSteps);
-        mStateEditor.putLong("pace", mPace);
-        mStateEditor.putFloat("distance", mDistance);
-        mStateEditor.putFloat("speed", mSpeed);
-        mStateEditor.putFloat("calories", mCalories);
-        mStateEditor.commit();
+//        mStateEditor = mState.edit();
+//        mStateEditor.putLong("steps", mSteps);
+//        mStateEditor.putLong("pace", mPace);
+//        mStateEditor.putFloat("distance", mDistance);
+//        mStateEditor.putFloat("speed", mSpeed);
+//        mStateEditor.putFloat("calories", mCalories);
+//        mStateEditor.putLong("timer", mTimerValue);
+//        mStateEditor.commit();
 
-        // Stop detecting
-        if (mSensorManager != null)
-            mSensorManager.unregisterListener(mStepDetector);
+        Data data = new Data();
+        data.steps = mSteps;
+        data.pace = mPace;
+        data.distance = mDistance;
+        data.speed = mSpeed;
+        data.calories = mCalories;
+        data.timer = mTimerValue;
+        mCalendar.saveData(data);
+
+        Groundy.create(ActionSavePedometerTask.class)
+                //.callback(this)
+                .arg(ActionSavePedometerTask.PEDOMETER_DATA, mCalendar)
+                .service(StepService.class).queueUsing(this);
+
+        stopPedometerLoader();
 
         stopForeground(true);
         Logger.d(TAG, "stopForeground");
@@ -221,6 +359,11 @@ public class StepService extends Service implements IServiceActions {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (mStepDetector != null) {
+            mStepDetector.stop();
+            mStepDetector = null;
         }
 
         mIsRunning = false;
@@ -351,6 +494,26 @@ public class StepService extends Service implements IServiceActions {
         }
     };
 
+    private TimerNotifier.Listener mTimerListener = new TimerNotifier.Listener() {
+        @Override
+        public void onTimerChanged(long value) {
+            mTimerValue = value;
+            if (mOutgoingMessenger != null) {
+                Message msg = new Message();
+                msg.what = ServiceEvent.TIMER_CHANGED;
+                Bundle data = new Bundle();
+                data.putLong(ServiceEvent.TIMER_VALUE, mTimerValue);
+                msg.setData(data);
+
+                try {
+                    mOutgoingMessenger.send(msg);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -370,23 +533,33 @@ public class StepService extends Service implements IServiceActions {
         return false;//super.onUnbind(intent);
     }
 
+    @SuppressLint("NewApi")
     private void registerDetector() {
         Logger.d(TAG, "registerDetector");
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(
-                Sensor.TYPE_ACCELEROMETER /*|
-            Sensor.TYPE_MAGNETIC_FIELD |
-            Sensor.TYPE_ORIENTATION*/);
-        mSensorManager.registerListener(mStepDetector,
-                mSensor,
-                1000);//SCREEN_OFF_RECEIVER_DELAY  SensorManager.SENSOR_DELAY_FASTEST
+        boolean isKitKatStepSensor = isKitkatWithStepSensor();
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        int sensorType = isKitKatStepSensor ?
+                (Sensor.TYPE_STEP_DETECTOR /* | Sensor.TYPE_STEP_COUNTER*/) :
+                (Sensor.TYPE_ACCELEROMETER /*|
+                Sensor.TYPE_MAGNETIC_FIELD |
+                Sensor.TYPE_ORIENTATION*/);
+        mSensor = sensorManager.getDefaultSensor(sensorType);
+//        if (isKitKatStepSensor) {
+//            sensorManager.registerListener(mStepDetector, mSensor,
+//                    SensorManager.SENSOR_DELAY_NORMAL);//, BATCH_LATENCY);
+//        } else {
+            sensorManager.registerListener(mStepDetector, mSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+//        }
     }
 
     private void unregisterDetector() {
         Logger.d(TAG, "unregisterDetector");
-        if (mSensorManager != null) {
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager != null) {
             Logger.d(TAG, "unregisterDetector unregisterListener");
-            mSensorManager.unregisterListener(mStepDetector);
+            sensorManager.unregisterListener(mStepDetector);
+            sensorManager = null;
         }
     }
 
@@ -396,16 +569,20 @@ public class StepService extends Service implements IServiceActions {
         super.onCreate();
 
         // Load settings
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        mPedometerSettings = new Settings(mSettings);
-        mState = getSharedPreferences("state", 0);
+//        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+//        mPedometerSettings = new Settings(mSettings);
+//        mState = getSharedPreferences("state", 0);
         mIsRunning = false;
-        loadSettings();
+
+        createPedometerLoader();
+        //startPedometerLoader();
     }
 
     @Override
     public void onDestroy() {
         Logger.i(TAG, "onDestroy");
+//        resetPedometerLoader();
+//        stopPedometerLoader();
 
         super.onDestroy();
     }
@@ -419,8 +596,8 @@ public class StepService extends Service implements IServiceActions {
             // Check action just to be on the safe side.
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 // Unregisters the listener and registers it again.
-//                StepService.this.unregisterDetector();
-//                StepService.this.registerDetector();
+                StepService.this.unregisterDetector();
+                StepService.this.registerDetector();
 
 //                Runnable runnable = new Runnable() {
 //                    public void run() {
@@ -513,13 +690,13 @@ public class StepService extends Service implements IServiceActions {
 //    }
 
     private void loadSettings() {
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+//        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (mStepDetector != null) {
-            mStepDetector.setSensitivity(
-                    Float.valueOf(mSettings.getString("sensitivity", "10"))
-            );
-        }
+//        if (mStepDetector != null) {
+//            mStepDetector.setSensitivity(
+//                    Float.valueOf(mSettings.getString("sensitivity", "10"))
+//            );
+//        }
 
         if (mStepNotifier != null) mStepNotifier.loadSettings();
         if (mPaceNotifier != null) mPaceNotifier.loadSettings();

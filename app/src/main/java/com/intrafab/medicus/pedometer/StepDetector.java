@@ -2,18 +2,15 @@ package com.intrafab.medicus.pedometer;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.intrafab.medicus.utils.Logger;
-
-import java.util.ArrayList;
 
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
-public class StepDetector implements SensorEventListener {
+public class StepDetector extends BaseStepDetector {
     protected static final String TAG = StepDetector.class.getName();
 
 //    protected static final float THRESHOLD_AMPLITUDE = 1.0f;
@@ -23,7 +20,6 @@ public class StepDetector implements SensorEventListener {
 //    public static final int MOVEMENT_FORWARD = 1;
 //    public static final int MOVEMENT_BACKWARD = 2;
 
-    protected ArrayList<NotifyListener> mListeners;
 //    private float mLastZ;
 //    private int mLastActivity = MOVEMENT_NONE;
 //    private int mInactivityCount = 0;
@@ -41,7 +37,8 @@ public class StepDetector implements SensorEventListener {
     private int     mLastMatch = -1;
 
     public StepDetector() {
-        mListeners = new ArrayList<>();
+        super();
+        Logger.d(TAG, "CREATE Step Detector");
 //        mFiltersCascade[0] = new SimpleFilter(1, 1, 0.01f, 0.0025f);
 //        mFiltersCascade[1] = new SimpleFilter(1, 1, 0.01f, 0.0025f);
 //        mFiltersCascade[2] = new SimpleFilter(1, 1, 0.01f, 0.0025f);
@@ -49,14 +46,6 @@ public class StepDetector implements SensorEventListener {
         mYOffset = 480 * 0.5f;
         mScale[0] = - (480 * 0.5f * (1.0f / (SensorManager.STANDARD_GRAVITY * 2)));
         mScale[1] = - (480 * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
-    }
-
-    public void addListener(NotifyListener listener) {
-        mListeners.add(listener);
-    }
-
-    public void clearListeners() {
-        mListeners.clear();
     }
 
     public void setSensitivity(float sensitivity) {
@@ -116,7 +105,7 @@ public class StepDetector implements SensorEventListener {
 
                             if (isAlmostAsLargeAsPrevious && isPreviousLargeEnough && isNotContra) {
                                 Logger.d(TAG, "step");
-                                notifyListeners(0);
+                                notifyListeners();
                                 mLastMatch = extType;
                             }
                             else {
@@ -146,17 +135,4 @@ public class StepDetector implements SensorEventListener {
 //        float f3 = mFiltersCascade[2].correct(f2);
 //        return f3;
 //    }
-
-    /**
-     * Calls registered event listeners
-     */
-    private void notifyListeners(int activity) {
-//        if (activity == MOVEMENT_NONE)
-//            return;
-
-        for (NotifyListener listener : mListeners) {
-            listener.onStep(activity);
-            Logger.d(TAG, String.valueOf(activity));
-        }
-    }
 }

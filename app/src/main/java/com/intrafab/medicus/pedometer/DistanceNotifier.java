@@ -1,10 +1,14 @@
 package com.intrafab.medicus.pedometer;
 
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+import com.intrafab.medicus.utils.Logger;
+
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class DistanceNotifier extends BaseNotifier implements NotifyListener {
+    private static final String TAG = DistanceNotifier.class.getName();
 
     public interface Listener extends BaseListener {
         void onDistanceChanged(float value);
@@ -12,7 +16,7 @@ public class DistanceNotifier extends BaseNotifier implements NotifyListener {
 
     private float mDistance;
 
-    public DistanceNotifier(Settings settings) {
+    public DistanceNotifier(SettingsInfo settings) {
         super(settings);
         mDistance = 0;
     }
@@ -23,7 +27,8 @@ public class DistanceNotifier extends BaseNotifier implements NotifyListener {
     }
 
     @Override
-    public void onStep(int activity) {
+    public void onStep() {
+        Logger.d(TAG, "onStep");
         if (Settings.ARG_UNITS_METRIC.equals(nUnitsType)) {
             mDistance += (float) (// kilometers
                     mStepLength // centimeters
@@ -35,6 +40,21 @@ public class DistanceNotifier extends BaseNotifier implements NotifyListener {
         }
 
         notifyListener();
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onStop() {
+
     }
 
     @Override

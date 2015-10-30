@@ -5,9 +5,9 @@ package com.intrafab.medicus.pedometer;
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class OnEventUpdateDistance {
-    public final double distance;
+    public final float distance;
 
-    public OnEventUpdateDistance(double distance) {
+    public OnEventUpdateDistance(float distance) {
         this.distance = distance;
     }
 }

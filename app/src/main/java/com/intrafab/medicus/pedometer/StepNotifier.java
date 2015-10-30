@@ -1,10 +1,14 @@
 package com.intrafab.medicus.pedometer;
 
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+import com.intrafab.medicus.utils.Logger;
+
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class StepNotifier extends BaseNotifier implements NotifyListener {
+    private static final String TAG = StepNotifier.class.getName();
 
     public interface Listener extends BaseListener {
         void onStepChanged(long value);
@@ -21,9 +25,9 @@ public class StepNotifier extends BaseNotifier implements NotifyListener {
         mStepsCount = 0;
     }
 
-    public StepNotifier(Settings settings) {
+    public StepNotifier(SettingsInfo settings) {
         super(settings);
-        mStepsCount = 5000;
+        mStepsCount = 0;
     }
 
     @Override
@@ -36,8 +40,24 @@ public class StepNotifier extends BaseNotifier implements NotifyListener {
     }
 
     @Override
-    public void onStep(int activity) {
+    public void onStep() {
+        Logger.d(TAG, "onStep");
         mStepsCount++;
         notifyListener();
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onStop() {
+
     }
 }

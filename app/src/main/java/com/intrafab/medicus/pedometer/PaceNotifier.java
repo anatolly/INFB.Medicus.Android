@@ -1,10 +1,14 @@
 package com.intrafab.medicus.pedometer;
 
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+import com.intrafab.medicus.utils.Logger;
+
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class PaceNotifier extends BaseNotifier implements NotifyListener {
+    private static final String TAG = PaceNotifier.class.getName();
 
     public interface Listener extends BaseListener {
         void onPaceChanged(long value);
@@ -15,7 +19,7 @@ public class PaceNotifier extends BaseNotifier implements NotifyListener {
     private int mLastStepDeltasIndex;
     private long mPace;
 
-    public PaceNotifier(Settings settings) {
+    public PaceNotifier(SettingsInfo settings) {
         super(settings);
 
         mLastStepTime = 0;
@@ -33,7 +37,8 @@ public class PaceNotifier extends BaseNotifier implements NotifyListener {
     }
 
     @Override
-    public void onStep(int activity) {
+    public void onStep() {
+        Logger.d(TAG, "onStep");
         long thisStepTime = System.currentTimeMillis();
 
         // Calculate pace based on last n steps
@@ -61,6 +66,21 @@ public class PaceNotifier extends BaseNotifier implements NotifyListener {
         }
         mLastStepTime = thisStepTime;
         notifyListener();
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onStop() {
+
     }
 
     @Override

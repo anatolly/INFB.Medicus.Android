@@ -2,6 +2,7 @@ package com.intrafab.medicus.calendar.data;
 
 import android.os.Parcel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,15 @@ public class CalendarInfo extends BaseInfo {
 
     public void setEvents(List<EventInfo> events) {
         this.mEvents = events;
+    }
+
+    public void addEvent(EventInfo info) {
+        mEvents.add(info);
+    }
+
+    public CalendarInfo() {
+        super();
+        mEvents = new ArrayList<>();
     }
 
     protected CalendarInfo(Parcel in) {

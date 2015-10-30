@@ -358,6 +358,9 @@ public class DBManager {
         }
         if (mSnappyDB != null) {
             try {
+                if (!mSnappyDB.exists(key)){
+                    return null;
+                }
                 String json = mSnappyDB.get(key);
 
                 Logger.e(TAG, "Read from database key: " + key + "; object: " + json);

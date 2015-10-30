@@ -5,9 +5,9 @@ package com.intrafab.medicus.pedometer;
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class OnEventUpdateCalories {
-    public final double calories;
+    public final float calories;
 
-    public OnEventUpdateCalories(double calories) {
+    public OnEventUpdateCalories(float calories) {
         this.calories = calories;
     }
 }

@@ -1,10 +1,14 @@
 package com.intrafab.medicus.pedometer;
 
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+import com.intrafab.medicus.utils.Logger;
+
 /**
  * Created by Artemiy Terekhov on 13.10.2015.
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class SpeedNotifier extends BaseNotifier implements NotifyListener, PaceNotifier.Listener {
+    private static final String TAG = SpeedNotifier.class.getName();
 
     public interface Listener extends BaseListener {
         void onSpeedChanged(float value);
@@ -27,7 +31,7 @@ public class SpeedNotifier extends BaseNotifier implements NotifyListener, PaceN
         notifyListener();
     }
 
-    public SpeedNotifier(Settings settings) {
+    public SpeedNotifier(SettingsInfo settings) {
         super(settings);
 
         mSpeed = 0;
@@ -48,7 +52,23 @@ public class SpeedNotifier extends BaseNotifier implements NotifyListener, PaceN
     }
 
     @Override
-    public void onStep(int activity) {
+    public void onStep() {
+        Logger.d(TAG, "onStep");
+        notifyListener();
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onStop() {
 
     }
 }

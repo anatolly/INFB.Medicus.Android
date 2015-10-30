@@ -32,6 +32,7 @@ import com.intrafab.medicus.pedometer.OnEventUpdatePace;
 import com.intrafab.medicus.pedometer.OnEventUpdateSpeed;
 import com.intrafab.medicus.pedometer.OnEventUpdateStateUi;
 import com.intrafab.medicus.pedometer.OnEventUpdateStep;
+import com.intrafab.medicus.pedometer.OnEventUpdateTime;
 import com.intrafab.medicus.pedometer.ServiceEvent;
 import com.intrafab.medicus.pedometer.Settings;
 import com.intrafab.medicus.pedometer.StepService;
@@ -85,6 +86,7 @@ public class PedometerActivity extends BaseActivity
 //                mNeedResume = false;
 //            }
             sendMessageResume();
+            sendMessageUpdate();
             //onStateChanged(null);
         }
 
@@ -119,6 +121,10 @@ public class PedometerActivity extends BaseActivity
 
                 case ServiceEvent.STEP_CHANGED:
                     onStepChanged(msg);
+                    break;
+
+                case ServiceEvent.TIMER_CHANGED:
+                    onTimerChanged(msg);
                     break;
 
                 case ServiceEvent.START_DETECTOR:
@@ -251,6 +257,12 @@ public class PedometerActivity extends BaseActivity
 
     }
 
+    @Override
+    public void onTodayNeedUpdate() {
+        Logger.d(TAG, "onTodayNeedUpdate");
+        sendMessageUpdate();
+    }
+
     public void onPaceChanged(Message msg) {
         if (msg == null)
             return;
@@ -316,6 +328,19 @@ public class PedometerActivity extends BaseActivity
         EventBus.getInstance().post(new OnEventUpdateStep(value));
     }
 
+    public void onTimerChanged(Message msg) {
+        if (msg == null)
+            return;
+
+        Bundle data = msg.getData();
+        if (data == null)
+            return;
+
+        long value = data.getLong(ServiceEvent.TIMER_VALUE, 0L);
+
+        EventBus.getInstance().post(new OnEventUpdateTime(value));
+    }
+
     public void onStartDetector(Message msg) {
         //sendEvent(new ServiceEvent(ServiceEvent.START));
         onStepChanged(null);
@@ -337,7 +362,7 @@ public class PedometerActivity extends BaseActivity
         EventBus.getInstance().post(new OnEventUpdateStateUi(mIsRunning));
     }
 
-//    public void onPause(Message msg) {
+    //    public void onPause(Message msg) {
 //        if (mIsBound) {
 //            unbindStepService();
 //            //mIsBound = false;
@@ -378,8 +403,7 @@ public class PedometerActivity extends BaseActivity
     }
 
 
-
-//    private void startStepService() {
+    //    private void startStepService() {
 //        if (!mIsRunning) {
 //            Logger.i(TAG, "startStepService");
 //            mIsRunning = true;
@@ -387,6 +411,26 @@ public class PedometerActivity extends BaseActivity
 //                    StepService.class));
 //        }
 //    }
+    private void sendMessageUpdate() {
+        Logger.d(TAG, "start sendMessageUpdate");
+        if (!mIsBound)
+            return;
+
+        if (mServiceMessenger == null)
+            return;
+
+        Logger.d(TAG, "sendMessageUpdate");
+
+        Message msg = Message.obtain();
+        msg.what = ServiceEvent.UPDATE;
+        msg.replyTo = mCallbackMessenger;
+
+        try {
+            mServiceMessenger.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void sendMessageStart() {
         Logger.d(TAG, "start sendMessageStart");
@@ -435,7 +479,7 @@ public class PedometerActivity extends BaseActivity
         onStateChanged(null);
     }
 
-//    private void sendMessagePause() {
+    //    private void sendMessagePause() {
 //        if (!mIsBound)
 //            return;
 //
@@ -505,7 +549,7 @@ public class PedometerActivity extends BaseActivity
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mPedometerSettings = new Settings(mSettings);
 
-        //mPedometerSettings.clearServiceRunning();
+//        mPedometerSettings.clearServiceRunning();
         mIsRunning = mPedometerSettings.isServiceRunning();
 
         // Read from preferences if the service was running on the last onPause

@@ -5,5 +5,8 @@ package com.intrafab.medicus.pedometer;
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public interface NotifyListener {
-    void onStep(int activity);
+    void onStep();
+    void onPause();
+    void onResume();
+    void onStop();
 }

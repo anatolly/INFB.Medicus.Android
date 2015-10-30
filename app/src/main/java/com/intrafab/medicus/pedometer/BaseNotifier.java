@@ -1,5 +1,7 @@
 package com.intrafab.medicus.pedometer;
 
+import com.intrafab.medicus.calendar.pedometer.SettingsInfo;
+
 import java.util.ArrayList;
 
 /**
@@ -11,7 +13,7 @@ public abstract class BaseNotifier {
     public interface BaseListener {
     }
 
-    protected Settings mSettings;
+    protected SettingsInfo mSettings;
     protected ArrayList<BaseListener> mListeners;
 
     protected String nUnitsType;
@@ -21,7 +23,7 @@ public abstract class BaseNotifier {
     protected float mDesiredSpeed;
     protected int mDesiredPace;
 
-    public BaseNotifier(Settings settings) {
+    public BaseNotifier(SettingsInfo settings) {
         mListeners = new ArrayList<>();
         mSettings = settings;
 
@@ -37,12 +39,12 @@ public abstract class BaseNotifier {
     }
 
     public void loadSettings() {
-        nUnitsType = mSettings.isMetric() ? Settings.ARG_UNITS_METRIC : Settings.ARG_UNITS_IMPERIAL;
-        mIsRunning = mSettings.isRunning();
-        mStepLength = mSettings.getStepLength();
-        mBodyWeight = mSettings.getBodyWeight();
-        mDesiredSpeed = mSettings.getDesiredSpeed();
-        mDesiredPace = mSettings.getDesiredPace();
+        nUnitsType = mSettings.unitsType;
+        mIsRunning = mSettings.isRunning;
+        mStepLength = mSettings.stepLength;
+        mBodyWeight = mSettings.bodyWeight;
+        mDesiredSpeed = mSettings.desiredSpeed;
+        mDesiredPace = mSettings.desiredPace;
         notifyListener();
     }
 

@@ -19,6 +19,7 @@ public class Constants {
         public static final String PREF_PARAM_ORDER = "pref_param_order";
         public static final String PREF_PARAM_PERIOD_CAL_ENTRIES = "pref_param_mens_cal_entries";
         public static final String PREF_PARAM_PERIOD_CYCLE_ENTRIES = "pref_param_per_cycle_entries";
+        public static final String PREF_PARAM_PEDOMETER_CALENDAR = "pref_param_pedometer_calendar";
     }
 
     public static class Extras {

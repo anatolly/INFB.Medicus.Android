@@ -32,22 +32,33 @@ public class ParametersInfo extends BaseInfo {
         this.mValue = value;
     }
 
+    public ParametersInfo() {
+        super();
+    }
+
     protected ParametersInfo(Parcel in) {
         super(in);
         mType = in.readParcelable(EType.class.getClassLoader());
 
         byte[] bytes = new byte[in.readInt()];
-        if (bytes.length > 0) {
-            in.readByteArray(bytes);
-            try {
-                mValue = Converter.convertFromBytes(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-                mValue = null;
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                mValue = null;
+
+        try {
+            Class theClass = Class.forName(in.readString());
+
+            if (bytes.length > 0) {
+                in.readByteArray(bytes);
+                try {
+                    mValue = theClass.cast(Converter.convertFromBytes(bytes));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mValue = null;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    mValue = null;
+                }
             }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -77,11 +88,12 @@ public class ParametersInfo extends BaseInfo {
             byte[] bytes = Converter.convertToBytes(mValue);
             if (bytes.length > 0) {
                 parcel.writeInt(bytes.length);
+                parcel.writeString(mValue.getClass().getName());
                 parcel.writeByteArray(bytes);
             } else {
                 parcel.writeInt(0);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             parcel.writeInt(0);
         }

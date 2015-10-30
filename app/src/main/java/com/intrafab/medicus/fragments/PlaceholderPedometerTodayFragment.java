@@ -26,6 +26,7 @@ import com.intrafab.medicus.pedometer.OnEventUpdateTime;
 import com.intrafab.medicus.pedometer.Settings;
 import com.intrafab.medicus.pedometer.OnEventUpdateStateUi;
 import com.intrafab.medicus.utils.EventBus;
+import com.intrafab.medicus.utils.Logger;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -33,6 +34,7 @@ import com.squareup.otto.Subscribe;
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class PlaceholderPedometerTodayFragment extends Fragment implements View.OnClickListener {
+    protected static final String TAG = PlaceholderPedometerTodayFragment.class.getName();
 
     private WheelIndicatorView wheelIndicatorView;
     private ImageButton mButtonPlayPause;
@@ -63,6 +65,7 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
         void onOpenStatisticsToday();
         void onStepModeActivated();
         void onDistanceModeActivated();
+        void onTodayNeedUpdate();
     }
 
     private OnClickListener mListener;
@@ -74,11 +77,13 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.d(TAG, "onCreate");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Logger.d(TAG, "onAttach");
         try {
             mListener = (OnClickListener) context;
         } catch (ClassCastException e) {
@@ -89,12 +94,14 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     @Override
     public void onDetach() {
         super.onDetach();
+        Logger.d(TAG, "onDetach");
         mListener = null;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Logger.d(TAG, "onCreateView");
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_pedometer_today, container, false);
         wheelIndicatorView = (WheelIndicatorView) rootView.findViewById(R.id.wheel_indicator_view);
@@ -123,18 +130,26 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(TAG, "onResume");
         EventBus.getInstance().register(this);
+
+        if (mListener != null) {
+            Logger.d(TAG, "send onTodayNeedUpdate");
+            mListener.onTodayNeedUpdate();
+        }
     }
 
     @Override
     public void onPause() {
         EventBus.getInstance().unregister(this);
         super.onPause();
+        Logger.d(TAG, "onPause");
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Logger.d(TAG, "onActivityCreated");
 
         WheelIndicatorItem item = new WheelIndicatorItem(1.8f, Color.parseColor("#ff9000"));
 
@@ -170,6 +185,7 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Logger.d(TAG, "onClick");
 
         switch (id) {
             case R.id.btnPlayPause:
@@ -258,19 +274,24 @@ public class PlaceholderPedometerTodayFragment extends Fragment implements View.
 
     @Subscribe
     public void onSpeedChanged(OnEventUpdateSpeed event) {
-        double value = event.speed < 0.0001f ? 0f : event.speed;
+        float value = event.speed < 0.0001f ? 0f : event.speed;
         mTextViewSpeed.setText(String.format("%1$,.0f", value));
     }
 
     @Subscribe
     public void onTimeChanged(OnEventUpdateTime event) {
         long value = event.time < 0 ? 0 : event.time;
-        mTextViewTime.setText(String.format("%d", value));
+
+        long seconds = value % 60;
+        long minutes = (value / 60) % 60;
+        long hours = (value / 3600);
+
+        mTextViewTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
     }
 
     @Subscribe
     public void onCaloriesChanged(OnEventUpdateCalories event) {
-        double value = event.calories < 0.0001f ? 0f : event.calories;
+        float value = event.calories < 0.0001f ? 0f : event.calories;
         mTextViewCalories.setText(String.format("%1$,.0f", value));
     }
 

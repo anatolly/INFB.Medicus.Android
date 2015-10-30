@@ -5,9 +5,9 @@ package com.intrafab.medicus.pedometer;
  * Copyright (c) 2015 Artemiy Terekhov. All rights reserved.
  */
 public class OnEventUpdateSpeed {
-    public final double speed;
+    public final float speed;
 
-    public OnEventUpdateSpeed(double speed) {
+    public OnEventUpdateSpeed(float speed) {
         this.speed = speed;
     }
 }

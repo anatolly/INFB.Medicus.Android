@@ -56,6 +56,10 @@ public class BaseInfo implements Parcelable {
         this.mSubHeader = subHeader;
     }
 
+    public BaseInfo() {
+
+    }
+
     protected BaseInfo(Parcel in) {
         mId = in.readString();
         mHeader = in.readString();
