@@ -200,6 +200,11 @@
     <string name="notification_text_injection">Сделай инъекцию</string>
     <string name="notification_title_contraception">Напоминание о приеме контрацепции</string>
 
+    <string name="cont_ring_end_day">%1$d д использования кольца. Удалите кольцо, после чего начнутся дни перерыва</string>
+    <string name="cont_plaster_end_week">%1$d-й пластырь. Поменяйте платырь</string>
+    <string name="cont_plaster_end_period">%1$d-й пластырь. Удалите платырь, после чего начнутся дни перерыва</string>
+    <string name="cont_injection_end_day">%1$d д (%2$d нед) после инъекции. Сделайте новую инъекцию в течение %3$d д</string>
+
     <string name="cont_ring_day">%1$d д использования кольца. Удалить кольцо через %2$d д</string>
     <string name="cont_plaster_day">%1$d-й пластырь. Поменять пластырь через %2$d д</string>
     <string name="cont_pills_day">%1$d таблетка из %2$d</string>

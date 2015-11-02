@@ -255,7 +255,8 @@ public class TestFragment extends Fragment implements ExtendedCalendarView.OnDay
     @Override
     public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
         Calendar cal = Calendar.getInstance();
-        cal.set(day.getYear(), day.getMonth(), day.getDay(), 0, 0,0);
+        cal.set(day.getYear(), day.getMonth(), day.getDay(), 0, 0, 0);
+        cal.set(Calendar.AM_PM, Calendar.AM);
         Long dateInSec = cal.getTimeInMillis()/1000;
         PeriodCalendarDayOptionsActivity.launch(getActivity(), view, dateInSec);
     }

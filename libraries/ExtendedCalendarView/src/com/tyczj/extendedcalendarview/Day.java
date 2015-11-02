@@ -31,10 +31,12 @@ public class Day{
 		this.context = context;
 		Calendar cal = Calendar.getInstance();
 		// cal.set(year, month-1, day);
-		cal.set(year, month, day, 12, 0, 0);
+		cal.set(year, month, day, 0, 0, 0);
+		cal.set(Calendar.AM_PM, Calendar.AM);
 		timeInSec = cal.getTimeInMillis()/1000;
 		int end = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		cal.set(year, month, end, 12, 0, 0);
+		cal.set(year, month, end, 0, 0, 0);
+		cal.set(Calendar.AM_PM, Calendar.AM);
 		TimeZone tz = TimeZone.getDefault();
 		monthEndDay = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
 	}

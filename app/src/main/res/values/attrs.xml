@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="colorAttr">
+        <attr name="primaryLight" format="color"/>
+        <attr name="primaryDark" format="color"/>
+    </declare-styleable>
+</resources>

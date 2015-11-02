@@ -2,6 +2,7 @@ package com.intrafab.medicus.medJournal.fragments;
 
 import android.app.Activity;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -202,6 +203,9 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
         else if (itemType == PeriodCardAdapter.PILLS_CARD_TYPE){
             PillsSettingFragment pillsSettingFragment = new PillsSettingFragment();
             pillsSettingFragment.setContraceptionInfo(contraceptionInfo);
+            int themeId = pillsSettingFragment.getTheme();
+            pillsSettingFragment.setStyle(android.R.style.Theme_Material_Light_Dialog_NoActionBar, android.R.style.Theme_Material_Light_Dialog);
+            //pillsSettingFragment.setStyle(android.R.style.Holo_ButtonBar_AlertDialog, R.style.DialogTheme);
             pillsSettingFragment.show(getActivity().getFragmentManager(),"pills_setting");
         }
 
@@ -255,7 +259,6 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
         getActivity().getLoaderManager().initLoader(LOADER_P_CALENDAR_ENTRY_ID, null, mCalendarLoaderCallback);
         getActivity().getLoaderManager().initLoader(LOADER_P_CYCLE_ENTRY_ID, null, mCycleLoaderCallback);
         getActivity().getLoaderManager().initLoader(LOADER_CONTRACEPTION_ID,null,mContraceptionInfoCallback);
-
     }
 
     private void fillCard(){

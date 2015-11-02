@@ -210,14 +210,15 @@ public abstract class BaseActivity extends ActionBarActivity implements SharedPr
 
             int primaryColor = 0;
             TypedValue a = new TypedValue();
-            getTheme().resolveAttribute(android.R.attr.colorPrimary, a, true);
+            if (Build.VERSION.SDK_INT >= 21)
+                getTheme().resolveAttribute(android.R.attr.colorPrimary, a, true);
+            else
+                getTheme().resolveAttribute(R.attr.primaryLight, a, true);
             if (a.type >= TypedValue.TYPE_FIRST_COLOR_INT && a.type <= TypedValue.TYPE_LAST_COLOR_INT) {
                 // primaryColor is a color
                 primaryColor = a.data;
             } else {
-                // primaryColor is not a color ???
-                Logger.e("BaseActivity ", "current theme: primary color is not a color ?");
-                //Drawable d = activity.getResources().getDrawable(a.resourceId);
+                Logger.e("BaseActivity ", "current theme: primary color is not a color");
             }
             bar.setBackgroundDrawable(new ColorDrawable(primaryColor));
         }
@@ -231,9 +232,9 @@ public abstract class BaseActivity extends ActionBarActivity implements SharedPr
     }
 
     protected static void setLanguage(Activity context, int index) {
-        Logger.e("BaseActivity", "setLanguage index: " + index);
+        //Logger.e("BaseActivity", "setLanguage index: " + index);
         String[] mLangArray = context.getResources().getStringArray(R.array.pref_list_language_values);
-        Logger.e("BaseActivity", "setLanguage mLangArray[index]: " + mLangArray[index]);
+        //Logger.e("BaseActivity", "setLanguage mLangArray[index]: " + mLangArray[index]);
 
         mCurrentLanguageIndex = index;
 

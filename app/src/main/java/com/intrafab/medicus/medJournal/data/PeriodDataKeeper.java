@@ -465,8 +465,7 @@ public class PeriodDataKeeper {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(newPeriod.getFirstDay());
-        for (int i = 2; i<= newPeriod.getMentsrualDuration(); i++) {
-            calendar.add(Calendar.DATE, 1);
+        for (int i = 1; i<= newPeriod.getMentsrualDuration(); i++) {
             Long timeInSec = calendar.getTimeInMillis()/1000;
             if (mCalendarData.containsKey(timeInSec)){
                 PeriodCalendarEntry existEntry = mCalendarData.get(timeInSec);
@@ -479,6 +478,7 @@ public class PeriodDataKeeper {
                 mCalendarData.put(timeInSec, newEntry);
                 Logger.d (TAG, "mCalendarData.size(): + " + mCalendarData.size());
             }
+            calendar.add(Calendar.DATE, 1);
         }
  		// set ovulation day
         calendar.setTimeInMillis(newPeriod.getFirstDay());

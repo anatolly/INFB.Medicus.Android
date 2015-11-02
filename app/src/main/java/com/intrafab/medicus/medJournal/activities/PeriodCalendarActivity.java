@@ -277,6 +277,7 @@ public class PeriodCalendarActivity extends BaseActivity implements ExtendedCale
         Calendar cal = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         cal.set(day.getYear(), day.getMonth(), day.getDay(), 0, 0,0);
+        cal.set(Calendar.AM_PM, Calendar.AM);
         if (today.getTimeInMillis() < cal.getTimeInMillis()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_time_error), Toast.LENGTH_LONG).show();
             return;

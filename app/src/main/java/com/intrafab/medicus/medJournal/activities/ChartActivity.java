@@ -50,6 +50,7 @@ public class ChartActivity extends BaseActivity{
     private String [] months;
     private int monthIndex;
     private TextView tvMonth;
+    private int isSpinerFirstCall = 0b00;
 
 
     @Override
@@ -99,6 +100,10 @@ public class ChartActivity extends BaseActivity{
         spScale.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (isSpinerFirstCall == 0b00 || isSpinerFirstCall == 0b01){
+                    isSpinerFirstCall += 0b10;
+                    return;
+                }
                 String[] durationArray = getResources().getStringArray(R.array.chart_period);
                 String[] splittedStr = durationArray[i].split(" ");
                 duration = Integer.valueOf(splittedStr[0]);
@@ -107,7 +112,6 @@ public class ChartActivity extends BaseActivity{
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                setupChart();
             }
         });
 
@@ -128,11 +132,13 @@ public class ChartActivity extends BaseActivity{
             calendar.add(Calendar.MONTH, 1);
         }
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, yearsArray);
-        spYears.setAdapter(spinnerArrayAdapter);
         spYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (isSpinerFirstCall == 0b00 || isSpinerFirstCall == 0b10){
+                    isSpinerFirstCall += 0b01;
+                    return;
+                }
                 year = Integer.valueOf(yearsArray[i]);
                 setupChart();
                 Calendar calendar = Calendar.getInstance();
@@ -150,12 +156,15 @@ public class ChartActivity extends BaseActivity{
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, yearsArray);
+        spYears.setAdapter(spinnerArrayAdapter);
+
     }
 
     private void setupChart() {
+        Logger.d(TAG, "setupChart");
         // get data for chart
         HashMap<Long, PeriodCalendarEntry> mCalendarData = PeriodDataKeeper.getInstance().getCalendarData();
         Calendar lastDay = Calendar.getInstance();
@@ -216,7 +225,7 @@ public class ChartActivity extends BaseActivity{
         leftAxis.setAxisMinValue(minTemperature - 0.5f);
 
         if (entries.size() == 0) {
-            Toast toast = Toast.makeText(getApplicationContext(), String.format(getString(R.string.chart_no_data), year), Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(ChartActivity.this, String.format(getString(R.string.chart_no_data), year), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
