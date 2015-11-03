@@ -8,8 +8,10 @@ import com.intrafab.medicus.calendar.data.EType;
 import com.intrafab.medicus.calendar.data.EventInfo;
 import com.intrafab.medicus.calendar.data.ExtraParametersInfo;
 import com.intrafab.medicus.calendar.data.ParametersInfo;
+import com.intrafab.medicus.utils.Logger;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Artemiy Terekhov on 28.10.2015.
@@ -103,6 +105,7 @@ public class PedometerCalendar extends CalendarInfo {
     }
 
     public EventInfo createEvent() {
+        Logger.d(TAG, "!!!!!!!!!createEvent");
         EventInfo info = new EventInfo();
         info.setCalendarId(getId());
 
@@ -123,16 +126,23 @@ public class PedometerCalendar extends CalendarInfo {
 
         // set default parameters
         ExtraParametersInfo extra = new ExtraParametersInfo();
-        Data data = new Data();
-        data.calories = 0f;
-        data.distance = 0f;
-        data.speed = 0f;
-        data.pace = 0L;
-        data.steps = 0L;
-        data.timer = 0L;
-
-        extra.put(day, data);
-        info.setExtraParameters(extra);
+        extra.setKey(String.valueOf(day));
+        extra.addData("calories", 0f);
+        extra.addData("distance", 0f);
+        extra.addData("speed", 0f);
+        extra.addData("pace", 0L);
+        extra.addData("steps", 0L);
+        extra.addData("timer", 0L);
+//        Data data = new Data();
+//        data.calories = 0f;
+//        data.distance = 0f;
+//        data.speed = 0f;
+//        data.pace = 0L;
+//        data.steps = 0L;
+//        data.timer = 0L;
+//
+//        extra.getData().put(String.valueOf(day), data);
+        info.addExtraParameters(extra);
 
         addEvent(info);
         return info;
@@ -259,15 +269,8 @@ public class PedometerCalendar extends CalendarInfo {
         for (ParametersInfo param : info.getParameters()) {
             if (param.getId().equals(ARG_STEP_LENGTH)) {
                 Object obj = param.getValue();
-                if (obj instanceof Float) {
-                    float value = (float) param.getValue();
-                    return value;
-                } else if (obj instanceof Double) {
-                    double value = (double) param.getValue();
-                    return (float) value;
-                } else {
-                    float value = (float) param.getValue();
-                    return value;
+                if (obj instanceof Number) {
+                    return ((Number) obj).floatValue();
                 }
             }
         }
@@ -290,15 +293,8 @@ public class PedometerCalendar extends CalendarInfo {
         for (ParametersInfo param : info.getParameters()) {
             if (param.getId().equals(ARG_BODY_WEIGHT)) {
                 Object obj = param.getValue();
-                if (obj instanceof Float) {
-                    float value = (float) param.getValue();
-                    return value;
-                } else if (obj instanceof Double) {
-                    double value = (double) param.getValue();
-                    return (float) value;
-                } else {
-                    float value = (float) param.getValue();
-                    return value;
+                if (obj instanceof Number) {
+                    return ((Number) obj).floatValue();
                 }
             }
         }
@@ -321,15 +317,8 @@ public class PedometerCalendar extends CalendarInfo {
         for (ParametersInfo param : info.getParameters()) {
             if (param.getId().equals(ARG_MAINTAIN_OPTION)) {
                 Object obj = param.getValue();
-                if (obj instanceof Integer) {
-                    int value = (int) param.getValue();
-                    return value;
-                } else if (obj instanceof Long) {
-                    long value = (long) param.getValue();
-                    return (int) value;
-                } else {
-                    int value = (int) param.getValue();
-                    return value;
+                if (obj instanceof Number) {
+                    return ((Number) obj).intValue();
                 }
             }
         }
@@ -342,18 +331,8 @@ public class PedometerCalendar extends CalendarInfo {
         for (ParametersInfo param : info.getParameters()) {
             if (param.getId().equals(ARG_DESIRED_PACE)) {
                 Object obj = param.getValue();
-                if (obj instanceof Integer) {
-                    int value = (int) param.getValue();
-                    return value;
-                } else if (obj instanceof Long) {
-                    long value = (long) param.getValue();
-                    return (int) value;
-                } else if (obj instanceof Double) {
-                    double value = (double) param.getValue();
-                    return (int) value;
-                } else {
-                    int value = (int) param.getValue();
-                    return value;
+                if (obj instanceof Number) {
+                    return ((Number) obj).intValue();
                 }
             }
         }
@@ -366,15 +345,8 @@ public class PedometerCalendar extends CalendarInfo {
         for (ParametersInfo param : info.getParameters()) {
             if (param.getId().equals(ARG_DESIRED_SPEED)) {
                 Object obj = param.getValue();
-                if (obj instanceof Float) {
-                    float value = (float) param.getValue();
-                    return value;
-                } else if (obj instanceof Double) {
-                    double value = (double) param.getValue();
-                    return (float) value;
-                } else {
-                    float value = (float) param.getValue();
-                    return value;
+                if (obj instanceof Number) {
+                    return ((Number) obj).floatValue();
                 }
             }
         }
@@ -402,34 +374,61 @@ public class PedometerCalendar extends CalendarInfo {
     // TODO save every hour
     public void saveHourInfo(long stepCount) {
         EventInfo info = getCurrentEvent();
-        ExtraParametersInfo extra = info.getExtraParameters();
-        if (extra != null) {
-            Calendar currentCalendar = Calendar.getInstance();
-            int hourOfDay = currentCalendar.get(Calendar.HOUR_OF_DAY);
-
-            extra.put(hourOfDay, new DataInfo(ARG_VALUE_STEPS, String.valueOf(stepCount)));
-        }
+//        ExtraParametersInfo extra = info.getExtraParameters();
+//        if (extra != null) {
+//            Calendar currentCalendar = Calendar.getInstance();
+//            int hourOfDay = currentCalendar.get(Calendar.HOUR_OF_DAY);
+//
+//            extra.getData().put(String.valueOf(hourOfDay), new DataInfo(ARG_VALUE_STEPS, String.valueOf(stepCount)));
+//        }
     }
 
     public void saveData(Data data) {
         EventInfo info = getCurrentEvent();
-        ExtraParametersInfo extra = info.getExtraParameters();
-        if (extra != null) {
-            Calendar currentCalendar = Calendar.getInstance();
-            int day = currentCalendar.get(Calendar.DAY_OF_YEAR);
+        Logger.d(TAG, "calendar saveData info = " + (info == null ? "NULL" : "NOT NULL"));
 
-            extra.put(day, data);
+        Calendar currentCalendar = Calendar.getInstance();
+        int day = currentCalendar.get(Calendar.DAY_OF_YEAR);
+
+        ExtraParametersInfo extra = info.getExtraParameters(String.valueOf(day));
+        Logger.d(TAG, "calendar saveData extra = " + (extra == null ? "NULL" : "NOT NULL"));
+        if (extra != null) {
+            Logger.d(TAG, "calendar saveData put day = " + day + ", data = " + (data == null ? "NULL" : "NOT NULL"));
+
+            //extra.setKey(String.valueOf(day));
+            extra.addData("calories", data.calories);
+            extra.addData("distance", data.distance);
+            extra.addData("speed", data.speed);
+            extra.addData("pace", data.pace);
+            extra.addData("steps", data.steps);
+            extra.addData("timer", data.timer);
+
+            Logger.d(TAG, "saveData data = " + data.toString());
         }
     }
 
     public Data getData() {
         EventInfo info = getCurrentEvent();
-        ExtraParametersInfo extra = info.getExtraParameters();
-        if (extra != null) {
-            Calendar currentCalendar = Calendar.getInstance();
-            int day = currentCalendar.get(Calendar.DAY_OF_YEAR);
+        Logger.d(TAG, "calendar getData info = " + (info == null ? "NULL" : "NOT NULL"));
+        Calendar currentCalendar = Calendar.getInstance();
+        int day = currentCalendar.get(Calendar.DAY_OF_YEAR);
 
-            return (Data) extra.get(day);
+        ExtraParametersInfo extra = info.getExtraParameters(String.valueOf(day));
+        Logger.d(TAG, "calendar getData extra = " + (extra == null ? "NULL" : "NOT NULL"));
+        if (extra != null) {
+            List<DataInfo> dataInfo = extra.getData();
+            Logger.d(TAG, "calendar getData get day = " + day + ", data = " + (dataInfo == null ? "NULL" : "NOT NULL"));
+
+            Data data = new Data();
+            data.calories = extra.getDataValue("calories") == null ? 0.0f : ((Number) extra.getDataValue("calories")).floatValue();
+            data.distance = extra.getDataValue("distance") == null ? 0.0f : ((Number) extra.getDataValue("distance")).floatValue();
+            data.speed = extra.getDataValue("speed") == null ? 0.0f : ((Number) extra.getDataValue("speed")).floatValue();
+            data.pace = extra.getDataValue("pace") == null ? 0L : ((Number) extra.getDataValue("pace")).longValue();
+            data.steps = extra.getDataValue("steps") == null ? 0L : ((Number) extra.getDataValue("steps")).longValue();
+            data.timer = extra.getDataValue("timer") == null ? 0L : ((Number) extra.getDataValue("timer")).longValue();
+
+            Logger.d(TAG, "getData data = " + data.toString());
+            return data;
         }
 
         return null;

@@ -3,6 +3,7 @@ package com.intrafab.medicus.calendar.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,6 +66,10 @@ public class ScheduleInfo implements Parcelable {
 
     public void setStartTime(long startTime) {
         this.mStartTime = startTime;
+    }
+
+    public ScheduleInfo() {
+        mDays = new ArrayList<>();
     }
 
     protected ScheduleInfo(Parcel in) {

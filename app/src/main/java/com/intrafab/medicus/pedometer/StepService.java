@@ -81,6 +81,7 @@ public class StepService extends GroundyService implements IServiceActions, Load
 
         if (pedometerCalendar != null) {
             mCalendar = pedometerCalendar;
+            Logger.d(TAG, "onLoadComplete set mCalendar = " + (mCalendar == null ? "NULL" : "NOT NULL"));
         }
 
         runDetector();
@@ -107,9 +108,9 @@ public class StepService extends GroundyService implements IServiceActions, Load
                     onResume(msg);
                     break;
 
-                case ServiceEvent.UPDATE:
-                    onUpdate(msg);
-                    break;
+//                case ServiceEvent.UPDATE:
+//                    onUpdate(msg);
+//                    break;
             }
         }
     }
@@ -221,11 +222,7 @@ public class StepService extends GroundyService implements IServiceActions, Load
         Bundle data = msg.getData();
         mNotifyMessage = data != null ? data.getString(ServiceEvent.NOTIFY_MESSAGE, "") : "";
 
-
         startPedometerLoader();
-
-
-
         //mStepDetector.notifyListeners();
     }
 
@@ -308,11 +305,11 @@ public class StepService extends GroundyService implements IServiceActions, Load
             mStepDetector.resume();
     }
 
-    public void onUpdate(Message msg) {
-        Logger.d(TAG, "onUpdate");
-        if (mStepDetector != null)
-            mStepDetector.notifyListeners();
-    }
+//    public void onUpdate(Message msg) {
+//        Logger.d(TAG, "onUpdate");
+//        if (mStepDetector != null)
+//            mStepDetector.notifyListeners();
+//    }
 
     @Override
     public void onStop(Message msg) {
@@ -338,6 +335,7 @@ public class StepService extends GroundyService implements IServiceActions, Load
         data.speed = mSpeed;
         data.calories = mCalories;
         data.timer = mTimerValue;
+        Logger.d(TAG, "onStop data = " + data.toString());
         mCalendar.saveData(data);
 
         Groundy.create(ActionSavePedometerTask.class)

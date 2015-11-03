@@ -3,15 +3,14 @@ package com.intrafab.medicus;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,10 +21,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.intrafab.medicus.calendar.pedometer.Data;
+import com.intrafab.medicus.calendar.pedometer.PedometerCalendar;
+import com.intrafab.medicus.db.DBManager;
 import com.intrafab.medicus.fragments.PlaceholderPedometerMonthFragment;
 import com.intrafab.medicus.fragments.PlaceholderPedometerTodayFragment;
 import com.intrafab.medicus.fragments.PlaceholderPedometerWeekFragment;
 import com.intrafab.medicus.fragments.PlaceholderPedometerYearFragment;
+import com.intrafab.medicus.loaders.PedometerLoader;
 import com.intrafab.medicus.pedometer.OnEventUpdateCalories;
 import com.intrafab.medicus.pedometer.OnEventUpdateDistance;
 import com.intrafab.medicus.pedometer.OnEventUpdatePace;
@@ -34,7 +37,6 @@ import com.intrafab.medicus.pedometer.OnEventUpdateStateUi;
 import com.intrafab.medicus.pedometer.OnEventUpdateStep;
 import com.intrafab.medicus.pedometer.OnEventUpdateTime;
 import com.intrafab.medicus.pedometer.ServiceEvent;
-import com.intrafab.medicus.pedometer.Settings;
 import com.intrafab.medicus.pedometer.StepService;
 import com.intrafab.medicus.utils.EventBus;
 import com.intrafab.medicus.utils.Logger;
@@ -48,14 +50,17 @@ import java.util.List;
  */
 public class PedometerActivity extends BaseActivity
         implements View.OnClickListener,
-        PlaceholderPedometerTodayFragment.OnClickListener {
+        PlaceholderPedometerTodayFragment.OnClickListener,
+        Loader.OnLoadCompleteListener<PedometerCalendar> {
     private static final String TAG = PedometerActivity.class.getName();
+
+    private static final int LOADER_PEDOMETER_ID = 155;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private SharedPreferences mSettings;
-    private Settings mPedometerSettings;
+    //private SharedPreferences mSettings;
+    //private Settings mPedometerSettings;
 
     private boolean mIsRunning = false;
     private boolean mNeedStart = false;
@@ -86,7 +91,7 @@ public class PedometerActivity extends BaseActivity
 //                mNeedResume = false;
 //            }
             sendMessageResume();
-            sendMessageUpdate();
+            //sendMessageUpdate();
             //onStateChanged(null);
         }
 
@@ -98,6 +103,99 @@ public class PedometerActivity extends BaseActivity
             onStateChanged(null);
         }
     };
+
+//    private android.app.LoaderManager.LoaderCallbacks<PedometerCalendar> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<PedometerCalendar>() {
+//        @Override
+//        public android.content.Loader<PedometerCalendar> onCreateLoader(int id, Bundle args) {
+//            switch (id) {
+//                case LOADER_PEDOMETER_ID:
+//                    return createPedometerLoader();
+//                default:
+//                    return null;
+//            }
+//        }
+//
+//        @Override
+//        public void onLoadFinished(android.content.Loader<PedometerCalendar> loader, PedometerCalendar data) {
+//            int id = loader.getId();
+//            switch (id) {
+//                case LOADER_PEDOMETER_ID:
+//                    finishedPedometerLoader(data);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public void onLoaderReset(android.content.Loader<PedometerCalendar> loader) {
+//            int id = loader.getId();
+//            switch (id) {
+//                case LOADER_PEDOMETER_ID:
+//                    resetPedometerLoader();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
+//
+//    private android.content.Loader<PedometerCalendar> createPedometerLoader() {
+//        Logger.d(TAG, "createPedometerLoader");
+//        return new PedometerLoader(PedometerActivity.this);
+//    }
+//
+//    private void finishedPedometerLoader(PedometerCalendar data) {
+//        Logger.d(TAG, "finishedPedometerLoader data: " + (data == null ? "NULL" : data.getId()));
+//        onUpdateAfterLoad(data);
+//    }
+//
+//    private void resetPedometerLoader() {
+//        Logger.d(TAG, "resetPedometerLoader");
+//    }
+//
+
+    private PedometerLoader mCalendarLoader;
+
+    private void createPedometerLoader() {
+        Logger.d(TAG, "createPedometerLoader");
+        mCalendarLoader = new PedometerLoader(this) {
+            @Override
+            protected void onStartLoading() {
+                DBManager.getInstance().registerObserver(getContext(), this, PedometerLoader.class);
+                forceLoad();
+            }
+        };
+    }
+
+    private void resetPedometerLoader() {
+        Logger.d(TAG, "resetPedometerLoader");
+        if (mCalendarLoader != null)
+            mCalendarLoader.reset();
+    }
+
+    private void stopPedometerLoader() {
+        Logger.d(TAG, "stopPedometerLoader");
+        if (mCalendarLoader != null) {
+            mCalendarLoader.stopLoading();
+            mCalendarLoader.unregisterListener(this);
+        }
+    }
+
+    private void startPedometerLoader() {
+        Logger.d(TAG, "startPedometerLoader");
+        if (mCalendarLoader != null) {
+            mCalendarLoader.registerListener(LOADER_PEDOMETER_ID, this);
+            mCalendarLoader.startLoading();
+        }
+    }
+
+    @Override
+    public void onLoadComplete(Loader<PedometerCalendar> loader, PedometerCalendar pedometerCalendar) {
+        Logger.d(TAG, "finishedPedometerLoader data: " + (pedometerCalendar == null ? "NULL" : pedometerCalendar.getId()));
+        onUpdateAfterLoad(pedometerCalendar);
+        stopPedometerLoader();
+    }
 
     private class CommandHandler extends Handler {
         @Override
@@ -173,6 +271,7 @@ public class PedometerActivity extends BaseActivity
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        createPedometerLoader();
 //        bindStepService();
         //startService(new Intent(this, StepService.class));
     }
@@ -260,7 +359,9 @@ public class PedometerActivity extends BaseActivity
     @Override
     public void onTodayNeedUpdate() {
         Logger.d(TAG, "onTodayNeedUpdate");
-        sendMessageUpdate();
+        //sendMessageUpdate();
+        //getLoaderManager().initLoader(LOADER_PEDOMETER_ID, null, mLoaderCallback);
+        startPedometerLoader();
     }
 
     public void onPaceChanged(Message msg) {
@@ -341,6 +442,27 @@ public class PedometerActivity extends BaseActivity
         EventBus.getInstance().post(new OnEventUpdateTime(value));
     }
 
+    public void onUpdateAfterLoad(PedometerCalendar data) {
+        if (data == null || data.getData() == null) {
+            EventBus.getInstance().post(new OnEventUpdatePace(0L));
+            EventBus.getInstance().post(new OnEventUpdateCalories(0.0f));
+            EventBus.getInstance().post(new OnEventUpdateDistance(0.0f));
+            EventBus.getInstance().post(new OnEventUpdateSpeed(0.0f));
+            EventBus.getInstance().post(new OnEventUpdateStep(0L));
+            EventBus.getInstance().post(new OnEventUpdateTime(0L));
+            return;
+        }
+
+        Data loadedData = data.getData();
+
+        EventBus.getInstance().post(new OnEventUpdatePace(loadedData.pace));
+        EventBus.getInstance().post(new OnEventUpdateCalories(loadedData.calories));
+        EventBus.getInstance().post(new OnEventUpdateDistance(loadedData.distance));
+        EventBus.getInstance().post(new OnEventUpdateSpeed(loadedData.speed));
+        EventBus.getInstance().post(new OnEventUpdateStep(loadedData.steps));
+        EventBus.getInstance().post(new OnEventUpdateTime(loadedData.timer));
+    }
+
     public void onStartDetector(Message msg) {
         //sendEvent(new ServiceEvent(ServiceEvent.START));
         onStepChanged(null);
@@ -411,26 +533,26 @@ public class PedometerActivity extends BaseActivity
 //                    StepService.class));
 //        }
 //    }
-    private void sendMessageUpdate() {
-        Logger.d(TAG, "start sendMessageUpdate");
-        if (!mIsBound)
-            return;
-
-        if (mServiceMessenger == null)
-            return;
-
-        Logger.d(TAG, "sendMessageUpdate");
-
-        Message msg = Message.obtain();
-        msg.what = ServiceEvent.UPDATE;
-        msg.replyTo = mCallbackMessenger;
-
-        try {
-            mServiceMessenger.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendMessageUpdate() {
+//        Logger.d(TAG, "start sendMessageUpdate");
+//        if (!mIsBound)
+//            return;
+//
+//        if (mServiceMessenger == null)
+//            return;
+//
+//        Logger.d(TAG, "sendMessageUpdate");
+//
+//        Message msg = Message.obtain();
+//        msg.what = ServiceEvent.UPDATE;
+//        msg.replyTo = mCallbackMessenger;
+//
+//        try {
+//            mServiceMessenger.send(msg);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void sendMessageStart() {
         Logger.d(TAG, "start sendMessageStart");
@@ -507,6 +629,8 @@ public class PedometerActivity extends BaseActivity
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        //mIsRunning = true;
     }
 
     private void bindStepService() {
@@ -532,7 +656,7 @@ public class PedometerActivity extends BaseActivity
         super.onPause();
 //        sendMessagePause();
 
-        mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
+        //mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
 
         if (mIsBound) {
             unbindStepService();
@@ -546,11 +670,11 @@ public class PedometerActivity extends BaseActivity
         Logger.d(TAG, "[ACTIVITY] onResume");
         super.onResume();
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        mPedometerSettings = new Settings(mSettings);
+        //mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        //mPedometerSettings = new Settings(mSettings);
 
 //        mPedometerSettings.clearServiceRunning();
-        mIsRunning = mPedometerSettings.isServiceRunning();
+        //mIsRunning = mPedometerSettings.isServiceRunning();
 
         // Read from preferences if the service was running on the last onPause
         //mIsRunning = mPedometerSettings.isServiceRunning();
@@ -570,6 +694,7 @@ public class PedometerActivity extends BaseActivity
         }
 
         onStateChanged(null);
+
         //mPedometerSettings.clearServiceRunning();
     }
 }

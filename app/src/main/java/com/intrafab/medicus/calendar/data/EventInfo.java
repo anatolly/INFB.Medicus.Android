@@ -21,7 +21,7 @@ public class EventInfo extends BaseInfo {
     private List<String> mTags;
     private String mCalendarId;
     private long mCurrentDate;
-    private ExtraParametersInfo mExtraParameters;
+    private List<ExtraParametersInfo> mExtraParameters;
 
     public String getCalendarId() {
         return mCalendarId;
@@ -101,17 +101,36 @@ public class EventInfo extends BaseInfo {
         this.mCurrentDate = currentDate;
     }
 
-    public ExtraParametersInfo getExtraParameters() {
+    public List<ExtraParametersInfo> getExtraParameters() {
         return mExtraParameters;
     }
 
-    public void setExtraParameters(ExtraParametersInfo extraParameters) {
+    public void setExtraParameters(List<ExtraParametersInfo> extraParameters) {
         this.mExtraParameters = extraParameters;
+    }
+
+    public ExtraParametersInfo getExtraParameters(String key) {
+        for (ExtraParametersInfo info : mExtraParameters) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+
+        ExtraParametersInfo info = new ExtraParametersInfo();
+        info.setKey(key);
+
+        return info;
+    }
+
+    public void addExtraParameters(ExtraParametersInfo extraParameters) {
+        this.mExtraParameters.add(extraParameters);
     }
 
     public EventInfo() {
         super();
         mParameters = new ArrayList<>();
+        mSchedule = new ScheduleInfo();
+        mExtraParameters = new ArrayList<>();
     }
 
     protected EventInfo(Parcel in) {
@@ -125,7 +144,7 @@ public class EventInfo extends BaseInfo {
         mTags = in.createStringArrayList();
         mCalendarId = in.readString();
         mCurrentDate = in.readLong();
-        mExtraParameters = in.readParcelable(ExtraParametersInfo.class.getClassLoader());
+        mExtraParameters = in.createTypedArrayList(ExtraParametersInfo.CREATOR);
     }
 
     public static final Creator<EventInfo> CREATOR = new Creator<EventInfo>() {
@@ -157,6 +176,6 @@ public class EventInfo extends BaseInfo {
         parcel.writeStringList(mTags);
         parcel.writeString(mCalendarId);
         parcel.writeLong(mCurrentDate);
-        parcel.writeParcelable(mExtraParameters, i);
+        parcel.writeTypedList(mExtraParameters);
     }
 }

@@ -19,7 +19,7 @@ public class ServiceEvent {
     public static final int STOP = 2;
     public static final int PAUSE = 3;
     public static final int RESUME = 4;
-    public static final int UPDATE = 5;
+    //public static final int UPDATE = 5;
 
     public static final int PACE_CHANGED = 100;
     public static final int CALORIES_CHANGED = 101;

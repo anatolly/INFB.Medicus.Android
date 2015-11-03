@@ -32,6 +32,11 @@ public class CalendarInfo extends BaseInfo {
     }
 
     public void addEvent(EventInfo info) {
+        for (EventInfo event : mEvents) {
+            if (event.getId().equals(info.getId())) {
+
+            }
+        }
         mEvents.add(info);
     }
 
