@@ -197,19 +197,30 @@
     <string name="notification_text_injection">Сделай инъекцию</string>
     <string name="notification_title_contraception">Напоминание о приеме контрацепции</string>
 
-    <string name="cont_ring_end_day">%1$d д использования кольца. Удалите кольцо, после чего начнутся дни перерыва</string>
-    <string name="cont_plaster_end_week">%1$d-й пластырь. Поменяйте платырь</string>
-    <string name="cont_plaster_end_period">%1$d-й пластырь. Удалите платырь, после чего начнутся дни перерыва</string>
-    <string name="cont_injection_end_day">%1$d д (%2$d нед) после инъекции. Сделайте новую инъекцию в течение %3$d д</string>
+    <!-- active days start-->
+    <string name="cont_ring_start">Введите новое кольцо</string>
+    <string name="cont_plaster_start">Примените новый пластырь</string>
+    <string name="cont_pills_start">Начните принимать таблетки</string>
+    <string name="cont_injection_start">Сделайте новую инъекцию</string>
 
-    <string name="cont_ring_day">%1$d д использования кольца. Удалить кольцо через %2$d д</string>
-    <string name="cont_plaster_day">%1$d-й пластырь. Поменять пластырь через %2$d д</string>
-    <string name="cont_pills_day">%1$d таблетка из %2$d</string>
-    <string name="cont_injection_day">%1$d д (%2$d нед) после инъекции. Сделать новую инъекцию через %3$d д (%4$d нед)</string>
+    <!-- active days text-->
+    <string name="cont_ring_day">%1$d д использования кольца. </string>
+    <string name="cont_plaster_day">%1$d-й пластырь. </string>
+    <string name="cont_pills_day">%1$d таблетка из %2$d </string>
+    <string name="cont_injection_day">%1$d д (%2$d нед) после инъекции. </string>
 
-    <string name="cont_ring_day_break">Дни перерыва. Введите новое кольцо через %1$d д</string>
-    <string name="cont_plaster_day_break">Дни перерыва. Примените новый пластырь через %1$d д</string>
-    <string name="cont_pills_day_break">Дни перерыва. Начните принимать таблетки через %1$d д</string>
+    <!-- active days end -->
+    <string name="cont_ring_end_day">Удалите кольцо</string>
+    <string name="cont_plaster_end_week">Поменяйте платырь</string>
+    <string name="cont_plaster_end_period">Удалите платырь</string>
+    <string name="cont_injection_end_day">Сделайте новую инъекцию</string>
+
+    <!-- break days -->
+    <string name="break_days_will_start">, после чего начнутся дни перерыва</string>
+    <string name="break_days">Дни перерыва.</string>
+
+    <string name="after_n_days"> через %1$d д</string>
+    <string name="tomorrow"> завтра</string>
 
     <!-- Chart -->
     <string name="chart_title_temperature">Базальная температура</string>
@@ -220,9 +231,7 @@
         <item>15 дней</item>
         <item>30 дней</item>
         <item>45 дней</item>
-    </string-array>\
-
-
+    </string-array>
 
     <!-- Account -->
     <string name="header_aboutme">Обо мне</string>

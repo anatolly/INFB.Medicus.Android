@@ -113,63 +113,103 @@ public class CardPills extends RecyclerView.ViewHolder implements View.OnClickLi
 
             switch (contraceptionInfo.getContraceptionTypeId()) {
                 case ContraceptionInfo.TYPE_RING:
-                    if (contraceptionDay < activeDays) {
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_ring_day), contraceptionDay, activeDays - contraceptionDay);
+                    if (contraceptionDay == activeDays + breakDays){
+                        // if the ACTIVE DAYS START
+                        contrInfoStr = cv.getResources().getString(R.string.cont_ring_start) + " ";
+                        contrInfoStr += cv.getResources().getString(R.string.tomorrow);
+                    } else if (contraceptionDay < activeDays) {
+                        // if the ACTIVE DAYS CONTINUE
+                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_ring_day), contraceptionDay);
+                        contrInfoStr += cv.getResources().getString(R.string.cont_ring_end_day) + " ";
+                        contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), activeDays - contraceptionDay);
                     } else if (activeDays == contraceptionDay) {
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_ring_end_day), contraceptionDay);
-                    } else {
-                        dayRemainder = activeDays + breakDays - contraceptionDay;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_ring_day_break), dayRemainder);
-                    }
-                    break;
-                case ContraceptionInfo.TYPE_PLASTER:
-                    // plaster settings
-                    if (contraceptionDay < activeDays) {
-                        //if the ACTIVE DAYS CONTINUE
-                        if (contraceptionDay % contraceptionInfo.getNotificationActiveDayFrequency() != 0){
-                            //if the period for ONE PLASTER doesN'T  end
-                            int plasterNumber = activeDays / contraceptionInfo.getNotificationActiveDayFrequency();
-                            dayRemainder = activeDays - plasterNumber * contraceptionInfo.getNotificationActiveDayFrequency();
-                            plasterNumber++;
-                            contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day), plasterNumber, dayRemainder);
-                        } else{
-                            //if the period for ONE PLASTER END
-                            int plasterNumber = activeDays / contraceptionInfo.getNotificationActiveDayFrequency() + 1;
-                            contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_end_week), plasterNumber);
-                        }
-                    } else if (contraceptionDay == activeDays) {
-                        // if the ACTIVE DAYS ENDS
-                        int plasterNumber = activeDays / contraceptionInfo.getNotificationActiveDayFrequency() + 1;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_end_period), plasterNumber);
+                        // if the ACTIVE DAYS END
+                        contrInfoStr = cv.getResources().getString(R.string.cont_ring_end_day);
+                        contrInfoStr += cv.getResources().getString(R.string.break_days_will_start);
                     } else {
                         // if the BREAK DAYS
                         dayRemainder = activeDays + breakDays - contraceptionDay;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day_break), dayRemainder);
+                        contrInfoStr = cv.getResources().getString(R.string.break_days)+ " ";
+                        contrInfoStr += cv.getResources().getString(R.string.cont_ring_start) + " ";
+                        contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), dayRemainder);
+                    }
+                    break;
+                case ContraceptionInfo.TYPE_PLASTER:
+                    int plasterNumber = activeDays / contraceptionInfo.getNotificationActiveDayFrequency() + 1;
+                    // plaster settings
+                    if (contraceptionDay == activeDays + breakDays){
+                        // if the ACTIVE DAYS START
+                        contrInfoStr = cv.getResources().getString(R.string.cont_plaster_start) + " ";
+                        contrInfoStr += cv.getResources().getString(R.string.tomorrow);
+                    } else if (contraceptionDay < activeDays) {
+                        //if the ACTIVE DAYS CONTINUE
+                        dayRemainder = activeDays - (plasterNumber-1) * contraceptionInfo.getNotificationActiveDayFrequency();
+                        switch (contraceptionDay % contraceptionInfo.getNotificationActiveDayFrequency()){
+                            case 0:
+                                // if the period for ONE PLASTER END
+                                contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day), plasterNumber);
+                                contrInfoStr += cv.getResources().getString(R.string.cont_plaster_end_week);
+                                break;
+                            case 1:
+                                // if the period for ONE PLASTER END TOMORROW
+                                contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day), plasterNumber);
+                                if (dayRemainder == activeDays + 1)
+                                    // if the period for LAST PLASTER END TOMORROW
+                                    contrInfoStr += cv.getResources().getString(R.string.cont_plaster_end_period);
+                                else
+                                    contrInfoStr += cv.getResources().getString(R.string.cont_plaster_end_week) + " ";
+                                contrInfoStr += cv.getResources().getString(R.string.tomorrow);
+                                break;
+                            default:
+                                // if the period for ONE PLASTER CONTINUE
+                                contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day), plasterNumber);
+                                contrInfoStr += cv.getResources().getString(R.string.cont_plaster_end_week) + " ";
+                                contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), dayRemainder);
+                                break;
+                        }
+                    } else if (contraceptionDay == activeDays) {
+                        // if the ACTIVE DAYS ENDS
+                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_plaster_day), plasterNumber);
+                        contrInfoStr += cv.getResources().getString(R.string.cont_plaster_end_period);
+                        contrInfoStr += cv.getResources().getString(R.string.break_days_will_start);
+                    } else {
+                        // if the BREAK DAYS
+                        dayRemainder = activeDays + breakDays - contraceptionDay;
+                        contrInfoStr = cv.getResources().getString(R.string.break_days)+ " ";
+                        contrInfoStr += cv.getResources().getString(R.string.cont_plaster_start) + " ";
+                        contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), dayRemainder);
                     }
                     break;
                 case ContraceptionInfo.TYPE_PILLS:
-                    if (contraceptionDay <= activeDays) {
+                    if (contraceptionDay == activeDays + breakDays) {
+                        contrInfoStr = cv.getResources().getString(R.string.cont_pills_start) + " ";
+                        contrInfoStr += cv.getResources().getString(R.string.tomorrow);
+                    } else if (contraceptionDay <= activeDays) {
                         // if the ACTYIVE DAYS continue
                         int pillsCount = activeDays + contraceptionInfo.getPlacebo() * breakDays;
                         contrInfoStr = String.format(cv.getResources().getString(R.string.cont_pills_day), contraceptionDay, pillsCount);
                     } else {
                         // if the BREAK DAYS continue
                         dayRemainder = activeDays + breakDays - contraceptionDay;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_pills_day_break), dayRemainder);
+                        contrInfoStr = cv.getResources().getString(R.string.break_days)+ " ";
+                        contrInfoStr += cv.getResources().getString(R.string.cont_pills_start) + " ";
+                        contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), dayRemainder);
                     }
                     break;
-                // condition contraceptionDay <= activeDays + 4 will always false !
                 case ContraceptionInfo.TYPE_INJECTION:
-                    int contraceptionWeek = (int) contraceptionDay/7 + 1;
-                    if (activeDays <= contraceptionDay || contraceptionDay <= activeDays + 4 ){
-                        // it is time to MAKE A NEW INJECTION
-                        dayRemainder = activeDays + 4 - contraceptionDay;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_injection_end_day), contraceptionDay, contraceptionWeek, dayRemainder);
-                    } else {
-                        //
-                        dayRemainder = activeDays - (int)contraceptionDay;
+                    int contraceptionWeek = contraceptionDay/7 + 1;
+                    dayRemainder = activeDays - contraceptionDay;
+                    if (contraceptionDay < activeDays){
+                        // if the ACTIVE DAYS CONTINUE
                         int weekRemainder = dayRemainder / 7 + 1;
-                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_injection_day), contraceptionDay, contraceptionWeek, dayRemainder, weekRemainder);
+                        contrInfoStr = String.format(cv.getResources().getString(R.string.cont_injection_day), contraceptionDay, contraceptionWeek);
+                        contrInfoStr += cv.getResources().getString(R.string.cont_injection_end_day) + " ";
+                        contrInfoStr += String.format(cv.getResources().getString(R.string.after_n_days), dayRemainder);
+                        contrInfoStr += String.format(" (%1$d %2$s)", weekRemainder, cv.getResources().getString(R.string.week));
+                    } else {
+                        // it is time to MAKE A NEW INJECTION
+
+                        contrInfoStr = cv.getResources().getString(R.string.cont_injection_end_day);
                     }
                     break;
                 default:

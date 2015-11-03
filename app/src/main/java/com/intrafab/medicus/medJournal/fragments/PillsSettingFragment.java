@@ -226,6 +226,7 @@ public class  PillsSettingFragment extends DialogFragment implements View.OnClic
             case ContraceptionInfo.TYPE_INJECTION:
                 tvDay.setText(getResources().getString(R.string.week));
                 activeDaysTemp = Constants.Numeric.injectionsActiveWeeks;
+                contraceptionInfo.setBreakDays(4);
         }
 
         final String[] activeDays = activeDaysTemp;
@@ -480,38 +481,49 @@ public class  PillsSettingFragment extends DialogFragment implements View.OnClic
         switch (contraceptionInfo.getContraceptionTypeId()){
             case ContraceptionInfo.TYPE_PILLS:
                 contraceptionInfo.setNotificationActiveDayFrequency(1);
-                //contraceptionInfo.setNotificationBreakDayFrequency(contraceptionInfo.getPlacebo());
+                contraceptionInfo.setNotificationBreakDayFrequency(contraceptionInfo.getPlacebo());
                 break;
             case ContraceptionInfo.TYPE_RING:
-                contraceptionInfo.setNotificationActiveDayFrequency(7);
+                contraceptionInfo.setNotificationActiveDayFrequency(21);
+                contraceptionInfo.setNotificationBreakDayFrequency(7);
                 break;
             case ContraceptionInfo.TYPE_PLASTER:
                 contraceptionInfo.setNotificationActiveDayFrequency(7);
+                contraceptionInfo.setNotificationBreakDayFrequency(21);
                 break;
             case ContraceptionInfo.TYPE_INJECTION:
                 contraceptionInfo.setNotificationActiveDayFrequency(contraceptionInfo.getActiveDays());
+                contraceptionInfo.setNotificationBreakDayFrequency(4);
                 break;
             case ContraceptionInfo.TYPE_EMERGENCY:
                 break;
         }
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        // create intent for intentservice
-        Intent intent = new Intent(getActivity(), NotificationIntentService.class);
-        // put contraceptionInfo into intent
-        intent.putExtra("contInfo", contraceptionInfo);
-
-        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, contraceptionInfo.getStartDate(), contraceptionInfo.getNotificationActiveDayFrequency() * AlarmManager.INTERVAL_DAY, pendingIntent);
+        //AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         // save contraception info
         ContraceptionInfoSaver taskSave = new ContraceptionInfoSaver(contraceptionInfo, getActivity().getApplicationContext());
         taskSave.execute();
+
+/*
+        // create intent for intentservice
+        Intent intent = new Intent(getActivity(), NotificationIntentService.class);
+        // set action
+        intent.setAction("contraceptionControl");
+
+        // put contraceptionInfo into intent
+        intent.putExtra("contInfo", contraceptionInfo);
+
+        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, contraceptionInfo.getStartDate(), contraceptionInfo.getNotificationActiveDayFrequency() * AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, contraceptionInfo.getStartDate(), contraceptionInfo.getNotificationInterval(), pendingIntent);
+
+
         // send result to activity (which activity)
 /*        Intent intent = new Intent();
         intent.putExtra("contraceptionInfo", contraceptionInfo);
         getActivity().setResult(1, intent);  */
+
     }
 
 

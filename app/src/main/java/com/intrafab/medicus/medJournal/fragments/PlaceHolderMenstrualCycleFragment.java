@@ -204,7 +204,7 @@ public class PlaceHolderMenstrualCycleFragment extends Fragment implements Perio
             PillsSettingFragment pillsSettingFragment = new PillsSettingFragment();
             pillsSettingFragment.setContraceptionInfo(contraceptionInfo);
             int themeId = pillsSettingFragment.getTheme();
-            pillsSettingFragment.setStyle(android.R.style.Theme_Material_Light_Dialog_NoActionBar, android.R.style.Theme_Material_Light_Dialog);
+            //pillsSettingFragment.setStyle(android.R.style.Theme_Material_Light_Dialog_NoActionBar, android.R.style.Theme_Material_Light_Dialog);
             //pillsSettingFragment.setStyle(android.R.style.Holo_ButtonBar_AlertDialog, R.style.DialogTheme);
             pillsSettingFragment.show(getActivity().getFragmentManager(),"pills_setting");
         }

@@ -63,6 +63,22 @@
         <item name="mp_colorAccent">@color/colorCalendarLight</item>
         <item name="primaryLight">@color/colorCalendarLight</item>
         <item name="primaryDark">@color/colorCalendarDark</item>
+
+
+        <item name="android:textColorTertiary">#000000</item>
+        <item name="android:textColorSecondaryInverse">#000000</item>
+        <item name="android:textColorTertiaryInverse">#000000</item>
+        <item name="android:textColorPrimaryDisableOnly">#000000</item>
+        <item name="android:textColorPrimaryInverseDisableOnly">#000000</item>
+        <item name="android:textColorPrimaryNoDisable">#000000</item>
+        <item name="android:textColorSecondaryNoDisable">#000000</item>
+        <item name="android:textColorPrimaryInverseNoDisable">#000000</item>
+        <item name="android:textColorSecondaryInverseNoDisable">#000000</item>
+        <item name="android:textColorHintInverse">#000000</item>
+
+
+
+
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.NoActionBar">
